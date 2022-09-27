@@ -1,0 +1,15 @@
+object Modules {
+    const val app = ":app"
+    const val core = ":core"
+    const val coreDatabase = ":core-database"
+    const val coreDatastore = ":core-datastore"
+    const val coreDatastoreTest = ":core-datastore-test"
+    const val pokedex = ":pokedex"
+    const val pokedexConstants = ":pokedex:pokedex-constants"
+    const val pokedexDataSource = ":pokedex:pokedex-datasource"
+    const val pokedexDataSourceTest = ":pokedex:pokedex-datasource-test"
+    const val pokedexDomain = ":pokedex:pokedex-domain"
+    const val pokedexUseCases = ":pokedex:pokedex-usecases"
+    const val pokedexViewState = ":pokedex:pokedex-viewstate"
+    const val uiPokedex = ":pokedex:ui-pokedex"
+}

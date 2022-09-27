@@ -1,0 +1,65 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
+
+android {
+    compileSdk Android.compileSdk
+    buildToolsVersion Android.buildTools
+
+    defaultConfig {
+        minSdk Android.minSdk
+        targetSdk Android.targetSdk
+        versionCode Android.versionCode
+        versionName Android.versionName
+        testInstrumentationRunner AndroidTestDependencies.instrumentation_runner
+        vectorDrawables.useSupportLibrary true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+        coreLibraryDesugaringEnabled true
+    }
+
+    kotlinOptions {
+        jvmTarget = Java.java_version
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    lint {
+        checkDependencies true
+    }
+
+    sourceSets {
+        getByName("test").resources.srcDir("src/test/res")
+    }
+
+    testOptions {
+        // Fix for mock issue on >= API 28
+        packagingOptions.jniLibs.useLegacyPackaging = true
+
+        // Enable test orchestrator
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
+
+        // To prevent textUtils error with espresso idling resource
+        unitTests.returnDefaultValues = true
+
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
+}

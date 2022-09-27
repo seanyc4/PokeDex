@@ -1,0 +1,23 @@
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+rootProject.name='PokeDex'
+include ':app'
+include ':core'
+include ':pokedex'
+include ':pokedex:pokedex-datasource'
+include ':pokedex:pokedex-domain'
+include ':pokedex:pokedex-usecases'
+include ':pokedex:pokedex-viewstate'
+include ':pokedex:ui-pokedex'
+include ':core-database'
+include ':core-datastore'
+include ':pokedex:pokedex-constants'
+include ':pokedex:pokedex-datasource-test'
+include ':core-datastore-test'
