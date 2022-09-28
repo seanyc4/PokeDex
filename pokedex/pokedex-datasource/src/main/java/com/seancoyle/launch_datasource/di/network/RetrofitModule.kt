@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-const val BASE_URL = "https://api.spacexdata.com/"
+const val BASE_URL = "https://pokeapi.co/api/v2/"
 
 @Module
 @InstallIn(SingletonComponent::class)

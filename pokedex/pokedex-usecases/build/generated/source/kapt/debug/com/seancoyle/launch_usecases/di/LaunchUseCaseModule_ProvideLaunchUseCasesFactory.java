@@ -1,8 +1,8 @@
 package com.seancoyle.launch_usecases.di;
 
-import com.seancoyle.launch_datasource.cache.abstraction.launch.LaunchCacheDataSource;
-import com.seancoyle.launch_datasource.network.abstraction.launch.LaunchNetworkDataSource;
-import com.seancoyle.launch_usecases.launch.LaunchUseCases;
+import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource;
+import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource;
+import com.seancoyle.launch_usecases.launch.PokemonUseCases;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.Preconditions;
@@ -23,37 +23,37 @@ import kotlinx.coroutines.CoroutineDispatcher;
     "unchecked",
     "rawtypes"
 })
-public final class LaunchUseCaseModule_ProvideLaunchUseCasesFactory implements Factory<LaunchUseCases> {
+public final class LaunchUseCaseModule_ProvideLaunchUseCasesFactory implements Factory<PokemonUseCases> {
   private final Provider<CoroutineDispatcher> ioDispatcherProvider;
 
-  private final Provider<LaunchCacheDataSource> launchCacheDataSourceProvider;
+  private final Provider<PokemonCacheDataSource> launchCacheDataSourceProvider;
 
-  private final Provider<LaunchNetworkDataSource> launchNetworkDataSourceProvider;
+  private final Provider<PokemonNetworkDataSource> launchNetworkDataSourceProvider;
 
   public LaunchUseCaseModule_ProvideLaunchUseCasesFactory(
       Provider<CoroutineDispatcher> ioDispatcherProvider,
-      Provider<LaunchCacheDataSource> launchCacheDataSourceProvider,
-      Provider<LaunchNetworkDataSource> launchNetworkDataSourceProvider) {
+      Provider<PokemonCacheDataSource> launchCacheDataSourceProvider,
+      Provider<PokemonNetworkDataSource> launchNetworkDataSourceProvider) {
     this.ioDispatcherProvider = ioDispatcherProvider;
     this.launchCacheDataSourceProvider = launchCacheDataSourceProvider;
     this.launchNetworkDataSourceProvider = launchNetworkDataSourceProvider;
   }
 
   @Override
-  public LaunchUseCases get() {
+  public PokemonUseCases get() {
     return provideLaunchUseCases(ioDispatcherProvider.get(), launchCacheDataSourceProvider.get(), launchNetworkDataSourceProvider.get());
   }
 
   public static LaunchUseCaseModule_ProvideLaunchUseCasesFactory create(
       Provider<CoroutineDispatcher> ioDispatcherProvider,
-      Provider<LaunchCacheDataSource> launchCacheDataSourceProvider,
-      Provider<LaunchNetworkDataSource> launchNetworkDataSourceProvider) {
+      Provider<PokemonCacheDataSource> launchCacheDataSourceProvider,
+      Provider<PokemonNetworkDataSource> launchNetworkDataSourceProvider) {
     return new LaunchUseCaseModule_ProvideLaunchUseCasesFactory(ioDispatcherProvider, launchCacheDataSourceProvider, launchNetworkDataSourceProvider);
   }
 
-  public static LaunchUseCases provideLaunchUseCases(CoroutineDispatcher ioDispatcher,
-      LaunchCacheDataSource launchCacheDataSource,
-      LaunchNetworkDataSource launchNetworkDataSource) {
-    return Preconditions.checkNotNullFromProvides(LaunchUseCaseModule.INSTANCE.provideLaunchUseCases(ioDispatcher, launchCacheDataSource, launchNetworkDataSource));
+  public static PokemonUseCases provideLaunchUseCases(CoroutineDispatcher ioDispatcher,
+                                                      PokemonCacheDataSource pokemonCacheDataSource,
+                                                      PokemonNetworkDataSource pokemonNetworkDataSource) {
+    return Preconditions.checkNotNullFromProvides(LaunchUseCaseModule.INSTANCE.provideLaunchUseCases(ioDispatcher, pokemonCacheDataSource, pokemonNetworkDataSource));
   }
 }

@@ -2,11 +2,11 @@ package com.seancoyle.launch_usecases.launch
 
 import com.seancoyle.core.cache.CacheErrors
 import com.seancoyle.core.testing.MainCoroutineRule
-import com.seancoyle.launch_datasource.cache.abstraction.launch.LaunchCacheDataSource
+import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
 import com.seancoyle.launch_datasource_test.LaunchDependencies
 import com.seancoyle.launch_models.model.launch.LaunchFactory
 import com.seancoyle.launch_usecases.launch.InsertLaunchListToCacheUseCase.Companion.INSERT_LAUNCH_LIST_SUCCESS
-import com.seancoyle.launch_viewstate.LaunchStateEvent
+import com.seancoyle.launch_viewstate.PokemonStateEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -48,13 +48,13 @@ class InsertLaunchListToCacheUseCaseTest {
 
     // dependencies
     private val launchDependencies: LaunchDependencies = LaunchDependencies()
-    private lateinit var cacheDataSource: LaunchCacheDataSource
+    private lateinit var cacheDataSource: PokemonCacheDataSource
     private lateinit var factory: LaunchFactory
 
     @BeforeEach
     fun setup() {
         launchDependencies.build()
-        cacheDataSource = launchDependencies.launchCacheDataSource
+        cacheDataSource = launchDependencies.pokemonCacheDataSource
         factory = launchDependencies.launchFactory
         insertLaunchListToCacheUseCase = InsertLaunchListToCacheUseCase(
             ioDispatcher = mainCoroutineRule.testDispatcher,
@@ -72,7 +72,7 @@ class InsertLaunchListToCacheUseCaseTest {
 
         insertLaunchListToCacheUseCase(
             launchList = newLaunchList,
-            stateEvent = LaunchStateEvent.InsertLaunchItemsToCacheEvent(
+            stateEvent = PokemonStateEvent.InsertPokemonItemsToCacheEvent(
                 launchList = newLaunchList
             )
         ).collect { value ->
@@ -97,7 +97,7 @@ class InsertLaunchListToCacheUseCaseTest {
 
         insertLaunchListToCacheUseCase(
             launchList = newLaunchList,
-            stateEvent = LaunchStateEvent.InsertLaunchItemsToCacheEvent(
+            stateEvent = PokemonStateEvent.InsertPokemonItemsToCacheEvent(
                 launchList = newLaunchList
             )
         ).collect { value ->
@@ -122,7 +122,7 @@ class InsertLaunchListToCacheUseCaseTest {
 
         insertLaunchListToCacheUseCase(
             launchList = newLaunchList,
-            stateEvent = LaunchStateEvent.InsertLaunchItemsToCacheEvent(
+            stateEvent = PokemonStateEvent.InsertPokemonItemsToCacheEvent(
                 launchList = newLaunchList
             )
         ).collect { value ->

@@ -1,40 +1,40 @@
 package com.seancoyle.launch_usecases.launch
 
-import com.seancoyle.core.state.*
 import com.seancoyle.core.cache.CacheResponseHandler
 import com.seancoyle.core.di.IODispatcher
-import com.seancoyle.launch_datasource.cache.abstraction.launch.LaunchCacheDataSource
 import com.seancoyle.core.network.safeCacheCall
+import com.seancoyle.core.state.*
+import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
 import com.seancoyle.launch_models.model.launch.LaunchModel
-import com.seancoyle.launch_viewstate.LaunchViewState
+import com.seancoyle.launch_viewstate.PokemonViewState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class InsertLaunchListToCacheUseCase(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val cacheDataSource: LaunchCacheDataSource
+    private val cacheDataSource: PokemonCacheDataSource
 ) {
 
     operator fun invoke(
         launchList: List<LaunchModel>,
         stateEvent: StateEvent
-    ): Flow<DataState<LaunchViewState>?> = flow {
+    ): Flow<DataState<PokemonViewState>?> = flow {
 
 
         val cacheResult = safeCacheCall(ioDispatcher) {
             cacheDataSource.insertList(launchList)
         }
 
-        val cacheResponse = object : CacheResponseHandler<LaunchViewState, LongArray>(
+        val cacheResponse = object : CacheResponseHandler<PokemonViewState, LongArray>(
             response = cacheResult,
             stateEvent = stateEvent
         ) {
-            override suspend fun handleSuccess(resultObj: LongArray): DataState<LaunchViewState> {
+            override suspend fun handleSuccess(resultObj: LongArray): DataState<PokemonViewState> {
                 return if (resultObj.isNotEmpty()) {
                     val viewState =
-                        LaunchViewState(
-                            launchList = launchList
+                        PokemonViewState(
+                            pokemonList = launchList
                         )
                     DataState.data(
                         response = Response(

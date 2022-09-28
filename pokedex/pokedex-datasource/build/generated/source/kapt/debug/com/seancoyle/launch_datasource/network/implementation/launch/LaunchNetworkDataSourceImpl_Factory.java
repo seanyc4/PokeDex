@@ -1,7 +1,8 @@
 package com.seancoyle.launch_datasource.network.implementation.launch;
 
-import com.seancoyle.launch_datasource.network.api.launch.LaunchApi;
-import com.seancoyle.launch_datasource.network.mappers.launch.LaunchNetworkMapper;
+import com.seancoyle.launch_datasource.network.PokemonNetworkDataSourceImpl;
+import com.seancoyle.launch_datasource.network.api.PokemonApi;
+import com.seancoyle.launch_datasource.network.PokemonNetworkMapper;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;
@@ -20,29 +21,29 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes"
 })
-public final class LaunchNetworkDataSourceImpl_Factory implements Factory<LaunchNetworkDataSourceImpl> {
-  private final Provider<LaunchApi> apiProvider;
+public final class LaunchNetworkDataSourceImpl_Factory implements Factory<PokemonNetworkDataSourceImpl> {
+  private final Provider<PokemonApi> apiProvider;
 
-  private final Provider<LaunchNetworkMapper> networkMapperProvider;
+  private final Provider<PokemonNetworkMapper> networkMapperProvider;
 
-  public LaunchNetworkDataSourceImpl_Factory(Provider<LaunchApi> apiProvider,
-      Provider<LaunchNetworkMapper> networkMapperProvider) {
+  public LaunchNetworkDataSourceImpl_Factory(Provider<PokemonApi> apiProvider,
+      Provider<PokemonNetworkMapper> networkMapperProvider) {
     this.apiProvider = apiProvider;
     this.networkMapperProvider = networkMapperProvider;
   }
 
   @Override
-  public LaunchNetworkDataSourceImpl get() {
+  public PokemonNetworkDataSourceImpl get() {
     return newInstance(apiProvider.get(), networkMapperProvider.get());
   }
 
-  public static LaunchNetworkDataSourceImpl_Factory create(Provider<LaunchApi> apiProvider,
-      Provider<LaunchNetworkMapper> networkMapperProvider) {
+  public static LaunchNetworkDataSourceImpl_Factory create(Provider<PokemonApi> apiProvider,
+      Provider<PokemonNetworkMapper> networkMapperProvider) {
     return new LaunchNetworkDataSourceImpl_Factory(apiProvider, networkMapperProvider);
   }
 
-  public static LaunchNetworkDataSourceImpl newInstance(LaunchApi api,
-      LaunchNetworkMapper networkMapper) {
-    return new LaunchNetworkDataSourceImpl(api, networkMapper);
+  public static PokemonNetworkDataSourceImpl newInstance(PokemonApi api,
+                                                         PokemonNetworkMapper networkMapper) {
+    return new PokemonNetworkDataSourceImpl(api, networkMapper);
   }
 }

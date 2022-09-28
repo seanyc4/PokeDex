@@ -5,20 +5,20 @@ import androidx.lifecycle.viewModelScope
 import com.seancoyle.constants.LaunchDaoConstants.LAUNCH_ORDER_DESC
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_ALL
 import com.seancoyle.core.di.IODispatcher
+import com.seancoyle.core.presentation.BaseViewModel
+import com.seancoyle.core.state.*
+import com.seancoyle.core.util.printLogDebug
+import com.seancoyle.core_datastore.AppDataStore
 import com.seancoyle.launch_models.model.company.CompanyInfoModel
 import com.seancoyle.launch_models.model.company.CompanySummary
 import com.seancoyle.launch_models.model.launch.LaunchModel
+import com.seancoyle.launch_models.model.launch.LaunchOptions
 import com.seancoyle.launch_models.model.launch.LaunchType
 import com.seancoyle.launch_models.model.launch.SectionTitle
-import com.seancoyle.launch_usecases.launch.LaunchUseCases
-import com.seancoyle.core.state.*
 import com.seancoyle.launch_usecases.company.CompanyInfoUseCases
-import com.seancoyle.launch_models.model.launch.LaunchOptions
-import com.seancoyle.launch_viewstate.LaunchStateEvent.*
-import com.seancoyle.core.util.printLogDebug
-import com.seancoyle.launch_viewstate.LaunchViewState
-import com.seancoyle.core.presentation.BaseViewModel
-import com.seancoyle.core_datastore.AppDataStore
+import com.seancoyle.launch_usecases.launch.PokemonUseCases
+import com.seancoyle.launch_viewstate.PokemonStateEvent.*
+import com.seancoyle.launch_viewstate.PokemonViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
@@ -31,11 +31,11 @@ class LaunchViewModel
 @Inject
 constructor(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val launchUseCases: LaunchUseCases,
+    private val pokemonUseCases: PokemonUseCases,
     private val companyInfoUseCases: CompanyInfoUseCases,
     val launchOptions: LaunchOptions,
     private val appDataStoreManager: AppDataStore,
-) : BaseViewModel<LaunchViewState>(ioDispatcher = ioDispatcher) {
+) : BaseViewModel<PokemonViewState>(ioDispatcher = ioDispatcher) {
 
     init {
         setStateEvent(GetCompanyInfoFromNetworkAndInsertToCacheEvent)
@@ -52,10 +52,10 @@ constructor(
         }
     }
 
-    override fun handleNewData(data: LaunchViewState) {
+    override fun handleNewData(data: PokemonViewState) {
 
         data.let { viewState ->
-            viewState.launchList?.let { launchList ->
+            viewState.pokemonList?.let { launchList ->
                 setLaunchList(launchList)
             }
 
@@ -63,7 +63,7 @@ constructor(
                 setCompanyInfo(companyInfo)
             }
 
-            viewState.numLaunchItemsInCache?.let { numItems ->
+            viewState.numPokemonInCache?.let { numItems ->
                 setNumLaunchItemsInCache(numItems)
             }
         }
@@ -71,17 +71,17 @@ constructor(
 
     override fun setStateEvent(stateEvent: StateEvent) {
 
-        val job: Flow<DataState<LaunchViewState>?> = when (stateEvent) {
+        val job: Flow<DataState<PokemonViewState>?> = when (stateEvent) {
 
-            is GetLaunchItemsFromNetworkAndInsertToCacheEvent -> {
-                launchUseCases.getLaunchListFromNetworkAndInsertToCacheUseCase.invoke(
+            is GetPokemonItemsFromNetworkAndInsertToCacheEvent -> {
+                pokemonUseCases.getLaunchListFromNetworkAndInsertToCacheUseCase.invoke(
                     launchOptions = stateEvent.launchOptions,
                     stateEvent = stateEvent
                 )
             }
 
-            is GetAllLaunchItemsFromCacheEvent -> {
-                launchUseCases.getAllLaunchItemsFromCacheUseCase.invoke(
+            is GetAllPokemonItemsFromCacheEvent -> {
+                pokemonUseCases.getAllLaunchItemsFromCacheUseCase.invoke(
                     stateEvent = stateEvent
                 )
             }
@@ -98,11 +98,11 @@ constructor(
                 )
             }
 
-            is FilterLaunchItemsInCacheEvent -> {
+            is FilterPokemonItemsInCacheEvent -> {
                 if (stateEvent.clearLayoutManagerState) {
                     clearLayoutManagerState()
                 }
-                launchUseCases.filterLaunchItemsInCacheUseCase.invoke(
+                pokemonUseCases.filterLaunchItemsInCacheUseCase.invoke(
                     year = getSearchQuery(),
                     order = getOrder(),
                     launchFilter = getFilter(),
@@ -111,8 +111,8 @@ constructor(
                 )
             }
 
-            is GetNumLaunchItemsInCacheEvent -> {
-                launchUseCases.getNumLaunchItemsFromCacheUseCase.invoke(
+            is GetNumPokemonItemsInCacheEvent -> {
+                pokemonUseCases.getNumLaunchItemsFromCacheUseCase.invoke(
                     stateEvent = stateEvent
                 )
             }
@@ -131,17 +131,17 @@ constructor(
         launchJob(stateEvent, job)
     }
 
-    override fun initNewViewState(): LaunchViewState {
-        return LaunchViewState()
+    override fun initNewViewState(): PokemonViewState {
+        return PokemonViewState()
     }
 
     private fun setLaunchList(launchList: List<LaunchModel>) {
         val update = getCurrentViewStateOrNew()
-        update.launchList = launchList
+        update.pokemonList = launchList
         setViewState(update)
     }
 
-    fun getLaunchList() = getCurrentViewStateOrNew().launchList
+    fun getLaunchList() = getCurrentViewStateOrNew().pokemonList
 
     private fun setCompanyInfo(companyInfo: CompanyInfoModel) {
         val update = getCurrentViewStateOrNew()
@@ -153,13 +153,13 @@ constructor(
 
     private fun setNumLaunchItemsInCache(numItems: Int) {
         val update = getCurrentViewStateOrNew()
-        update.numLaunchItemsInCache = numItems
+        update.numPokemonInCache = numItems
         setViewState(update)
     }
 
-    private fun getLaunchListSize() = getCurrentViewStateOrNew().launchList?.size ?: 0
+    private fun getLaunchListSize() = getCurrentViewStateOrNew().pokemonList?.size ?: 0
 
-    private fun getNumLunchItemsInCache() = getCurrentViewStateOrNew().numLaunchItemsInCache ?: 0
+    private fun getNumLunchItemsInCache() = getCurrentViewStateOrNew().numPokemonInCache ?: 0
 
     fun isPaginationExhausted(): Boolean {
         printLogDebug(
@@ -185,14 +185,14 @@ constructor(
 
     fun clearList() {
         val update = getCurrentViewStateOrNew()
-        update.launchList = ArrayList()
+        update.pokemonList = ArrayList()
         setViewState(update)
     }
 
     fun loadFirstPage() {
         setQueryExhausted(false)
         resetPage()
-        setStateEvent(FilterLaunchItemsInCacheEvent())
+        setStateEvent(FilterPokemonItemsInCacheEvent())
         printLogDebug(
             "LaunchListViewModel",
             "loadFirstPage: ${getCurrentViewStateOrNew().yearQuery}"
@@ -204,13 +204,13 @@ constructor(
             printLogDebug("LaunchListViewModel", "attempting to load next page...")
             clearLayoutManagerState()
             incrementPageNumber()
-            setStateEvent(FilterLaunchItemsInCacheEvent())
+            setStateEvent(FilterPokemonItemsInCacheEvent())
         }
     }
 
     fun refreshSearchQuery() {
         setQueryExhausted(false)
-        setStateEvent(FilterLaunchItemsInCacheEvent(false))
+        setStateEvent(FilterPokemonItemsInCacheEvent(false))
     }
 
     private fun incrementPageNumber() {
@@ -221,7 +221,7 @@ constructor(
     }
 
     fun retrieveNumLaunchItemsInCache() {
-        setStateEvent(GetNumLaunchItemsInCacheEvent)
+        setStateEvent(GetNumPokemonItemsInCacheEvent)
     }
 
     fun getLayoutManagerState(): Parcelable? {

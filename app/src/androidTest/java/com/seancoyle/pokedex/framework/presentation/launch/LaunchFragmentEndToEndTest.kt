@@ -14,16 +14,16 @@ import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_EXCEPTION
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_FAILED
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_SUCCESS
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_UNKNOWN
-import com.seancoyle.pokedex.R
-import com.seancoyle.launch_datasource.cache.abstraction.company.CompanyInfoCacheDataSource
-import com.seancoyle.launch_datasource.cache.abstraction.launch.LaunchCacheDataSource
 import com.seancoyle.core_datastore.AppDataStore
+import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
+import com.seancoyle.launch_datasource.cache.abstraction.company.CompanyInfoCacheDataSource
+import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
+import com.seancoyle.launch_datasource.network.abstraction.company.CompanyInfoNetworkDataSource
+import com.seancoyle.launch_datasource.network.datetransformer.DateTransformer
 import com.seancoyle.launch_models.model.company.CompanyInfoModel
 import com.seancoyle.launch_models.model.launch.LaunchModel
-import com.seancoyle.launch_datasource.network.abstraction.datetransformer.DateTransformer
-import com.seancoyle.launch_datasource.network.abstraction.company.CompanyInfoNetworkDataSource
-import com.seancoyle.launch_datasource.network.abstraction.launch.LaunchNetworkDataSource
 import com.seancoyle.launch_models.model.launch.LaunchOptions
+import com.seancoyle.pokedex.R
 import com.seancoyle.pokedex.framework.presentation.MainActivity
 import com.seancoyle.pokedex.util.*
 import com.seancoyle.pokedex.util.LaunchFragmentTestHelper.Companion.appTitleViewMatcher
@@ -73,7 +73,7 @@ class LaunchFragmentEndToEndTest {
     val espressoIdlingResourceRule = EspressoIdlingResourceRule()
 
     @Inject
-    lateinit var launchCacheDataSource: LaunchCacheDataSource
+    lateinit var pokemonCacheDataSource: PokemonCacheDataSource
 
     @Inject
     lateinit var companyInfoCacheDataSource: CompanyInfoCacheDataSource
@@ -82,7 +82,7 @@ class LaunchFragmentEndToEndTest {
     lateinit var dateTransformer: DateTransformer
 
     @Inject
-    lateinit var launchNetworkDataSource: LaunchNetworkDataSource
+    lateinit var pokemonNetworkDataSource: PokemonNetworkDataSource
 
     @Inject
     lateinit var companyInfoNetworkDataSource: CompanyInfoNetworkDataSource
@@ -111,15 +111,15 @@ class LaunchFragmentEndToEndTest {
 
     private fun prepareDataSet() = runBlocking {
         // Get fake network data
-        testLaunchList = launchNetworkDataSource.getLaunchList(launchOptions = launchOptions)
+        testLaunchList = pokemonNetworkDataSource.getPokemonList(launchOptions = launchOptions)
         testCompanyInfoList = companyInfoNetworkDataSource.getCompanyInfo()
 
         // clear any existing data so recyclerview isn't overwhelmed
-        launchCacheDataSource.deleteAll()
+        pokemonCacheDataSource.deleteAll()
         companyInfoCacheDataSource.deleteAll()
 
         // Insert data to fake in memory room database
-        launchCacheDataSource.insertList(testLaunchList)
+        pokemonCacheDataSource.insertList(testLaunchList)
         companyInfoCacheDataSource.insert(testCompanyInfoList)
     }
 
@@ -692,7 +692,7 @@ class LaunchFragmentEndToEndTest {
         order: String? = LAUNCH_ORDER_DESC,
         launchFilter: Int? = null
     ): List<LaunchModel> {
-        return launchCacheDataSource.filterLaunchList(
+        return pokemonCacheDataSource.filterLaunchList(
             year = year ?: "",
             order = order ?: LAUNCH_ORDER_DESC,
             launchFilter = launchFilter,

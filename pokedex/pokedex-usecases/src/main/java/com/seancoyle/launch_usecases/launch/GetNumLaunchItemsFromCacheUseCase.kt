@@ -1,35 +1,35 @@
 package com.seancoyle.launch_usecases.launch
 
 
-import com.seancoyle.core.state.*
 import com.seancoyle.core.cache.CacheResponseHandler
 import com.seancoyle.core.di.IODispatcher
-import com.seancoyle.launch_datasource.cache.abstraction.launch.LaunchCacheDataSource
 import com.seancoyle.core.network.safeCacheCall
-import com.seancoyle.launch_viewstate.LaunchViewState
+import com.seancoyle.core.state.*
+import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
+import com.seancoyle.launch_viewstate.PokemonViewState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class GetNumLaunchItemsFromCacheUseCase(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val cacheDataSource: LaunchCacheDataSource
+    private val cacheDataSource: PokemonCacheDataSource
 ) {
 
     operator fun invoke(
         stateEvent: StateEvent
-    ): Flow<DataState<LaunchViewState>?> = flow {
+    ): Flow<DataState<PokemonViewState>?> = flow {
 
         val cacheResult = safeCacheCall(ioDispatcher) {
             cacheDataSource.getTotalEntries()
         }
-        val response = object : CacheResponseHandler<LaunchViewState, Int>(
+        val response = object : CacheResponseHandler<PokemonViewState, Int>(
             response = cacheResult,
             stateEvent = stateEvent
         ) {
-            override suspend fun handleSuccess(resultObj: Int): DataState<LaunchViewState> {
-                val viewState = LaunchViewState(
-                    numLaunchItemsInCache = resultObj
+            override suspend fun handleSuccess(resultObj: Int): DataState<PokemonViewState> {
+                val viewState = PokemonViewState(
+                    numPokemonInCache = resultObj
                 )
                 return DataState.data(
                     response = Response(

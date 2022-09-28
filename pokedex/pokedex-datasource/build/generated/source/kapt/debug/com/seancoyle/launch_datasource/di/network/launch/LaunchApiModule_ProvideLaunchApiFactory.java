@@ -1,6 +1,7 @@
 package com.seancoyle.launch_datasource.di.network.launch;
 
-import com.seancoyle.launch_datasource.network.api.launch.LaunchApi;
+import com.seancoyle.launch_datasource.di.network.PokemonApiModule;
+import com.seancoyle.launch_datasource.network.api.PokemonApi;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.Preconditions;
@@ -21,7 +22,7 @@ import retrofit2.Retrofit;
     "unchecked",
     "rawtypes"
 })
-public final class LaunchApiModule_ProvideLaunchApiFactory implements Factory<LaunchApi> {
+public final class LaunchApiModule_ProvideLaunchApiFactory implements Factory<PokemonApi> {
   private final Provider<Retrofit> retrofitProvider;
 
   public LaunchApiModule_ProvideLaunchApiFactory(Provider<Retrofit> retrofitProvider) {
@@ -29,7 +30,7 @@ public final class LaunchApiModule_ProvideLaunchApiFactory implements Factory<La
   }
 
   @Override
-  public LaunchApi get() {
+  public PokemonApi get() {
     return provideLaunchApi(retrofitProvider.get());
   }
 
@@ -38,7 +39,7 @@ public final class LaunchApiModule_ProvideLaunchApiFactory implements Factory<La
     return new LaunchApiModule_ProvideLaunchApiFactory(retrofitProvider);
   }
 
-  public static LaunchApi provideLaunchApi(Retrofit retrofit) {
-    return Preconditions.checkNotNullFromProvides(LaunchApiModule.INSTANCE.provideLaunchApi(retrofit));
+  public static PokemonApi provideLaunchApi(Retrofit retrofit) {
+    return Preconditions.checkNotNullFromProvides(PokemonApiModule.INSTANCE.providePokemonApi(retrofit));
   }
 }

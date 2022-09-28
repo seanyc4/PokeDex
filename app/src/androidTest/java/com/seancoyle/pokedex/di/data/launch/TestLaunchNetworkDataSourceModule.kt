@@ -1,10 +1,10 @@
 package com.seancoyle.pokedex.di.data.launch
 
-import com.seancoyle.launch_datasource.network.abstraction.launch.LaunchNetworkDataSource
-import com.seancoyle.launch_datasource.network.mappers.launch.LaunchNetworkMapper
-import com.seancoyle.launch_datasource.di.network.launch.LaunchNetworkDataSourceModule
-import com.seancoyle.pokedex.framework.datasource.network.launch.FakeLaunchApi
-import com.seancoyle.pokedex.framework.datasource.network.launch.FakeLaunchNetworkDataSourceImpl
+import com.seancoyle.launch_datasource.di.network.PokemonNetworkDataSourceModule
+import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
+import com.seancoyle.launch_datasource.network.PokemonNetworkMapper
+import com.seancoyle.pokedex.framework.datasource.network.launch.FakePokemonApi
+import com.seancoyle.pokedex.framework.datasource.network.launch.FakePokemonNetworkDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -15,17 +15,17 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [LaunchNetworkDataSourceModule::class]
+    replaces = [PokemonNetworkDataSourceModule::class]
 )
 object TestLaunchNetworkDataSourceModule {
 
     @Singleton
     @Provides
     fun provideLaunchNetworkDataSource(
-        fakeApi: FakeLaunchApi,
-        networkMapper: LaunchNetworkMapper
-    ): LaunchNetworkDataSource {
-        return FakeLaunchNetworkDataSourceImpl(
+        fakeApi: FakePokemonApi,
+        networkMapper: PokemonNetworkMapper
+    ): PokemonNetworkDataSource {
+        return FakePokemonNetworkDataSourceImpl(
             fakeApi = fakeApi,
             networkMapper = networkMapper
         )

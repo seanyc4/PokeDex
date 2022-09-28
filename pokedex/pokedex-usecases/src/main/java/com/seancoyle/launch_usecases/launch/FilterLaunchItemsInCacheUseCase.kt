@@ -1,19 +1,19 @@
 package com.seancoyle.launch_usecases.launch
 
-import com.seancoyle.launch_models.model.launch.LaunchModel
-import com.seancoyle.core.state.*
 import com.seancoyle.core.cache.CacheResponseHandler
 import com.seancoyle.core.di.IODispatcher
-import com.seancoyle.launch_datasource.cache.abstraction.launch.LaunchCacheDataSource
 import com.seancoyle.core.network.safeCacheCall
-import com.seancoyle.launch_viewstate.LaunchViewState
+import com.seancoyle.core.state.*
+import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
+import com.seancoyle.launch_models.model.launch.LaunchModel
+import com.seancoyle.launch_viewstate.PokemonViewState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class FilterLaunchItemsInCacheUseCase(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val cacheDataSource: LaunchCacheDataSource
+    private val cacheDataSource: PokemonCacheDataSource
 ) {
 
     operator fun invoke(
@@ -22,7 +22,7 @@ class FilterLaunchItemsInCacheUseCase(
         launchFilter: Int?,
         page: Int,
         stateEvent: StateEvent
-    ): Flow<DataState<LaunchViewState>?> = flow {
+    ): Flow<DataState<PokemonViewState>?> = flow {
 
         var updatedPage = page
         if (page <= 0) {
@@ -38,11 +38,11 @@ class FilterLaunchItemsInCacheUseCase(
             )
         }
 
-        val response = object : CacheResponseHandler<LaunchViewState, List<LaunchModel>>(
+        val response = object : CacheResponseHandler<PokemonViewState, List<LaunchModel>>(
             response = cacheResult,
             stateEvent = stateEvent
         ) {
-            override suspend fun handleSuccess(resultObj: List<LaunchModel>): DataState<LaunchViewState> {
+            override suspend fun handleSuccess(resultObj: List<LaunchModel>): DataState<PokemonViewState> {
                 var message: String? = SEARCH_LAUNCH_SUCCESS
                 var uiComponentType: UIComponentType? = UIComponentType.None
                 if (resultObj.isEmpty()) {
@@ -56,8 +56,8 @@ class FilterLaunchItemsInCacheUseCase(
                         uiComponentType = uiComponentType as UIComponentType,
                         messageType = MessageType.Success
                     ),
-                    data = LaunchViewState(
-                        launchList = resultObj as ArrayList<LaunchModel>?
+                    data = PokemonViewState(
+                        pokemonList = resultObj as ArrayList<LaunchModel>?
                     ),
                     stateEvent = stateEvent
                 )

@@ -8,7 +8,7 @@ import com.seancoyle.launch_datasource_test.cache.company.FORCE_GENERAL_FAILURE
 import com.seancoyle.launch_datasource_test.cache.company.FORCE_NEW_COMPANY_INFO_EXCEPTION
 import com.seancoyle.launch_models.model.company.CompanyInfoFactory
 import com.seancoyle.launch_usecases.company.InsertCompanyInfoToCacheUseCase.Companion.INSERT_COMPANY_INFO_SUCCESS
-import com.seancoyle.launch_viewstate.LaunchStateEvent
+import com.seancoyle.launch_viewstate.PokemonStateEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -76,7 +76,7 @@ class InsertCompanyInfoToCacheUseCaseTest {
 
         insertCompanyInfoToCacheUseCase(
             companyInfo = newCompanyInfo,
-            stateEvent = LaunchStateEvent.InsertCompanyInfoToCacheEvent(
+            stateEvent = PokemonStateEvent.InsertCompanyInfoToCacheEvent(
                 companyInfo = newCompanyInfo
             )
         ).collect { value ->
@@ -106,7 +106,7 @@ class InsertCompanyInfoToCacheUseCaseTest {
 
         insertCompanyInfoToCacheUseCase(
             companyInfo = newCompanyInfo,
-            stateEvent = LaunchStateEvent.InsertCompanyInfoToCacheEvent(
+            stateEvent = PokemonStateEvent.InsertCompanyInfoToCacheEvent(
                 companyInfo = newCompanyInfo
             )
         ).collect { value ->
@@ -136,7 +136,7 @@ class InsertCompanyInfoToCacheUseCaseTest {
 
         insertCompanyInfoToCacheUseCase(
             companyInfo = newCompanyInfo,
-            stateEvent = LaunchStateEvent.InsertCompanyInfoToCacheEvent(
+            stateEvent = PokemonStateEvent.InsertCompanyInfoToCacheEvent(
                 companyInfo = newCompanyInfo
             )
         ).collect { value ->

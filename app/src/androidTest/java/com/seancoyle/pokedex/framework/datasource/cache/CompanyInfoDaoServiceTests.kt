@@ -1,11 +1,10 @@
 package com.seancoyle.pokedex.framework.datasource.cache
 
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import com.seancoyle.database.daos.CompanyInfoDao
 import com.seancoyle.launch_datasource.cache.abstraction.company.CompanyInfoCacheDataSource
 import com.seancoyle.launch_datasource.cache.implementation.company.CompanyInfoCacheDataSourceImpl
-import com.seancoyle.launch_models.model.company.CompanyInfoFactory
 import com.seancoyle.launch_datasource.cache.mappers.company.CompanyInfoEntityMapper
+import com.seancoyle.launch_models.model.company.CompanyInfoFactory
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi

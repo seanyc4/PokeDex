@@ -1,16 +1,16 @@
 package com.seancoyle.launch_usecases.launch
 
-import com.seancoyle.launch_models.model.launch.LaunchModel
-import com.seancoyle.core.state.*
 import com.seancoyle.core.cache.CacheResponseHandler
 import com.seancoyle.core.di.IODispatcher
-import com.seancoyle.launch_datasource.cache.abstraction.launch.LaunchCacheDataSource
 import com.seancoyle.core.network.ApiResponseHandler
-import com.seancoyle.launch_datasource.network.abstraction.launch.LaunchNetworkDataSource
 import com.seancoyle.core.network.safeApiCall
 import com.seancoyle.core.network.safeCacheCall
+import com.seancoyle.core.state.*
+import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
+import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
+import com.seancoyle.launch_models.model.launch.LaunchModel
 import com.seancoyle.launch_models.model.launch.LaunchOptions
-import com.seancoyle.launch_viewstate.LaunchViewState
+import com.seancoyle.launch_viewstate.PokemonViewState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,28 +18,28 @@ import kotlinx.coroutines.flow.flow
 class GetLaunchListFromNetworkAndInsertToCacheUseCase
 constructor(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val cacheDataSource: LaunchCacheDataSource,
-    private val launchNetworkDataSource: LaunchNetworkDataSource
+    private val cacheDataSource: PokemonCacheDataSource,
+    private val pokemonNetworkDataSource: PokemonNetworkDataSource
 ) {
 
     operator fun invoke(
         launchOptions: LaunchOptions,
         stateEvent: StateEvent
-    ): Flow<DataState<LaunchViewState>?> = flow {
+    ): Flow<DataState<PokemonViewState>?> = flow {
 
         val networkResult = safeApiCall(ioDispatcher) {
-            launchNetworkDataSource.getLaunchList(launchOptions = launchOptions)
+            pokemonNetworkDataSource.getPokemonList(launchOptions = launchOptions)
         }
 
-        val networkResponse = object : ApiResponseHandler<LaunchViewState, List<LaunchModel>?>(
+        val networkResponse = object : ApiResponseHandler<PokemonViewState, List<LaunchModel>?>(
             response = networkResult,
             stateEvent = stateEvent
         ) {
-            override suspend fun handleSuccess(resultObj: List<LaunchModel>?): DataState<LaunchViewState> {
+            override suspend fun handleSuccess(resultObj: List<LaunchModel>?): DataState<PokemonViewState> {
                 return if (resultObj != null) {
                     val viewState =
-                        LaunchViewState(
-                            launchList = resultObj
+                        PokemonViewState(
+                            pokemonList = resultObj
                         )
                     DataState.data(
                         response = null,
@@ -59,7 +59,7 @@ constructor(
                 }
             }
 
-            override suspend fun handleFailure(): DataState<LaunchViewState> {
+            override suspend fun handleFailure(): DataState<PokemonViewState> {
                 return DataState.error(
                     response = Response(
                         message = LAUNCH_ERROR,
@@ -76,19 +76,19 @@ constructor(
         }
 
         // Insert to Cache
-        if (networkResponse?.data?.launchList != null) {
+        if (networkResponse?.data?.pokemonList != null) {
 
-            val launchList = networkResponse.data?.launchList!!
+            val launchList = networkResponse.data?.pokemonList!!
 
             val cacheResult = safeCacheCall(ioDispatcher) {
                 cacheDataSource.insertList(launchList)
             }
 
-            val cacheResponse = object : CacheResponseHandler<LaunchViewState, LongArray>(
+            val cacheResponse = object : CacheResponseHandler<PokemonViewState, LongArray>(
                 response = cacheResult,
                 stateEvent = stateEvent
             ) {
-                override suspend fun handleSuccess(resultObj: LongArray): DataState<LaunchViewState> {
+                override suspend fun handleSuccess(resultObj: LongArray): DataState<PokemonViewState> {
                     return if (resultObj.isNotEmpty()) {
                         DataState.data(
                             response = Response(

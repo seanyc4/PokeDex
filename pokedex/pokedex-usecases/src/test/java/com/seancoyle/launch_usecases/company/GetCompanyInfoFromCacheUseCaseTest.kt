@@ -3,17 +3,17 @@ package com.seancoyle.launch_usecases.company
 import com.seancoyle.core.testing.MainCoroutineRule
 import com.seancoyle.launch_datasource.cache.abstraction.company.CompanyInfoCacheDataSource
 import com.seancoyle.launch_datasource_test.CompanyDependencies
-import com.seancoyle.launch_models.model.company.CompanyInfoModel
 import com.seancoyle.launch_models.model.company.CompanyInfoFactory
+import com.seancoyle.launch_models.model.company.CompanyInfoModel
 import com.seancoyle.launch_usecases.company.GetCompanyInfoFromCacheUseCase.Companion.GET_COMPANY_INFO_SUCCESS
-import com.seancoyle.launch_viewstate.LaunchStateEvent
+import com.seancoyle.launch_viewstate.PokemonStateEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /*
 Test cases:
@@ -54,7 +54,7 @@ class GetCompanyInfoFromCacheUseCaseTest {
         var result: CompanyInfoModel? = null
 
         getCompanyInfo(
-            stateEvent = LaunchStateEvent.GetCompanyInfoFromCacheEvent
+            stateEvent = PokemonStateEvent.GetCompanyInfoFromCacheEvent
         ).collect { value ->
             assertEquals(
                 value?.stateMessage?.response?.message,

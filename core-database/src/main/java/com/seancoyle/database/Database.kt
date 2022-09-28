@@ -3,17 +3,14 @@ package com.seancoyle.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.seancoyle.database.daos.CompanyInfoDao
-import com.seancoyle.database.daos.LaunchDao
-import com.seancoyle.database.entities.CompanyInfoEntity
-import com.seancoyle.database.entities.LaunchEntity
+import com.seancoyle.database.daos.PokemonDao
+import com.seancoyle.database.entities.PokemonEntity
 import com.seancoyle.database.typeconverters.LocalDateTimeTypeConverter
 
 @Database(
     entities =
     [
-        LaunchEntity::class,
-        CompanyInfoEntity::class
+        PokemonEntity::class
     ],
     version = 1,
     exportSchema = true
@@ -23,8 +20,7 @@ import com.seancoyle.database.typeconverters.LocalDateTimeTypeConverter
 )
 abstract class Database : RoomDatabase() {
 
-    abstract fun launchDao(): LaunchDao
-    abstract fun companyInfoDao(): CompanyInfoDao
+    abstract fun pokemonDao(): PokemonDao
 
     companion object {
         const val DATABASE_NAME: String = "pokedex_db"

@@ -1,6 +1,6 @@
 package com.seancoyle.launch_datasource.network.mappers.company;
 
-import com.seancoyle.launch_datasource.network.abstraction.numberformatter.NumberFormatter;
+import com.seancoyle.launch_datasource.network.numberformatter.NumberFormatter;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;

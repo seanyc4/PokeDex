@@ -18,7 +18,7 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideSpaceXDb(@ApplicationContext context: Context): Database {
+    fun providePokemonDb(@ApplicationContext context: Context): Database {
         return Room
             .databaseBuilder(context, Database::class.java, Database.DATABASE_NAME)
             .fallbackToDestructiveMigration()

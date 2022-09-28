@@ -8,7 +8,7 @@ import javax.annotation.processing.Generated;
  */
 @AggregatedDeps(
     components = "dagger.hilt.components.SingletonComponent",
-    modules = "com.seancoyle.launch_datasource.di.network.launch.LaunchNetworkDataSourceModule"
+    modules = "com.seancoyle.launch_datasource.di.network.LaunchNetworkDataSourceModule"
 )
 @Generated("dagger.hilt.processor.internal.aggregateddeps.AggregatedDepsGenerator")
 public class _com_seancoyle_launch_datasource_di_network_launch_LaunchNetworkDataSourceModule {

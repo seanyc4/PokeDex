@@ -1,5 +1,6 @@
 package com.seancoyle.launch_datasource.di.network.launch;
 
+import com.seancoyle.launch_datasource.di.network.LaunchOptionsModule;
 import com.seancoyle.launch_models.model.launch.LaunchOptions;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;

@@ -1,8 +1,9 @@
 package com.seancoyle.launch_datasource.di.network.launch;
 
-import com.seancoyle.launch_datasource.network.abstraction.launch.LaunchNetworkDataSource;
-import com.seancoyle.launch_datasource.network.api.launch.LaunchApi;
-import com.seancoyle.launch_datasource.network.mappers.launch.LaunchNetworkMapper;
+import com.seancoyle.launch_datasource.di.network.PokemonNetworkDataSourceModule;
+import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource;
+import com.seancoyle.launch_datasource.network.api.PokemonApi;
+import com.seancoyle.launch_datasource.network.PokemonNetworkMapper;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.Preconditions;
@@ -22,29 +23,29 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes"
 })
-public final class LaunchNetworkDataSourceModule_ProvideLaunchNetworkDataSourceFactory implements Factory<LaunchNetworkDataSource> {
-  private final Provider<LaunchApi> apiProvider;
+public final class LaunchNetworkDataSourceModule_ProvideLaunchNetworkDataSourceFactory implements Factory<PokemonNetworkDataSource> {
+  private final Provider<PokemonApi> apiProvider;
 
-  private final Provider<LaunchNetworkMapper> networkMapperProvider;
+  private final Provider<PokemonNetworkMapper> networkMapperProvider;
 
   public LaunchNetworkDataSourceModule_ProvideLaunchNetworkDataSourceFactory(
-      Provider<LaunchApi> apiProvider, Provider<LaunchNetworkMapper> networkMapperProvider) {
+          Provider<PokemonApi> apiProvider, Provider<PokemonNetworkMapper> networkMapperProvider) {
     this.apiProvider = apiProvider;
     this.networkMapperProvider = networkMapperProvider;
   }
 
   @Override
-  public LaunchNetworkDataSource get() {
+  public PokemonNetworkDataSource get() {
     return provideLaunchNetworkDataSource(apiProvider.get(), networkMapperProvider.get());
   }
 
   public static LaunchNetworkDataSourceModule_ProvideLaunchNetworkDataSourceFactory create(
-      Provider<LaunchApi> apiProvider, Provider<LaunchNetworkMapper> networkMapperProvider) {
+          Provider<PokemonApi> apiProvider, Provider<PokemonNetworkMapper> networkMapperProvider) {
     return new LaunchNetworkDataSourceModule_ProvideLaunchNetworkDataSourceFactory(apiProvider, networkMapperProvider);
   }
 
-  public static LaunchNetworkDataSource provideLaunchNetworkDataSource(LaunchApi api,
-      LaunchNetworkMapper networkMapper) {
-    return Preconditions.checkNotNullFromProvides(LaunchNetworkDataSourceModule.INSTANCE.provideLaunchNetworkDataSource(api, networkMapper));
+  public static PokemonNetworkDataSource provideLaunchNetworkDataSource(PokemonApi api,
+                                                                        PokemonNetworkMapper networkMapper) {
+    return Preconditions.checkNotNullFromProvides(PokemonNetworkDataSourceModule.INSTANCE.providePokemonNetworkDataSource(api, networkMapper));
   }
 }

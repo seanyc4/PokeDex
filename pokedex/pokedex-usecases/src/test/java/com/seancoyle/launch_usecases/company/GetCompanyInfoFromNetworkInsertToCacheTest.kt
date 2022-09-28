@@ -4,22 +4,22 @@ import com.seancoyle.core.testing.MainCoroutineRule
 import com.seancoyle.launch_datasource.cache.abstraction.company.CompanyInfoCacheDataSource
 import com.seancoyle.launch_datasource.network.abstraction.company.CompanyInfoNetworkDataSource
 import com.seancoyle.launch_datasource_test.CompanyDependencies
-import com.seancoyle.launch_models.model.company.CompanyInfoModel
 import com.seancoyle.launch_models.model.company.CompanyInfoFactory
+import com.seancoyle.launch_models.model.company.CompanyInfoModel
 import com.seancoyle.launch_usecases.company.GetCompanyInfoFromNetworkAndInsertToCacheUseCase.Companion.COMPANY_INFO_ERROR
 import com.seancoyle.launch_usecases.company.GetCompanyInfoFromNetworkAndInsertToCacheUseCase.Companion.COMPANY_INFO_INSERT_SUCCESS
 import com.seancoyle.launch_usecases.company.MockWebServerResponseCompanyInfo.companyInfo
-import com.seancoyle.launch_viewstate.LaunchStateEvent
+import com.seancoyle.launch_viewstate.PokemonStateEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Rule
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.net.HttpURLConnection
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -77,7 +77,7 @@ class GetCompanyInfoFromNetworkInsertToCacheTest {
 
         // execute use case
         getCompanyInfoFromNetworkInsertToCache(
-            stateEvent = LaunchStateEvent.GetCompanyInfoFromNetworkAndInsertToCacheEvent
+            stateEvent = PokemonStateEvent.GetCompanyInfoFromNetworkAndInsertToCacheEvent
         ).collect { value ->
             assertEquals(
                 value?.stateMessage?.response?.message,
@@ -111,7 +111,7 @@ class GetCompanyInfoFromNetworkInsertToCacheTest {
 
         // execute use case
         getCompanyInfoFromNetworkInsertToCache(
-            stateEvent = LaunchStateEvent.GetCompanyInfoFromNetworkAndInsertToCacheEvent
+            stateEvent = PokemonStateEvent.GetCompanyInfoFromNetworkAndInsertToCacheEvent
         ).collect { value ->
             assertEquals(
                 value?.stateMessage?.response?.message,

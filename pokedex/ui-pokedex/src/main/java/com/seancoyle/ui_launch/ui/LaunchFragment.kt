@@ -25,27 +25,26 @@ import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_ALL
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_FAILED
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_SUCCESS
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_UNKNOWN
+import com.seancoyle.core.presentation.BaseFragment
+import com.seancoyle.core.state.*
+import com.seancoyle.core.testing.AndroidTestUtils
+import com.seancoyle.core.util.printLogDebug
 import com.seancoyle.launch_models.model.company.CompanyInfoModel
 import com.seancoyle.launch_models.model.launch.LaunchType
 import com.seancoyle.launch_models.model.launch.Links
-import com.seancoyle.core.state.*
 import com.seancoyle.launch_usecases.company.GetCompanyInfoFromCacheUseCase
 import com.seancoyle.launch_usecases.company.GetCompanyInfoFromNetworkAndInsertToCacheUseCase
+import com.seancoyle.launch_usecases.launch.FilterLaunchItemsInCacheUseCase
 import com.seancoyle.launch_usecases.launch.GetAllLaunchItemsFromCacheUseCase
 import com.seancoyle.launch_usecases.launch.GetLaunchListFromNetworkAndInsertToCacheUseCase
-import com.seancoyle.launch_usecases.launch.FilterLaunchItemsInCacheUseCase
-import com.seancoyle.ui_launch.ui.adapter.LaunchAdapter
-import com.seancoyle.core.util.printLogDebug
-import com.seancoyle.launch_viewstate.LaunchStateEvent
-import com.seancoyle.launch_viewstate.LaunchViewState
-import com.seancoyle.core.testing.AndroidTestUtils
-import com.seancoyle.core.presentation.BaseFragment
+import com.seancoyle.launch_viewstate.PokemonStateEvent
+import com.seancoyle.launch_viewstate.PokemonViewState
 import com.seancoyle.ui_launch.R
 import com.seancoyle.ui_launch.databinding.FragmentLaunchBinding
+import com.seancoyle.ui_launch.ui.adapter.LaunchAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 const val LINKS_KEY = "links"
 const val LAUNCH_STATE_BUNDLE_KEY =
@@ -93,7 +92,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
 
     private fun restoreInstanceState(savedInstanceState: Bundle?) {
         savedInstanceState?.let { inState ->
-            (inState[LAUNCH_STATE_BUNDLE_KEY] as LaunchViewState?)?.let { viewState ->
+            (inState[LAUNCH_STATE_BUNDLE_KEY] as PokemonViewState?)?.let { viewState ->
                 viewModel.setViewState(viewState)
             }
         }
@@ -111,7 +110,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
         val viewState = viewModel.viewState.value
 
         //clear the list. Don't save a large list to bundle.
-        viewState?.launchList = ArrayList()
+        viewState?.pokemonList = ArrayList()
 
         outState.putParcelable(
             LAUNCH_STATE_BUNDLE_KEY,
@@ -176,7 +175,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
 
                     GetCompanyInfoFromNetworkAndInsertToCacheUseCase.COMPANY_INFO_INSERT_SUCCESS -> {
                         viewModel.clearStateMessage()
-                        viewModel.setStateEvent(LaunchStateEvent.GetCompanyInfoFromCacheEvent)
+                        viewModel.setStateEvent(PokemonStateEvent.GetCompanyInfoFromCacheEvent)
                     }
 
                     GetCompanyInfoFromCacheUseCase.GET_COMPANY_INFO_SUCCESS -> {
@@ -239,7 +238,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
         viewModel.viewState.observe(viewLifecycleOwner) { viewState ->
 
             if (viewState != null) {
-                viewState.launchList?.let { _ ->
+                viewState.pokemonList?.let { _ ->
                     if (viewModel.isPaginationExhausted() && !viewModel.isQueryExhausted()) {
                         viewModel.setQueryExhausted(true)
                     }
@@ -272,13 +271,13 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
 
     private fun filterLaunchItemsInCacheEvent() {
         viewModel.setStateEvent(
-            LaunchStateEvent.FilterLaunchItemsInCacheEvent()
+            PokemonStateEvent.FilterPokemonItemsInCacheEvent()
         )
     }
 
     private fun getCompanyInfoFromCacheEvent() {
         viewModel.setStateEvent(
-            LaunchStateEvent.GetCompanyInfoFromCacheEvent
+            PokemonStateEvent.GetCompanyInfoFromCacheEvent
         )
     }
 
@@ -324,7 +323,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
 
     private fun getLaunchListFromNetworkAndInsertToCacheEvent() {
         viewModel.setStateEvent(
-            LaunchStateEvent.GetLaunchItemsFromNetworkAndInsertToCacheEvent(
+            PokemonStateEvent.GetPokemonItemsFromNetworkAndInsertToCacheEvent(
                 launchOptions = viewModel.launchOptions
             )
         )
@@ -332,7 +331,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
 
     private fun getCompanyInfoFromNetworkAndInsertToCacheEvent() {
         viewModel.setStateEvent(
-            LaunchStateEvent.GetCompanyInfoFromNetworkAndInsertToCacheEvent
+            PokemonStateEvent.GetCompanyInfoFromNetworkAndInsertToCacheEvent
         )
     }
 
@@ -453,7 +452,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
 
     private fun displayErrorDialogNoLinks() {
         viewModel.setStateEvent(
-            stateEvent = LaunchStateEvent.CreateStateMessageEvent(
+            stateEvent = PokemonStateEvent.CreateStateMessageEvent(
                 StateMessage(
                     response = Response(
                         messageType = MessageType.Info,
@@ -467,7 +466,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
 
     private fun displayErrorDialogUnableToLoadLink() {
         viewModel.setStateEvent(
-            stateEvent = LaunchStateEvent.CreateStateMessageEvent(
+            stateEvent = PokemonStateEvent.CreateStateMessageEvent(
                 StateMessage(
                     response = Response(
                         messageType = MessageType.Error,

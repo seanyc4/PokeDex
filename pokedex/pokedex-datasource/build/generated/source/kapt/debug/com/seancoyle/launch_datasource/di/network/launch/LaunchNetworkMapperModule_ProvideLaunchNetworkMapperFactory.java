@@ -1,8 +1,9 @@
 package com.seancoyle.launch_datasource.di.network.launch;
 
-import com.seancoyle.launch_datasource.network.abstraction.dateformatter.DateFormatter;
-import com.seancoyle.launch_datasource.network.abstraction.datetransformer.DateTransformer;
-import com.seancoyle.launch_datasource.network.mappers.launch.LaunchNetworkMapper;
+import com.seancoyle.launch_datasource.di.network.PokemonNetworkMapperModule;
+import com.seancoyle.launch_datasource.network.dateformatter.DateFormatter;
+import com.seancoyle.launch_datasource.network.datetransformer.DateTransformer;
+import com.seancoyle.launch_datasource.network.PokemonNetworkMapper;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.Preconditions;
@@ -22,7 +23,7 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes"
 })
-public final class LaunchNetworkMapperModule_ProvideLaunchNetworkMapperFactory implements Factory<LaunchNetworkMapper> {
+public final class LaunchNetworkMapperModule_ProvideLaunchNetworkMapperFactory implements Factory<PokemonNetworkMapper> {
   private final Provider<DateFormatter> dateFormatterProvider;
 
   private final Provider<DateTransformer> dateTransformerProvider;
@@ -35,7 +36,7 @@ public final class LaunchNetworkMapperModule_ProvideLaunchNetworkMapperFactory i
   }
 
   @Override
-  public LaunchNetworkMapper get() {
+  public PokemonNetworkMapper get() {
     return provideLaunchNetworkMapper(dateFormatterProvider.get(), dateTransformerProvider.get());
   }
 
@@ -45,8 +46,8 @@ public final class LaunchNetworkMapperModule_ProvideLaunchNetworkMapperFactory i
     return new LaunchNetworkMapperModule_ProvideLaunchNetworkMapperFactory(dateFormatterProvider, dateTransformerProvider);
   }
 
-  public static LaunchNetworkMapper provideLaunchNetworkMapper(DateFormatter dateFormatter,
-      DateTransformer dateTransformer) {
-    return Preconditions.checkNotNullFromProvides(LaunchNetworkMapperModule.INSTANCE.provideLaunchNetworkMapper(dateFormatter, dateTransformer));
+  public static PokemonNetworkMapper provideLaunchNetworkMapper(DateFormatter dateFormatter,
+                                                                DateTransformer dateTransformer) {
+    return Preconditions.checkNotNullFromProvides(PokemonNetworkMapperModule.INSTANCE.providePokemonNetworkMapper(dateFormatter, dateTransformer));
   }
 }

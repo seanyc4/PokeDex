@@ -1,7 +1,8 @@
 package com.seancoyle.launch_datasource.network.mappers.launch;
 
-import com.seancoyle.launch_datasource.network.abstraction.dateformatter.DateFormatter;
-import com.seancoyle.launch_datasource.network.abstraction.datetransformer.DateTransformer;
+import com.seancoyle.launch_datasource.network.PokemonNetworkMapper;
+import com.seancoyle.launch_datasource.network.dateformatter.DateFormatter;
+import com.seancoyle.launch_datasource.network.datetransformer.DateTransformer;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;
@@ -20,7 +21,7 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes"
 })
-public final class LaunchNetworkMapper_Factory implements Factory<LaunchNetworkMapper> {
+public final class LaunchNetworkMapper_Factory implements Factory<PokemonNetworkMapper> {
   private final Provider<DateFormatter> dateFormatterProvider;
 
   private final Provider<DateTransformer> dateTransformerProvider;
@@ -32,7 +33,7 @@ public final class LaunchNetworkMapper_Factory implements Factory<LaunchNetworkM
   }
 
   @Override
-  public LaunchNetworkMapper get() {
+  public PokemonNetworkMapper get() {
     return newInstance(dateFormatterProvider.get(), dateTransformerProvider.get());
   }
 
@@ -41,8 +42,8 @@ public final class LaunchNetworkMapper_Factory implements Factory<LaunchNetworkM
     return new LaunchNetworkMapper_Factory(dateFormatterProvider, dateTransformerProvider);
   }
 
-  public static LaunchNetworkMapper newInstance(DateFormatter dateFormatter,
-      DateTransformer dateTransformer) {
-    return new LaunchNetworkMapper(dateFormatter, dateTransformer);
+  public static PokemonNetworkMapper newInstance(DateFormatter dateFormatter,
+                                                 DateTransformer dateTransformer) {
+    return new PokemonNetworkMapper(dateFormatter, dateTransformer);
   }
 }

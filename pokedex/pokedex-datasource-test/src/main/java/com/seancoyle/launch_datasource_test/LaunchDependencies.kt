@@ -3,14 +3,14 @@ package com.seancoyle.launch_datasource_test
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_OPTIONS_ROCKET
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_OPTIONS_SORT
 import com.seancoyle.core.util.DateFormatConstants.YYYY_MM_DD_HH_MM_SS
-import com.seancoyle.launch_datasource.cache.abstraction.launch.LaunchCacheDataSource
-import com.seancoyle.launch_datasource_test.cache.launch.FakeLaunchCacheDataSourceImpl
-import com.seancoyle.launch_datasource.network.abstraction.launch.LaunchNetworkDataSource
-import com.seancoyle.launch_datasource.network.implementation.datetransformer.DateTransformerImpl
-import com.seancoyle.launch_datasource.network.implementation.dateformatter.DateFormatterImpl
-import com.seancoyle.launch_datasource.network.mappers.launch.LaunchNetworkMapper
 import com.seancoyle.core.util.isUnitTest
-import com.seancoyle.launch_datasource_test.network.launch.FakeLaunchNetworkDataSourceImpl
+import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
+import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
+import com.seancoyle.launch_datasource.network.PokemonNetworkMapper
+import com.seancoyle.launch_datasource.network.dateformatter.DateFormatterImpl
+import com.seancoyle.launch_datasource.network.datetransformer.DateTransformerImpl
+import com.seancoyle.launch_datasource_test.cache.launch.FakePokemonCacheDataSourceImpl
+import com.seancoyle.launch_datasource_test.network.launch.FakePokemonNetworkDataSourceImpl
 import com.seancoyle.launch_models.model.launch.*
 import okhttp3.HttpUrl
 import okhttp3.mockwebserver.MockWebServer
@@ -26,12 +26,12 @@ class LaunchDependencies {
 
     private val dateFormatter = DateFormatterImpl(dateFormat)
     private val dateTransformer = DateTransformerImpl()
-    lateinit var launchCacheDataSource: LaunchCacheDataSource
+    lateinit var pokemonCacheDataSource: PokemonCacheDataSource
     lateinit var launchFactory: LaunchFactory
     lateinit var launchDataFactory: LaunchDataFactory
     lateinit var launchOptions: LaunchOptions
-    lateinit var networkDataSource: LaunchNetworkDataSource
-    lateinit var networkMapper: LaunchNetworkMapper
+    lateinit var networkDataSource: PokemonNetworkDataSource
+    lateinit var networkMapper: PokemonNetworkMapper
     lateinit var mockWebServer: MockWebServer
     private lateinit var baseUrl: HttpUrl
 
@@ -49,17 +49,17 @@ class LaunchDependencies {
         baseUrl = mockWebServer.url("v3/launches/")
         launchFactory = LaunchFactory()
 
-        networkMapper = LaunchNetworkMapper(
+        networkMapper = PokemonNetworkMapper(
             dateFormatter = dateFormatter,
             dateTransformer = dateTransformer
         )
 
-        networkDataSource = FakeLaunchNetworkDataSourceImpl(
+        networkDataSource = FakePokemonNetworkDataSourceImpl(
             baseUrl = baseUrl,
             networkMapper = networkMapper
         )
 
-        launchCacheDataSource = FakeLaunchCacheDataSourceImpl(
+        pokemonCacheDataSource = FakePokemonCacheDataSourceImpl(
             fakeLaunchDatabase = launchDataFactory.produceFakeAppDatabase(
                 launchDataFactory.produceListOfLaunchItems()
             ),

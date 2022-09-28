@@ -1,6 +1,8 @@
 package com.seancoyle.launch_datasource.di.cache.launch;
 
-import com.seancoyle.launch_datasource.cache.mappers.launch.LaunchEntityMapper;
+import com.seancoyle.launch_datasource.cache.PokemonEntityMapper;
+import com.seancoyle.launch_datasource.di.cache.PokemonCacheMapperModule;
+
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.Preconditions;
@@ -19,9 +21,9 @@ import javax.annotation.processing.Generated;
     "unchecked",
     "rawtypes"
 })
-public final class LaunchCacheMapperModule_ProvideLaunchCacheMapperFactory implements Factory<LaunchEntityMapper> {
+public final class LaunchCacheMapperModule_ProvideLaunchCacheMapperFactory implements Factory<PokemonEntityMapper> {
   @Override
-  public LaunchEntityMapper get() {
+  public PokemonEntityMapper get() {
     return provideLaunchCacheMapper();
   }
 
@@ -29,8 +31,8 @@ public final class LaunchCacheMapperModule_ProvideLaunchCacheMapperFactory imple
     return InstanceHolder.INSTANCE;
   }
 
-  public static LaunchEntityMapper provideLaunchCacheMapper() {
-    return Preconditions.checkNotNullFromProvides(LaunchCacheMapperModule.INSTANCE.provideLaunchCacheMapper());
+  public static PokemonEntityMapper provideLaunchCacheMapper() {
+    return Preconditions.checkNotNullFromProvides(PokemonCacheMapperModule.INSTANCE.providePokemonCacheMapper());
   }
 
   private static final class InstanceHolder {

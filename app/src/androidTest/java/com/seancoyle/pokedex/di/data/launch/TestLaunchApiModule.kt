@@ -1,8 +1,8 @@
 package com.seancoyle.pokedex.di.data.launch
 
-import com.seancoyle.launch_datasource.di.network.launch.LaunchApiModule
 import com.seancoyle.core.testing.JsonFileReader
-import com.seancoyle.pokedex.framework.datasource.network.launch.FakeLaunchApi
+import com.seancoyle.launch_datasource.di.network.PokemonApiModule
+import com.seancoyle.pokedex.framework.datasource.network.launch.FakePokemonApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [LaunchApiModule::class]
+    replaces = [PokemonApiModule::class]
 )
 object TestLaunchApiModule {
 
@@ -21,8 +21,8 @@ object TestLaunchApiModule {
     @Provides
     fun provideLaunchApiService(
         jsonFileReader: JsonFileReader
-    ): FakeLaunchApi {
-        return FakeLaunchApi(
+    ): FakePokemonApi {
+        return FakePokemonApi(
             jsonFileReader = jsonFileReader
         )
     }

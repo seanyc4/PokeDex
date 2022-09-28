@@ -8,19 +8,19 @@ import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_SUCCESS
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_UNKNOWN
 import com.seancoyle.core.cache.CacheErrors
 import com.seancoyle.core.testing.MainCoroutineRule
-import com.seancoyle.launch_datasource.cache.abstraction.launch.LaunchCacheDataSource
+import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
+import com.seancoyle.launch_datasource_test.LaunchDependencies
 import com.seancoyle.launch_models.model.launch.LaunchModel
 import com.seancoyle.launch_usecases.launch.FilterLaunchItemsInCacheUseCase.Companion.SEARCH_LAUNCH_NO_MATCHING_RESULTS
 import com.seancoyle.launch_usecases.launch.FilterLaunchItemsInCacheUseCase.Companion.SEARCH_LAUNCH_SUCCESS
-import com.seancoyle.launch_datasource_test.LaunchDependencies
-import com.seancoyle.launch_viewstate.LaunchStateEvent
+import com.seancoyle.launch_viewstate.PokemonStateEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import kotlin.random.Random
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -31,14 +31,14 @@ class FilterLaunchItemsInCacheUseCaseTest {
 
     private lateinit var filterLaunchItems: FilterLaunchItemsInCacheUseCase
     private val launchDependencies: LaunchDependencies = LaunchDependencies()
-    private lateinit var cacheDataSource: LaunchCacheDataSource
+    private lateinit var cacheDataSource: PokemonCacheDataSource
     lateinit var validLaunchYears: List<String>
 
     @BeforeEach
     fun init() {
         launchDependencies.build()
         validLaunchYears = launchDependencies.launchDataFactory.provideValidFilterYearDates()
-        cacheDataSource = launchDependencies.launchCacheDataSource
+        cacheDataSource = launchDependencies.pokemonCacheDataSource
         filterLaunchItems = FilterLaunchItemsInCacheUseCase(
             ioDispatcher = mainCoroutineRule.testDispatcher,
             cacheDataSource = cacheDataSource
@@ -55,14 +55,14 @@ class FilterLaunchItemsInCacheUseCaseTest {
             order = LAUNCH_ORDER_ASC,
             launchFilter = LAUNCH_ALL,
             page = 1,
-            stateEvent = LaunchStateEvent.FilterLaunchItemsInCacheEvent()
+            stateEvent = PokemonStateEvent.FilterPokemonItemsInCacheEvent()
         ).collect { value ->
             assertEquals(
                 value?.stateMessage?.response?.message,
                 SEARCH_LAUNCH_SUCCESS
             )
 
-            value?.data?.launchList?.let {
+            value?.data?.pokemonList?.let {
                 launchList = it
             }
         }
@@ -81,14 +81,14 @@ class FilterLaunchItemsInCacheUseCaseTest {
             order = LAUNCH_ORDER_DESC,
             launchFilter = LAUNCH_ALL,
             page = 1,
-            stateEvent = LaunchStateEvent.FilterLaunchItemsInCacheEvent()
+            stateEvent = PokemonStateEvent.FilterPokemonItemsInCacheEvent()
         ).collect { value ->
             assertEquals(
                 value?.stateMessage?.response?.message,
                 SEARCH_LAUNCH_SUCCESS
             )
 
-            value?.data?.launchList?.let {
+            value?.data?.pokemonList?.let {
                 launchList = it
             }
         }
@@ -108,14 +108,14 @@ class FilterLaunchItemsInCacheUseCaseTest {
             order = LAUNCH_ORDER_ASC,
             launchFilter = null,
             page = 1,
-            stateEvent = LaunchStateEvent.FilterLaunchItemsInCacheEvent()
+            stateEvent = PokemonStateEvent.FilterPokemonItemsInCacheEvent()
         ).collect { value ->
             assertEquals(
                 value?.stateMessage?.response?.message,
                 SEARCH_LAUNCH_SUCCESS
             )
 
-            value?.data?.launchList?.let {
+            value?.data?.pokemonList?.let {
                 launchList = it
             }
         }
@@ -136,14 +136,14 @@ class FilterLaunchItemsInCacheUseCaseTest {
             order = LAUNCH_ORDER_ASC,
             launchFilter = null,
             page = 1,
-            stateEvent = LaunchStateEvent.FilterLaunchItemsInCacheEvent()
+            stateEvent = PokemonStateEvent.FilterPokemonItemsInCacheEvent()
         ).collect { value ->
             assertEquals(
                 value?.stateMessage?.response?.message,
                 SEARCH_LAUNCH_NO_MATCHING_RESULTS
             )
 
-            value?.data?.launchList?.let {
+            value?.data?.pokemonList?.let {
                 launchList = it
             }
         }
@@ -162,14 +162,14 @@ class FilterLaunchItemsInCacheUseCaseTest {
             order = LAUNCH_ORDER_DESC,
             launchFilter = LAUNCH_SUCCESS,
             page = 1,
-            stateEvent = LaunchStateEvent.FilterLaunchItemsInCacheEvent()
+            stateEvent = PokemonStateEvent.FilterPokemonItemsInCacheEvent()
         ).collect { value ->
             assertEquals(
                 value?.stateMessage?.response?.message,
                 SEARCH_LAUNCH_SUCCESS
             )
 
-            value?.data?.launchList?.let {
+            value?.data?.pokemonList?.let {
                 launchList = it
             }
         }
@@ -189,14 +189,14 @@ class FilterLaunchItemsInCacheUseCaseTest {
             order = LAUNCH_ORDER_ASC,
             launchFilter = LAUNCH_FAILED,
             page = 1,
-            stateEvent = LaunchStateEvent.FilterLaunchItemsInCacheEvent()
+            stateEvent = PokemonStateEvent.FilterPokemonItemsInCacheEvent()
         ).collect { value ->
             assertEquals(
                 value?.stateMessage?.response?.message,
                 SEARCH_LAUNCH_SUCCESS
             )
 
-            value?.data?.launchList?.let {
+            value?.data?.pokemonList?.let {
                 launchList = it
             }
         }
@@ -217,14 +217,14 @@ class FilterLaunchItemsInCacheUseCaseTest {
             order = LAUNCH_ORDER_DESC,
             launchFilter = LAUNCH_ALL,
             page = 1,
-            stateEvent = LaunchStateEvent.FilterLaunchItemsInCacheEvent()
+            stateEvent = PokemonStateEvent.FilterPokemonItemsInCacheEvent()
         ).collect { value ->
             assertEquals(
                 value?.stateMessage?.response?.message,
                 SEARCH_LAUNCH_SUCCESS
             )
 
-            value?.data?.launchList?.let {
+            value?.data?.pokemonList?.let {
                 launchList = it
             }
         }
@@ -249,14 +249,14 @@ class FilterLaunchItemsInCacheUseCaseTest {
             order = LAUNCH_ORDER_DESC,
             launchFilter = LAUNCH_UNKNOWN,
             page = 1,
-            stateEvent = LaunchStateEvent.FilterLaunchItemsInCacheEvent()
+            stateEvent = PokemonStateEvent.FilterPokemonItemsInCacheEvent()
         ).collect { value ->
             assertEquals(
                 value?.stateMessage?.response?.message,
                 SEARCH_LAUNCH_SUCCESS
             )
 
-            value?.data?.launchList?.let {
+            value?.data?.pokemonList?.let {
                 launchList = it
             }
         }
@@ -277,14 +277,14 @@ class FilterLaunchItemsInCacheUseCaseTest {
             order = LAUNCH_ORDER_DESC,
             launchFilter = LAUNCH_SUCCESS,
             page = 1,
-            stateEvent = LaunchStateEvent.FilterLaunchItemsInCacheEvent()
+            stateEvent = PokemonStateEvent.FilterPokemonItemsInCacheEvent()
         ).collect { value ->
             assertEquals(
                 value?.stateMessage?.response?.message,
                 SEARCH_LAUNCH_NO_MATCHING_RESULTS
             )
 
-            value?.data?.launchList?.let {
+            value?.data?.pokemonList?.let {
                 launchList = it
             }
         }
@@ -303,14 +303,14 @@ class FilterLaunchItemsInCacheUseCaseTest {
             order = LAUNCH_ORDER_DESC,
             launchFilter = null,
             page = 1,
-            stateEvent = LaunchStateEvent.FilterLaunchItemsInCacheEvent()
+            stateEvent = PokemonStateEvent.FilterPokemonItemsInCacheEvent()
         ).collect { value ->
             assert(
                 value?.stateMessage?.response?.message
                     ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false
             )
 
-            value?.data?.launchList?.let {
+            value?.data?.pokemonList?.let {
                 launchList = it
             }
         }
