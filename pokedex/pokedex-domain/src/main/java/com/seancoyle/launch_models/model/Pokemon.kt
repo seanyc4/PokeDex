@@ -8,7 +8,6 @@ data class Pokemon(
     val abilities: List<Ability>,
     val baseExperience: Int,
     val forms: List<Form>,
-    val gameIndices: List<GameIndice>,
     val height: Int,
     val id: Int,
     val isDefault: Boolean,
@@ -92,12 +91,6 @@ data class FireRedLeafGreen(
 data class Form(
     val name: String,
     val url: String
-) : Parcelable
-
-@Parcelize
-data class GameIndice(
-    val gameIndex: Int,
-    val version: Version
 ) : Parcelable
 
 @Parcelize
@@ -301,12 +294,6 @@ data class TypeX(
 data class UltraSunUltraMoon(
     val frontDefault: String,
     val frontShiny: String
-) : Parcelable
-
-@Parcelize
-data class Version(
-    val name: String,
-    val url: String
 ) : Parcelable
 
 @Parcelize

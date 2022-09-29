@@ -6,24 +6,21 @@ import androidx.room.Entity
 @Keep
 @Entity(tableName = "pokemon")
 data class PokemonEntity(
-val abilities: List<AbilityEntity>,
-val baseExperience: Int,
-val forms: List<FormEntity>,
-val gameIndices: List<GameIndiceEntity>,
-val height: Int,
-val heldItems: List<Any>,
-val id: Int,
-val isDefault: Boolean,
-val locationAreaEncounters: String,
-val moves: List<MoveEntity>,
-val name: String,
-val order: Int,
-val pastTypes: List<Any>,
-val species: SpeciesEntity,
-val sprites: SpritesEntity,
-val stats: List<StatEntity>,
-val types: List<TypeEntity>,
-val weight: Int
+    val abilities: List<AbilityEntity>,
+    val baseExperience: Int,
+    val forms: List<FormEntity>,
+    val height: Int,
+    val id: Int,
+    val isDefault: Boolean,
+    val locationAreaEncounters: String,
+    val moves: List<MoveEntity>,
+    val name: String,
+    val order: Int,
+    val species: SpeciesEntity,
+    val sprites: SpritesEntity,
+    val stats: List<StatEntity>,
+    val types: List<TypeEntity>,
+    val weight: Int
 )
 
 @Keep
@@ -42,26 +39,18 @@ data class AbilityXEntity(
 @Keep
 data class AnimatedEntity(
     val backDefault: String,
-    val backFemale: Any,
     val backShiny: String,
-    val backShinyFemale: Any,
     val frontDefault: String,
-    val frontFemale: Any,
     val frontShiny: String,
-    val frontShinyFemale: Any
 )
 
 @Keep
 data class BlackWhiteEntity(
     val animated: AnimatedEntity,
     val backDefault: String,
-    val backFemale: Any,
     val backShiny: String,
-    val backShinyFemale: Any,
     val frontDefault: String,
-    val frontFemale: Any,
-    val frontShiny: String,
-    val frontShinyFemale: Any
+    val frontShiny: String
 )
 
 @Keep
@@ -75,19 +64,14 @@ data class CrystalEntity(
 @Keep
 data class DiamondPearlEntity(
     val backDefault: String,
-    val backFemale: Any,
     val backShiny: String,
-    val backShinyFemale: Any,
     val frontDefault: String,
-    val frontFemale: Any,
     val frontShiny: String,
-    val frontShinyFemale: Any
 )
 
 @Keep
 data class DreamWorldEntity(
     val frontDefault: String,
-    val frontFemale: Any
 )
 
 @Keep
@@ -108,12 +92,6 @@ data class FireRedLeafGreenEntity(
 data class FormEntity(
     val name: String,
     val url: String
-)
-
-@Keep
-data class GameIndiceEntity(
-    val gameIndex: Int,
-    val version: VersionEntity
 )
 
 @Keep
@@ -176,25 +154,19 @@ data class GoldEntity(
 @Keep
 data class HeartGoldSoulSilverEntity(
     val backDefault: String,
-    val backFemale: Any,
     val backShiny: String,
-    val backShinyFemale: Any,
     val frontDefault: String,
-    val frontFemale: Any,
-    val frontShiny: String,
-    val frontShinyFemale: Any
+    val frontShiny: String
 )
 
 @Keep
 data class IconsEntity(
-    val frontDefault: String,
-    val frontFemale: Any
+    val frontDefault: String
 )
 
 @Keep
 data class IconsXEntity(
-    val frontDefault: String,
-    val frontFemale: Any
+    val frontDefault: String
 )
 
 @Keep
@@ -223,9 +195,7 @@ data class OfficialArtworkEntity(
 @Keep
 data class OmegaRubyAlphaSapphireEntity(
     val frontDefault: String,
-    val frontFemale: Any,
-    val frontShiny: String,
-    val frontShinyFemale: Any
+    val frontShiny: String
 )
 
 @Keep
@@ -237,13 +207,9 @@ data class OtherEntity(
 @Keep
 data class PlatinumEntity(
     val backDefault: String,
-    val backFemale: Any,
     val backShiny: String,
-    val backShinyFemale: Any,
     val frontDefault: String,
-    val frontFemale: Any,
     val frontShiny: String,
-    val frontShinyFemale: Any
 )
 
 @Keep
@@ -293,15 +259,11 @@ data class SpeciesEntity(
 @Keep
 data class SpritesEntity(
     val backDefault: String,
-    val backFemale: Any,
     val backShiny: String,
-    val backShinyFemale: Any,
     val frontDefault: String,
-    val frontFemale: Any,
     val frontShiny: String,
-    val frontShinyFemale: Any,
     val other: OtherEntity,
-    val versions: Versions
+    val versions: VersionsEntity
 )
 
 @Keep
@@ -332,19 +294,11 @@ data class TypeXEntity(
 @Keep
 data class UltraSunUltraMoonEntity(
     val frontDefault: String,
-    val frontFemale: Any,
     val frontShiny: String,
-    val frontShinyFemale: Any
 )
 
 @Keep
-data class VersionEntity(
-    val name: String,
-    val url: String
-)
-
-@Keep
-data class Versions(
+data class VersionsEntity(
     val generationI: GenerationIEntity,
     val generationIi: GenerationIiEntity,
     val generationIii: GenerationIiiEntity,
@@ -371,9 +325,7 @@ data class VersionGroupEntity(
 @Keep
 data class XYEntity(
     val frontDefault: String,
-    val frontFemale: Any,
-    val frontShiny: String,
-    val frontShinyFemale: Any
+    val frontShiny: String
 )
 
 @Keep
