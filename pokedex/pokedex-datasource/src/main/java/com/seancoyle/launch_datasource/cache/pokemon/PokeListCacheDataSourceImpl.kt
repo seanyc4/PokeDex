@@ -6,12 +6,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PokemonCacheDataSourceImpl
+class PokeListCacheDataSourceImpl
 @Inject
 constructor(
     private val dao: PokemonDao,
     private val entityMapper: PokemonEntityMapper
-) : PokemonCacheDataSource {
+) : PokeListCacheDataSource {
 
     override suspend fun insert(pokemon: Pokemon): Long {
         return dao.insert(

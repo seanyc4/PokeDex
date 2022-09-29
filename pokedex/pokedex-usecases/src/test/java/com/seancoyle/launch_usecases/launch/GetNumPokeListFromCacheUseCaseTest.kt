@@ -4,7 +4,8 @@ import com.seancoyle.core.testing.MainCoroutineRule
 import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
 import com.seancoyle.launch_datasource_test.LaunchDependencies
 import com.seancoyle.launch_models.model.launch.LaunchFactory
-import com.seancoyle.launch_usecases.launch.GetNumLaunchItemsFromCacheUseCase.Companion.GET_NUM_LAUNCH_ITEMS_SUCCESS
+import com.seancoyle.launch_usecases.pokelist.GetNumPokeListFromCacheUseCase
+import com.seancoyle.launch_usecases.pokelist.GetNumPokeListFromCacheUseCase.Companion.GET_NUM_LAUNCH_ITEMS_SUCCESS
 import com.seancoyle.launch_viewstate.PokemonStateEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -22,13 +23,13 @@ Test cases:
     c) compare with the number of launch in the fake data set
 */
 @OptIn(ExperimentalCoroutinesApi::class)
-class GetNumLaunchItemsFromCacheUseCaseTest {
+class GetNumPokeListFromCacheUseCaseTest {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
     // system in test
-    private lateinit var getNumLaunchItemsFromCacheUseCase: GetNumLaunchItemsFromCacheUseCase
+    private lateinit var getNumPokeListFromCacheUseCase: GetNumPokeListFromCacheUseCase
 
     // dependencies
     private val launchDependencies: LaunchDependencies = LaunchDependencies()
@@ -40,7 +41,7 @@ class GetNumLaunchItemsFromCacheUseCaseTest {
         launchDependencies.build()
         cacheDataSource = launchDependencies.pokemonInfoCacheDataSource
         factory = launchDependencies.launchFactory
-        getNumLaunchItemsFromCacheUseCase = GetNumLaunchItemsFromCacheUseCase(
+        getNumPokeListFromCacheUseCase = GetNumPokeListFromCacheUseCase(
             ioDispatcher = mainCoroutineRule.testDispatcher,
             cacheDataSource = cacheDataSource
         )
@@ -50,7 +51,7 @@ class GetNumLaunchItemsFromCacheUseCaseTest {
     fun getNumLaunchItems_success_confirmCorrect() = runBlocking {
 
         var numItems = 0
-        getNumLaunchItemsFromCacheUseCase(
+        getNumPokeListFromCacheUseCase(
             stateEvent = PokemonStateEvent.GetNumPokemonItemsInCacheEvent
         ).collect { value ->
             assertEquals(

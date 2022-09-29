@@ -1,53 +1,43 @@
-package com.seancoyle.launch_usecases.launch
+package com.seancoyle.launch_usecases.pokeinfo
 
 import com.seancoyle.core.cache.CacheResponseHandler
 import com.seancoyle.core.di.IODispatcher
 import com.seancoyle.core.network.safeCacheCall
 import com.seancoyle.core.state.*
 import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
-import com.seancoyle.launch_models.model.launch.LaunchModel
+import com.seancoyle.launch_models.model.PokemonInfo
 import com.seancoyle.launch_viewstate.PokemonViewState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class FilterLaunchItemsInCacheUseCase(
+class GetPokemonByIdFromCacheUseCase(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
     private val cacheDataSource: PokemonInfoCacheDataSource
 ) {
 
     operator fun invoke(
-        year: String,
-        order: String,
-        launchFilter: Int?,
-        page: Int,
+        id: Int,
         stateEvent: StateEvent
     ): Flow<DataState<PokemonViewState>?> = flow {
 
-        var updatedPage = page
-        if (page <= 0) {
-            updatedPage = 1
-        }
-
         val cacheResult = safeCacheCall(ioDispatcher) {
-            cacheDataSource.filterLaunchList(
-                year = year,
-                order = order,
-                launchFilter = launchFilter,
-                page = updatedPage
+            cacheDataSource.getById(
+                id = id
             )
         }
 
-        val response = object : CacheResponseHandler<PokemonViewState, List<LaunchModel>>(
+        val response = object : CacheResponseHandler<PokemonViewState, PokemonInfo?>(
             response = cacheResult,
             stateEvent = stateEvent
         ) {
-            override suspend fun handleSuccess(resultObj: List<LaunchModel>): DataState<PokemonViewState> {
-                var message: String? = SEARCH_LAUNCH_SUCCESS
+            override suspend fun handleSuccess(resultObj: PokemonInfo?): DataState<PokemonViewState> {
+                var message: String? =
+                    GET_LAUNCH_ITEM_BY_ID_SUCCESS
                 var uiComponentType: UIComponentType? = UIComponentType.None
-                if (resultObj.isEmpty()) {
+                if (resultObj == null) {
                     message =
-                        SEARCH_LAUNCH_NO_MATCHING_RESULTS
+                        GET_LAUNCH_ITEM_BY_ID_NO_MATCHING_RESULTS
                     uiComponentType = UIComponentType.Toast
                 }
                 return DataState.data(
@@ -57,19 +47,19 @@ class FilterLaunchItemsInCacheUseCase(
                         messageType = MessageType.Success
                     ),
                     data = PokemonViewState(
-                        pokemonList = resultObj as ArrayList<LaunchModel>?
+                        launch = resultObj
                     ),
                     stateEvent = stateEvent
                 )
             }
-
         }.getResult()
+
         emit(response)
     }
 
     companion object {
-        const val SEARCH_LAUNCH_SUCCESS = "Successfully retrieved list of launch items."
-        const val SEARCH_LAUNCH_NO_MATCHING_RESULTS =
+        const val GET_LAUNCH_ITEM_BY_ID_SUCCESS = "Successfully retrieved launch item by id"
+        const val GET_LAUNCH_ITEM_BY_ID_NO_MATCHING_RESULTS =
             "There are no launch items that match that query."
     }
 }

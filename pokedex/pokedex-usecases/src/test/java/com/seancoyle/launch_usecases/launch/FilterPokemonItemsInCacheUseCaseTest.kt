@@ -11,8 +11,9 @@ import com.seancoyle.core.testing.MainCoroutineRule
 import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
 import com.seancoyle.launch_datasource_test.LaunchDependencies
 import com.seancoyle.launch_models.model.launch.LaunchModel
-import com.seancoyle.launch_usecases.launch.FilterLaunchItemsInCacheUseCase.Companion.SEARCH_LAUNCH_NO_MATCHING_RESULTS
-import com.seancoyle.launch_usecases.launch.FilterLaunchItemsInCacheUseCase.Companion.SEARCH_LAUNCH_SUCCESS
+import com.seancoyle.launch_usecases.pokelist.FilterPokemonItemsInCacheUseCase
+import com.seancoyle.launch_usecases.pokelist.FilterPokemonItemsInCacheUseCase.Companion.SEARCH_LAUNCH_NO_MATCHING_RESULTS
+import com.seancoyle.launch_usecases.pokelist.FilterPokemonItemsInCacheUseCase.Companion.SEARCH_LAUNCH_SUCCESS
 import com.seancoyle.launch_viewstate.PokemonStateEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -24,12 +25,12 @@ import org.junit.jupiter.api.Test
 import kotlin.random.Random
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class FilterLaunchItemsInCacheUseCaseTest {
+class FilterPokemonItemsInCacheUseCaseTest {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
-    private lateinit var filterLaunchItems: FilterLaunchItemsInCacheUseCase
+    private lateinit var filterLaunchItems: FilterPokemonItemsInCacheUseCase
     private val launchDependencies: LaunchDependencies = LaunchDependencies()
     private lateinit var cacheDataSource: PokemonInfoCacheDataSource
     lateinit var validLaunchYears: List<String>
@@ -39,7 +40,7 @@ class FilterLaunchItemsInCacheUseCaseTest {
         launchDependencies.build()
         validLaunchYears = launchDependencies.launchDataFactory.provideValidFilterYearDates()
         cacheDataSource = launchDependencies.pokemonInfoCacheDataSource
-        filterLaunchItems = FilterLaunchItemsInCacheUseCase(
+        filterLaunchItems = FilterPokemonItemsInCacheUseCase(
             ioDispatcher = mainCoroutineRule.testDispatcher,
             cacheDataSource = cacheDataSource
         )

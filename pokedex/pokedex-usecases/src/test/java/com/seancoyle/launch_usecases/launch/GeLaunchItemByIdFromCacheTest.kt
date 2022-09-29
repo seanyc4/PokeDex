@@ -5,7 +5,8 @@ import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
 import com.seancoyle.launch_datasource_test.LaunchDependencies
 import com.seancoyle.launch_models.model.launch.LaunchFactory
 import com.seancoyle.launch_models.model.launch.LaunchModel
-import com.seancoyle.launch_usecases.launch.GetLaunchItemByIdFromCacheUseCase.Companion.GET_LAUNCH_ITEM_BY_ID_SUCCESS
+import com.seancoyle.launch_usecases.pokeinfo.GetPokemonByIdFromCacheUseCase
+import com.seancoyle.launch_usecases.pokeinfo.GetPokemonByIdFromCacheUseCase.Companion.GET_LAUNCH_ITEM_BY_ID_SUCCESS
 import com.seancoyle.launch_viewstate.PokemonStateEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -29,7 +30,7 @@ class GeLaunchItemByIdFromCacheTest {
     var mainCoroutineRule = MainCoroutineRule()
 
     // system in test
-    private lateinit var getLaunchItemById: GetLaunchItemByIdFromCacheUseCase
+    private lateinit var getLaunchItemById: GetPokemonByIdFromCacheUseCase
 
     // dependencies
     private val launchDependencies: LaunchDependencies = LaunchDependencies()
@@ -41,7 +42,7 @@ class GeLaunchItemByIdFromCacheTest {
         launchDependencies.build()
         cacheDataSource = launchDependencies.pokemonInfoCacheDataSource
         factory = launchDependencies.launchFactory
-        getLaunchItemById = GetLaunchItemByIdFromCacheUseCase(
+        getLaunchItemById = GetPokemonByIdFromCacheUseCase(
             ioDispatcher = mainCoroutineRule.testDispatcher,
             cacheDataSource = cacheDataSource
         )

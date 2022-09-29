@@ -3,7 +3,7 @@ package com.seancoyle.launch_usecases.di
 import com.seancoyle.core.di.IODispatcher
 import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
-import com.seancoyle.launch_usecases.launch.*
+import com.seancoyle.launch_usecases.pokelist.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object LaunchUseCaseModule {
+object PokemonUseCaseModule {
 
     @ViewModelScoped
     @Provides
@@ -21,22 +21,22 @@ object LaunchUseCaseModule {
         @IODispatcher ioDispatcher: CoroutineDispatcher,
         pokemonInfoCacheDataSource: PokemonInfoCacheDataSource,
         pokemonNetworkDataSource: PokemonNetworkDataSource
-    ): PokemonUseCases {
-        return PokemonUseCases(
-            getAllLaunchItemsFromCacheUseCase = GetAllLaunchItemsFromCacheUseCase(
+    ): PokeListUseCases {
+        return PokeListUseCases(
+            getAllPokemonFromCacheUseCase = GetAllPokemonFromCacheUseCase(
                 ioDispatcher = ioDispatcher,
                 cacheDataSource = pokemonInfoCacheDataSource
             ),
-            getLaunchListFromNetworkAndInsertToCacheUseCase = GetLaunchListFromNetworkAndInsertToCacheUseCase(
+            getPokemonListFromNetworkAndInsertToCacheUseCase = GetPokemonListFromNetworkAndInsertToCacheUseCase(
                 ioDispatcher = ioDispatcher,
-                launchNetworkDataSource = pokemonNetworkDataSource,
+                pokemonNetworkDataSource = pokemonNetworkDataSource,
                 cacheDataSource = pokemonInfoCacheDataSource
             ),
-            getNumLaunchItemsFromCacheUseCase = GetNumLaunchItemsFromCacheUseCase(
+            getNumPokeListFromCacheUseCase = GetNumPokeListFromCacheUseCase(
                 ioDispatcher = ioDispatcher,
                 cacheDataSource = pokemonInfoCacheDataSource
             ),
-            filterLaunchItemsInCacheUseCase = FilterLaunchItemsInCacheUseCase(
+            filterPokemonItemsInCacheUseCase = FilterPokemonItemsInCacheUseCase(
                 ioDispatcher = ioDispatcher,
                 cacheDataSource = pokemonInfoCacheDataSource
             )

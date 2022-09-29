@@ -4,7 +4,8 @@ import com.seancoyle.core.testing.MainCoroutineRule
 import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
 import com.seancoyle.launch_datasource_test.LaunchDependencies
 import com.seancoyle.launch_models.model.launch.LaunchModel
-import com.seancoyle.launch_usecases.launch.GetAllLaunchItemsFromCacheUseCase.Companion.GET_ALL_LAUNCH_ITEMS_SUCCESS
+import com.seancoyle.launch_usecases.pokelist.GetAllPokemonFromCacheUseCase
+import com.seancoyle.launch_usecases.pokelist.GetAllPokemonFromCacheUseCase.Companion.GET_ALL_LAUNCH_ITEMS_SUCCESS
 import com.seancoyle.launch_viewstate.PokemonStateEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -22,13 +23,13 @@ Test cases:
     d) compare with the total number with the results from the fake data set
 */
 @OptIn(ExperimentalCoroutinesApi::class)
-class GetAllLaunchItemsFromCacheUseCaseTest {
+class GetAllPokemonFromCacheUseCaseTest {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
     // system in test
-    private lateinit var getAllLaunchItems: GetAllLaunchItemsFromCacheUseCase
+    private lateinit var getAllLaunchItems: GetAllPokemonFromCacheUseCase
 
     // dependencies
     private val launchDependencies: LaunchDependencies = LaunchDependencies()
@@ -38,7 +39,7 @@ class GetAllLaunchItemsFromCacheUseCaseTest {
     fun init() {
         launchDependencies.build()
         cacheDataSource = launchDependencies.pokemonInfoCacheDataSource
-        getAllLaunchItems = GetAllLaunchItemsFromCacheUseCase(
+        getAllLaunchItems = GetAllPokemonFromCacheUseCase(
             ioDispatcher = mainCoroutineRule.testDispatcher,
             cacheDataSource = cacheDataSource
         )

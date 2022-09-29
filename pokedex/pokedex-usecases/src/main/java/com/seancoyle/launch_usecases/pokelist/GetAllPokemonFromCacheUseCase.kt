@@ -1,19 +1,19 @@
-package com.seancoyle.launch_usecases.launch
+package com.seancoyle.launch_usecases.pokelist
 
 import com.seancoyle.core.cache.CacheResponseHandler
 import com.seancoyle.core.di.IODispatcher
 import com.seancoyle.core.network.safeCacheCall
 import com.seancoyle.core.state.*
-import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
-import com.seancoyle.launch_models.model.launch.LaunchModel
+import com.seancoyle.launch_datasource.cache.pokemon.PokeListCacheDataSource
+import com.seancoyle.launch_models.model.Pokemon
 import com.seancoyle.launch_viewstate.PokemonViewState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class GetAllLaunchItemsFromCacheUseCase(
+class GetAllPokemonFromCacheUseCase(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val cacheDataSource: PokemonInfoCacheDataSource
+    private val cacheDataSource: PokeListCacheDataSource
 ){
 
     operator fun invoke(
@@ -24,11 +24,11 @@ class GetAllLaunchItemsFromCacheUseCase(
             cacheDataSource.getAll()
         }
 
-        val response = object: CacheResponseHandler<PokemonViewState, List<LaunchModel>?>(
+        val response = object: CacheResponseHandler<PokemonViewState, List<Pokemon>?>(
             response = cacheResult,
             stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: List<LaunchModel>?): DataState<PokemonViewState> {
+            override suspend fun handleSuccess(resultObj: List<Pokemon>?): DataState<PokemonViewState> {
                 var message: String? =
                     GET_ALL_LAUNCH_ITEMS_SUCCESS
                 var uiComponentType: UIComponentType? = UIComponentType.None
@@ -44,7 +44,7 @@ class GetAllLaunchItemsFromCacheUseCase(
                         messageType = MessageType.Success
                     ),
                     data = PokemonViewState(
-                        pokemonList = resultObj as ArrayList<LaunchModel>?
+                        pokemonListCache = resultObj as ArrayList<Pokemon>?
                     ),
                     stateEvent = stateEvent
                 )

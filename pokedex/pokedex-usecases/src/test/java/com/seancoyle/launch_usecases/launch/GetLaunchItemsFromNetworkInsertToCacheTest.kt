@@ -7,8 +7,9 @@ import com.seancoyle.launch_datasource_test.LaunchDependencies
 import com.seancoyle.launch_datasource_test.network.MockWebServerResponseLaunchList.launchList
 import com.seancoyle.launch_models.model.launch.LaunchFactory
 import com.seancoyle.launch_models.model.launch.LaunchModel
-import com.seancoyle.launch_usecases.launch.GetLaunchListFromNetworkAndInsertToCacheUseCase.Companion.LAUNCH_ERROR
-import com.seancoyle.launch_usecases.launch.GetLaunchListFromNetworkAndInsertToCacheUseCase.Companion.LAUNCH_INSERT_SUCCESS
+import com.seancoyle.launch_usecases.pokelist.GetPokemonListFromNetworkAndInsertToCacheUseCase
+import com.seancoyle.launch_usecases.pokelist.GetPokemonListFromNetworkAndInsertToCacheUseCase.Companion.LAUNCH_ERROR
+import com.seancoyle.launch_usecases.pokelist.GetPokemonListFromNetworkAndInsertToCacheUseCase.Companion.LAUNCH_INSERT_SUCCESS
 import com.seancoyle.launch_viewstate.PokemonStateEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -29,7 +30,7 @@ class GetLaunchItemsFromNetworkInsertToCacheTest {
     var mainCoroutineRule = MainCoroutineRule()
 
     // system in test
-    private lateinit var getLaunchListFromNetworkAndInsertToCacheUseCase: GetLaunchListFromNetworkAndInsertToCacheUseCase
+    private lateinit var getPokemonListFromNetworkAndInsertToCacheUseCase: GetPokemonListFromNetworkAndInsertToCacheUseCase
 
     // dependencies
     private val dependencies: LaunchDependencies = LaunchDependencies()
@@ -47,7 +48,7 @@ class GetLaunchItemsFromNetworkInsertToCacheTest {
         mockWebServer = dependencies.mockWebServer
 
         // instantiate the system in test
-        getLaunchListFromNetworkAndInsertToCacheUseCase = GetLaunchListFromNetworkAndInsertToCacheUseCase(
+        getPokemonListFromNetworkAndInsertToCacheUseCase = GetPokemonListFromNetworkAndInsertToCacheUseCase(
             ioDispatcher = mainCoroutineRule.testDispatcher,
             cacheDataSource = cacheDataSource,
             launchNetworkDataSource = networkDataSource
@@ -74,7 +75,7 @@ class GetLaunchItemsFromNetworkInsertToCacheTest {
         assertTrue(cacheDataSource.getAll()?.isEmpty() == true)
 
         // execute use case
-        getLaunchListFromNetworkAndInsertToCacheUseCase(
+        getPokemonListFromNetworkAndInsertToCacheUseCase(
             launchOptions = dependencies.launchOptions,
             stateEvent = PokemonStateEvent.GetPokemonItemsFromNetworkAndInsertToCacheEvent(
                 launchOptions = dependencies.launchOptions
@@ -111,7 +112,7 @@ class GetLaunchItemsFromNetworkInsertToCacheTest {
         )
 
         // execute use case
-        getLaunchListFromNetworkAndInsertToCacheUseCase(
+        getPokemonListFromNetworkAndInsertToCacheUseCase(
             launchOptions = dependencies.launchOptions,
             stateEvent = PokemonStateEvent.GetPokemonItemsFromNetworkAndInsertToCacheEvent(
                 launchOptions = dependencies.launchOptions

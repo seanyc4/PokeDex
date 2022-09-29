@@ -16,7 +16,7 @@ import com.seancoyle.launch_models.model.launch.LaunchOptions
 import com.seancoyle.launch_models.model.launch.LaunchType
 import com.seancoyle.launch_models.model.launch.SectionTitle
 import com.seancoyle.launch_usecases.company.CompanyInfoUseCases
-import com.seancoyle.launch_usecases.launch.PokemonUseCases
+import com.seancoyle.launch_usecases.pokelist.PokeListUseCases
 import com.seancoyle.launch_viewstate.PokemonStateEvent.*
 import com.seancoyle.launch_viewstate.PokemonViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,7 +31,7 @@ class LaunchViewModel
 @Inject
 constructor(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val pokemonUseCases: PokemonUseCases,
+    private val pokeListUseCases: PokeListUseCases,
     private val companyInfoUseCases: CompanyInfoUseCases,
     val launchOptions: LaunchOptions,
     private val appDataStoreManager: AppDataStore,
@@ -74,14 +74,14 @@ constructor(
         val job: Flow<DataState<PokemonViewState>?> = when (stateEvent) {
 
             is GetPokemonItemsFromNetworkAndInsertToCacheEvent -> {
-                pokemonUseCases.getLaunchListFromNetworkAndInsertToCacheUseCase.invoke(
+                pokeListUseCases.getPokemonListFromNetworkAndInsertToCacheUseCase.invoke(
                     launchOptions = stateEvent.launchOptions,
                     stateEvent = stateEvent
                 )
             }
 
             is GetAllPokemonItemsFromCacheEvent -> {
-                pokemonUseCases.getAllLaunchItemsFromCacheUseCase.invoke(
+                pokeListUseCases.getAllPokemonFromCacheUseCase.invoke(
                     stateEvent = stateEvent
                 )
             }
@@ -102,7 +102,7 @@ constructor(
                 if (stateEvent.clearLayoutManagerState) {
                     clearLayoutManagerState()
                 }
-                pokemonUseCases.filterLaunchItemsInCacheUseCase.invoke(
+                pokeListUseCases.filterPokemonItemsInCacheUseCase.invoke(
                     year = getSearchQuery(),
                     order = getOrder(),
                     launchFilter = getFilter(),
@@ -112,7 +112,7 @@ constructor(
             }
 
             is GetNumPokemonItemsInCacheEvent -> {
-                pokemonUseCases.getNumLaunchItemsFromCacheUseCase.invoke(
+                pokeListUseCases.getNumPokeListFromCacheUseCase.invoke(
                     stateEvent = stateEvent
                 )
             }

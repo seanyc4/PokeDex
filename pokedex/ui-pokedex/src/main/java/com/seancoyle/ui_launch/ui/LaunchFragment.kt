@@ -34,9 +34,9 @@ import com.seancoyle.launch_models.model.launch.LaunchType
 import com.seancoyle.launch_models.model.launch.Links
 import com.seancoyle.launch_usecases.company.GetCompanyInfoFromCacheUseCase
 import com.seancoyle.launch_usecases.company.GetCompanyInfoFromNetworkAndInsertToCacheUseCase
-import com.seancoyle.launch_usecases.launch.FilterLaunchItemsInCacheUseCase
-import com.seancoyle.launch_usecases.launch.GetAllLaunchItemsFromCacheUseCase
-import com.seancoyle.launch_usecases.launch.GetLaunchListFromNetworkAndInsertToCacheUseCase
+import com.seancoyle.launch_usecases.pokelist.FilterPokemonItemsInCacheUseCase
+import com.seancoyle.launch_usecases.pokelist.GetAllPokemonFromCacheUseCase
+import com.seancoyle.launch_usecases.pokelist.GetPokemonListFromNetworkAndInsertToCacheUseCase
 import com.seancoyle.launch_viewstate.PokemonStateEvent
 import com.seancoyle.launch_viewstate.PokemonViewState
 import com.seancoyle.ui_launch.R
@@ -183,18 +183,18 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
                         getLaunchListFromNetworkAndInsertToCacheEvent()
                     }
 
-                    GetLaunchListFromNetworkAndInsertToCacheUseCase.LAUNCH_INSERT_SUCCESS -> {
+                    GetPokemonListFromNetworkAndInsertToCacheUseCase.LAUNCH_INSERT_SUCCESS -> {
                         viewModel.clearStateMessage()
                         filterLaunchItemsInCacheEvent()
                         getTotalNumEntriesInLaunchCacheEvent()
                     }
 
-                    FilterLaunchItemsInCacheUseCase.SEARCH_LAUNCH_SUCCESS -> {
+                    FilterPokemonItemsInCacheUseCase.SEARCH_LAUNCH_SUCCESS -> {
                         viewModel.clearStateMessage()
                         submitList()
                     }
 
-                    GetAllLaunchItemsFromCacheUseCase.GET_ALL_LAUNCH_ITEMS_SUCCESS -> {
+                    GetAllPokemonFromCacheUseCase.GET_ALL_LAUNCH_ITEMS_SUCCESS -> {
                         viewModel.clearStateMessage()
                         submitList()
                     }
@@ -211,12 +211,12 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
 
                         when (response.message) {
                             // Check cache for data if net connection fails
-                            GetLaunchListFromNetworkAndInsertToCacheUseCase.LAUNCH_INSERT_FAILED -> {
+                            GetPokemonListFromNetworkAndInsertToCacheUseCase.LAUNCH_INSERT_FAILED -> {
                                 getTotalNumEntriesInLaunchCacheEvent()
                                 filterLaunchItemsInCacheEvent()
                             }
 
-                            GetLaunchListFromNetworkAndInsertToCacheUseCase.LAUNCH_ERROR -> {
+                            GetPokemonListFromNetworkAndInsertToCacheUseCase.LAUNCH_ERROR -> {
                                 getTotalNumEntriesInLaunchCacheEvent()
                                 filterLaunchItemsInCacheEvent()
                             }

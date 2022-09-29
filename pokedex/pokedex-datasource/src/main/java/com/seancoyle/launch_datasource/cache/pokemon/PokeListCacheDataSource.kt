@@ -2,7 +2,7 @@ package com.seancoyle.launch_datasource.cache.pokemon
 
 import com.seancoyle.launch_models.model.Pokemon
 
-interface PokemonCacheDataSource {
+interface PokeListCacheDataSource {
 
     suspend fun insert(pokemon: Pokemon): Long
 

@@ -9,7 +9,7 @@ import com.seancoyle.launch_datasource_test.CompanyDependencies
 import com.seancoyle.launch_datasource_test.LaunchDependencies
 import com.seancoyle.launch_models.model.launch.LaunchOptions
 import com.seancoyle.launch_usecases.company.CompanyInfoUseCases
-import com.seancoyle.launch_usecases.launch.PokemonUseCases
+import com.seancoyle.launch_usecases.pokelist.PokeListUseCases
 import com.seancoyle.ui_launch.ui.LaunchViewModel
 import io.mockk.mockk
 import kotlinx.coroutines.*
@@ -33,7 +33,7 @@ class LaunchViewModelTest {
     var mainCoroutineRule = MainCoroutineRule()
 
     private lateinit var launchOptions: LaunchOptions
-    private var pokemonUseCases = mockk<PokemonUseCases>(relaxed = true)
+    private var pokeListUseCases = mockk<PokeListUseCases>(relaxed = true)
     private var companyInfoUseCases = mockk<CompanyInfoUseCases>(relaxed = true)
     private var dependencyContainer: LaunchDependencies = LaunchDependencies()
     private var companyDependencyContainer: CompanyDependencies = CompanyDependencies()
@@ -51,7 +51,7 @@ class LaunchViewModelTest {
     private fun getViewModel(): LaunchViewModel {
         return LaunchViewModel(
             ioDispatcher = mainCoroutineRule.testDispatcher,
-            launchUseCases = pokemonUseCases,
+            launchUseCases = pokeListUseCases,
             companyInfoUseCases = companyInfoUseCases,
             launchOptions = launchOptions,
             appDataStoreManager = dataStore

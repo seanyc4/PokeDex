@@ -1,4 +1,4 @@
-package com.seancoyle.launch_usecases.launch
+package com.seancoyle.launch_usecases.pokelist
 
 
 import com.seancoyle.core.cache.CacheResponseHandler
@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class GetNumLaunchItemsFromCacheUseCase(
+class GetNumPokeListFromCacheUseCase(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
     private val cacheDataSource: PokemonInfoCacheDataSource
 ) {
