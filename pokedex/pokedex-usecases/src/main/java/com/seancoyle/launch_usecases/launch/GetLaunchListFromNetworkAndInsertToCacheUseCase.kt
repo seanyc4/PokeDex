@@ -6,7 +6,7 @@ import com.seancoyle.core.network.ApiResponseHandler
 import com.seancoyle.core.network.safeApiCall
 import com.seancoyle.core.network.safeCacheCall
 import com.seancoyle.core.state.*
-import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
 import com.seancoyle.launch_models.model.launch.LaunchModel
 import com.seancoyle.launch_models.model.launch.LaunchOptions
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.flow
 class GetLaunchListFromNetworkAndInsertToCacheUseCase
 constructor(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val cacheDataSource: PokemonCacheDataSource,
+    private val cacheDataSource: PokemonInfoCacheDataSource,
     private val pokemonNetworkDataSource: PokemonNetworkDataSource
 ) {
 

@@ -1,9 +1,9 @@
 package com.seancoyle.launch_datasource.di.cache
 
-import com.seancoyle.database.daos.PokemonDao
-import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
-import com.seancoyle.launch_datasource.cache.PokemonCacheDataSourceImpl
-import com.seancoyle.launch_datasource.cache.PokemonEntityMapper
+import com.seancoyle.database.daos.PokeInfoDao
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSourceImpl
+import com.seancoyle.launch_datasource.cache.pokemon.PokemonEntityMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,10 +17,10 @@ object PokemonCacheDataSourceModule {
     @Singleton
     @Provides
     fun providePokemonCacheDataSource(
-        dao: PokemonDao,
+        dao: PokeInfoDao,
         pokemonEntityMapper: PokemonEntityMapper
-    ): PokemonCacheDataSource {
-        return PokemonCacheDataSourceImpl(
+    ): PokemonInfoCacheDataSource {
+        return PokemonInfoCacheDataSourceImpl(
             dao = dao,
             entityMapper = pokemonEntityMapper
         )

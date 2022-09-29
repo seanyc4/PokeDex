@@ -1,7 +1,7 @@
 package com.seancoyle.launch_datasource_test.network.launch
 
 import com.seancoyle.core.testing.JsonFileReader
-import com.seancoyle.launch_datasource.network.PokemonDto
+import com.seancoyle.launch_datasource.network.PokemonInfoDto
 import com.seancoyle.launch_datasource.network.PokemonListDto
 import com.seancoyle.launch_datasource.network.api.PokemonApi
 import javax.inject.Singleton
@@ -13,7 +13,7 @@ class FakePokemonApi(
     private val jsonFileReader: JsonFileReader
 ) : PokemonApi {
 
-    override suspend fun getPokemon(name: String): PokemonDto {
+    override suspend fun getPokemon(name: String): PokemonInfoDto {
         TODO("Not yet implemented")
         /*return Gson()
             .fromJson(

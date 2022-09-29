@@ -4,9 +4,9 @@ import com.seancoyle.launch_models.model.*
 
 class PokemonNetworkMapper {
 
-    fun mapToDomain(dto: PokemonDto): Pokemon {
+    fun mapToDomain(dto: PokemonInfoDto): PokemonInfo {
         dto.apply {
-            return Pokemon(
+            return PokemonInfo(
                 abilities = abilities.map { ability ->
                     Ability(
                         ability = AbilityX(
@@ -204,6 +204,29 @@ class PokemonNetworkMapper {
             )
         }
     }
+
+    fun mapListToDomain(listDto: PokemonListDto): PokemonList {
+        listDto.apply {
+            return PokemonList(
+                count = count ?: 0,
+                next = next.orEmpty(),
+                previous = previous.orEmpty(),
+                results = results?.map { result ->
+                    Pokemon(
+                        name = result?.name.orEmpty(),
+                        url = result?.url.orEmpty(),
+                        image = getImageUrl(result?.url)
+                    )
+                } ?: emptyList()
+            )
+        }
+    }
+
+    private fun getImageUrl(url:String?): String {
+        val index = url?.split("/".toRegex())?.dropLast(1)?.last()
+        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$index.png"
+    }
+
 }
 
 

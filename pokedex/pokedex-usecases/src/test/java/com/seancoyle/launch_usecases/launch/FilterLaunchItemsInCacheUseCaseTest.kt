@@ -8,7 +8,7 @@ import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_SUCCESS
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_UNKNOWN
 import com.seancoyle.core.cache.CacheErrors
 import com.seancoyle.core.testing.MainCoroutineRule
-import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
 import com.seancoyle.launch_datasource_test.LaunchDependencies
 import com.seancoyle.launch_models.model.launch.LaunchModel
 import com.seancoyle.launch_usecases.launch.FilterLaunchItemsInCacheUseCase.Companion.SEARCH_LAUNCH_NO_MATCHING_RESULTS
@@ -31,14 +31,14 @@ class FilterLaunchItemsInCacheUseCaseTest {
 
     private lateinit var filterLaunchItems: FilterLaunchItemsInCacheUseCase
     private val launchDependencies: LaunchDependencies = LaunchDependencies()
-    private lateinit var cacheDataSource: PokemonCacheDataSource
+    private lateinit var cacheDataSource: PokemonInfoCacheDataSource
     lateinit var validLaunchYears: List<String>
 
     @BeforeEach
     fun init() {
         launchDependencies.build()
         validLaunchYears = launchDependencies.launchDataFactory.provideValidFilterYearDates()
-        cacheDataSource = launchDependencies.pokemonCacheDataSource
+        cacheDataSource = launchDependencies.pokemonInfoCacheDataSource
         filterLaunchItems = FilterLaunchItemsInCacheUseCase(
             ioDispatcher = mainCoroutineRule.testDispatcher,
             cacheDataSource = cacheDataSource

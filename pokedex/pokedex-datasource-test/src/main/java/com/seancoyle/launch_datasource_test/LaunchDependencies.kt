@@ -4,12 +4,12 @@ import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_OPTIONS_ROCKET
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_OPTIONS_SORT
 import com.seancoyle.core.util.DateFormatConstants.YYYY_MM_DD_HH_MM_SS
 import com.seancoyle.core.util.isUnitTest
-import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkMapper
 import com.seancoyle.launch_datasource.network.dateformatter.DateFormatterImpl
 import com.seancoyle.launch_datasource.network.datetransformer.DateTransformerImpl
-import com.seancoyle.launch_datasource_test.cache.launch.FakePokemonCacheDataSourceImpl
+import com.seancoyle.launch_datasource_test.cache.launch.FakePokemonInfoCacheDataSourceImpl
 import com.seancoyle.launch_datasource_test.network.launch.FakePokemonNetworkDataSourceImpl
 import com.seancoyle.launch_models.model.launch.*
 import okhttp3.HttpUrl
@@ -26,7 +26,7 @@ class LaunchDependencies {
 
     private val dateFormatter = DateFormatterImpl(dateFormat)
     private val dateTransformer = DateTransformerImpl()
-    lateinit var pokemonCacheDataSource: PokemonCacheDataSource
+    lateinit var pokemonInfoCacheDataSource: PokemonInfoCacheDataSource
     lateinit var launchFactory: LaunchFactory
     lateinit var launchDataFactory: LaunchDataFactory
     lateinit var launchOptions: LaunchOptions
@@ -59,7 +59,7 @@ class LaunchDependencies {
             networkMapper = networkMapper
         )
 
-        pokemonCacheDataSource = FakePokemonCacheDataSourceImpl(
+        pokemonInfoCacheDataSource = FakePokemonInfoCacheDataSourceImpl(
             fakeLaunchDatabase = launchDataFactory.produceFakeAppDatabase(
                 launchDataFactory.produceListOfLaunchItems()
             ),

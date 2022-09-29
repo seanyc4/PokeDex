@@ -1,6 +1,6 @@
 package com.seancoyle.launch_datasource.network.api
 
-import com.seancoyle.launch_datasource.network.PokemonDto
+import com.seancoyle.launch_datasource.network.PokemonInfoDto
 import com.seancoyle.launch_datasource.network.PokemonListDto
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -12,7 +12,7 @@ interface PokemonApi {
     suspend fun getPokemon(
         @Path(value = "name")
         name: String
-    ): PokemonDto
+    ): PokemonInfoDto
 
     @GET("api/v2/pokemon")
     suspend fun getPokemonList(

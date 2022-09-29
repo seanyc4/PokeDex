@@ -2,7 +2,7 @@ package com.seancoyle.launch_viewstate
 
 import com.seancoyle.core.state.StateEvent
 import com.seancoyle.core.state.StateMessage
-import com.seancoyle.launch_models.model.Pokemon
+import com.seancoyle.launch_models.model.PokemonInfo
 
 sealed class PokemonStateEvent : StateEvent {
 
@@ -66,7 +66,7 @@ sealed class PokemonStateEvent : StateEvent {
 
     class InsertPokemonItemsToCacheEvent
     constructor(
-        private val pokemonList: List<Pokemon>
+        private val pokemonInfoList: List<PokemonInfo>
     ): PokemonStateEvent() {
 
         override fun errorInfo(): String {

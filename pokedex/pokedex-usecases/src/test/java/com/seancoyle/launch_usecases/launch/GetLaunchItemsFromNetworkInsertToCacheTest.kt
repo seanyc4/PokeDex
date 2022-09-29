@@ -1,7 +1,7 @@
 package com.seancoyle.launch_usecases.launch
 
 import com.seancoyle.core.testing.MainCoroutineRule
-import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
 import com.seancoyle.launch_datasource_test.LaunchDependencies
 import com.seancoyle.launch_datasource_test.network.MockWebServerResponseLaunchList.launchList
@@ -33,7 +33,7 @@ class GetLaunchItemsFromNetworkInsertToCacheTest {
 
     // dependencies
     private val dependencies: LaunchDependencies = LaunchDependencies()
-    private lateinit var cacheDataSource: PokemonCacheDataSource
+    private lateinit var cacheDataSource: PokemonInfoCacheDataSource
     private lateinit var networkDataSource: PokemonNetworkDataSource
     private lateinit var factory: LaunchFactory
     private lateinit var mockWebServer: MockWebServer
@@ -41,7 +41,7 @@ class GetLaunchItemsFromNetworkInsertToCacheTest {
     @BeforeEach
     fun setup() {
         dependencies.build()
-        cacheDataSource = dependencies.pokemonCacheDataSource
+        cacheDataSource = dependencies.pokemonInfoCacheDataSource
         networkDataSource = dependencies.networkDataSource
         factory = dependencies.launchFactory
         mockWebServer = dependencies.mockWebServer

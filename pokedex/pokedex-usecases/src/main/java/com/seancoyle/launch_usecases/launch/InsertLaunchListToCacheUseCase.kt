@@ -4,7 +4,7 @@ import com.seancoyle.core.cache.CacheResponseHandler
 import com.seancoyle.core.di.IODispatcher
 import com.seancoyle.core.network.safeCacheCall
 import com.seancoyle.core.state.*
-import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
 import com.seancoyle.launch_models.model.launch.LaunchModel
 import com.seancoyle.launch_viewstate.PokemonViewState
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.flow
 
 class InsertLaunchListToCacheUseCase(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val cacheDataSource: PokemonCacheDataSource
+    private val cacheDataSource: PokemonInfoCacheDataSource
 ) {
 
     operator fun invoke(

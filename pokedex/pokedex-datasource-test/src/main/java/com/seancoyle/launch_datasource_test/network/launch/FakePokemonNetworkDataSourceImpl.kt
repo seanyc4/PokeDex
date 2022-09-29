@@ -4,7 +4,7 @@ import com.google.gson.GsonBuilder
 import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkMapper
 import com.seancoyle.launch_datasource.network.api.PokemonApi
-import com.seancoyle.launch_models.model.Pokemon
+import com.seancoyle.launch_models.model.PokemonInfo
 import com.seancoyle.launch_models.model.PokemonList
 import okhttp3.HttpUrl
 import retrofit2.Retrofit
@@ -22,7 +22,7 @@ constructor(
         .build()
         .create(PokemonApi::class.java)
 
-    override suspend fun getPokemon(name: String): Pokemon {
+    override suspend fun getPokemon(name: String): PokemonInfo {
         TODO("Not yet implemented")
     }
 

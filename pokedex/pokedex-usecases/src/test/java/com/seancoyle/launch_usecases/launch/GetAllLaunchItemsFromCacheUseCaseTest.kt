@@ -1,7 +1,7 @@
 package com.seancoyle.launch_usecases.launch
 
 import com.seancoyle.core.testing.MainCoroutineRule
-import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
 import com.seancoyle.launch_datasource_test.LaunchDependencies
 import com.seancoyle.launch_models.model.launch.LaunchModel
 import com.seancoyle.launch_usecases.launch.GetAllLaunchItemsFromCacheUseCase.Companion.GET_ALL_LAUNCH_ITEMS_SUCCESS
@@ -32,12 +32,12 @@ class GetAllLaunchItemsFromCacheUseCaseTest {
 
     // dependencies
     private val launchDependencies: LaunchDependencies = LaunchDependencies()
-    private lateinit var cacheDataSource: PokemonCacheDataSource
+    private lateinit var cacheDataSource: PokemonInfoCacheDataSource
 
     @BeforeEach
     fun init() {
         launchDependencies.build()
-        cacheDataSource = launchDependencies.pokemonCacheDataSource
+        cacheDataSource = launchDependencies.pokemonInfoCacheDataSource
         getAllLaunchItems = GetAllLaunchItemsFromCacheUseCase(
             ioDispatcher = mainCoroutineRule.testDispatcher,
             cacheDataSource = cacheDataSource

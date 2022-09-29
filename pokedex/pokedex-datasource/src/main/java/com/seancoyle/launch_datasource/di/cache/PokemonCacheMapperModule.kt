@@ -1,6 +1,6 @@
 package com.seancoyle.launch_datasource.di.cache
 
-import com.seancoyle.launch_datasource.cache.PokemonEntityMapper
+import com.seancoyle.launch_datasource.cache.pokemon.PokemonEntityMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

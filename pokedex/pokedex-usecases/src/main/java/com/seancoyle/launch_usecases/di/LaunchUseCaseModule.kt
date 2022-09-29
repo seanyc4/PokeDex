@@ -1,7 +1,7 @@
 package com.seancoyle.launch_usecases.di
 
 import com.seancoyle.core.di.IODispatcher
-import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
 import com.seancoyle.launch_usecases.launch.*
 import dagger.Module
@@ -19,26 +19,26 @@ object LaunchUseCaseModule {
     @Provides
     fun provideLaunchUseCases(
         @IODispatcher ioDispatcher: CoroutineDispatcher,
-        pokemonCacheDataSource: PokemonCacheDataSource,
+        pokemonInfoCacheDataSource: PokemonInfoCacheDataSource,
         pokemonNetworkDataSource: PokemonNetworkDataSource
     ): PokemonUseCases {
         return PokemonUseCases(
             getAllLaunchItemsFromCacheUseCase = GetAllLaunchItemsFromCacheUseCase(
                 ioDispatcher = ioDispatcher,
-                cacheDataSource = pokemonCacheDataSource
+                cacheDataSource = pokemonInfoCacheDataSource
             ),
             getLaunchListFromNetworkAndInsertToCacheUseCase = GetLaunchListFromNetworkAndInsertToCacheUseCase(
                 ioDispatcher = ioDispatcher,
                 launchNetworkDataSource = pokemonNetworkDataSource,
-                cacheDataSource = pokemonCacheDataSource
+                cacheDataSource = pokemonInfoCacheDataSource
             ),
             getNumLaunchItemsFromCacheUseCase = GetNumLaunchItemsFromCacheUseCase(
                 ioDispatcher = ioDispatcher,
-                cacheDataSource = pokemonCacheDataSource
+                cacheDataSource = pokemonInfoCacheDataSource
             ),
             filterLaunchItemsInCacheUseCase = FilterLaunchItemsInCacheUseCase(
                 ioDispatcher = ioDispatcher,
-                cacheDataSource = pokemonCacheDataSource
+                cacheDataSource = pokemonInfoCacheDataSource
             )
         )
     }

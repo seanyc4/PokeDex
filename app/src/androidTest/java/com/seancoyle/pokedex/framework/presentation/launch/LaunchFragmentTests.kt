@@ -16,8 +16,8 @@ import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_FAILED
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_SUCCESS
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_UNKNOWN
 import com.seancoyle.core_datastore.AppDataStore
-import com.seancoyle.launch_datasource.cache.PokemonCacheDataSource
 import com.seancoyle.launch_datasource.cache.abstraction.company.CompanyInfoCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
 import com.seancoyle.launch_datasource.network.abstraction.company.CompanyInfoNetworkDataSource
 import com.seancoyle.launch_datasource.network.datetransformer.DateTransformer
@@ -82,7 +82,7 @@ class LaunchFragmentTests {
     val espressoIdlingResourceRule = EspressoIdlingResourceRule()
 
     @Inject
-    lateinit var pokemonCacheDataSource: PokemonCacheDataSource
+    lateinit var pokemonInfoCacheDataSource: PokemonInfoCacheDataSource
 
     @Inject
     lateinit var companyInfoCacheDataSource: CompanyInfoCacheDataSource
@@ -123,11 +123,11 @@ class LaunchFragmentTests {
         testCompanyInfoList = companyInfoNetworkDataSource.getCompanyInfo()
 
         // clear any existing data so recyclerview isn't overwhelmed
-        pokemonCacheDataSource.deleteAll()
+        pokemonInfoCacheDataSource.deleteAll()
         companyInfoCacheDataSource.deleteAll()
 
         // Insert data to fake in memory room database
-        pokemonCacheDataSource.insertList(testLaunchList)
+        pokemonInfoCacheDataSource.insertList(testLaunchList)
         companyInfoCacheDataSource.insert(testCompanyInfoList)
     }
 
@@ -691,7 +691,7 @@ class LaunchFragmentTests {
         order: String? = LAUNCH_ORDER_DESC,
         isLaunchSuccess: Int? = null
     ): List<LaunchModel> {
-        return pokemonCacheDataSource.filterLaunchList(
+        return pokemonInfoCacheDataSource.filterLaunchList(
             year = year ?: "",
             order = order ?: LAUNCH_ORDER_DESC,
             launchFilter = isLaunchSuccess,

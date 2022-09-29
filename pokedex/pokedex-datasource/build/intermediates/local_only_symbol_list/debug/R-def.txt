@@ -1,12 +1,2 @@
 R_DEF: Internal format may change without notice
 local
-drawable ic_launch_fail
-drawable ic_launch_success
-drawable ic_launch_unknown
-string app_name
-string company_info
-string date_data
-string days_data
-string days_from_now
-string days_since_now
-string rocket_data

@@ -3079,9 +3079,6 @@ int drawable design_password_eye 0x0
 int drawable design_snackbar_background 0x0
 int drawable ic_clock_black_24dp 0x0
 int drawable ic_keyboard_black_24dp 0x0
-int drawable ic_launch_fail 0x0
-int drawable ic_launch_success 0x0
-int drawable ic_launch_unknown 0x0
 int drawable ic_m3_chip_check 0x0
 int drawable ic_m3_chip_checked_circle 0x0
 int drawable ic_m3_chip_close 0x0

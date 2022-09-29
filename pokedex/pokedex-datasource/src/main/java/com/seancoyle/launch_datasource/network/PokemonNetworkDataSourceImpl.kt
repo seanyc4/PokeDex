@@ -1,7 +1,7 @@
 package com.seancoyle.launch_datasource.network
 
 import com.seancoyle.launch_datasource.network.api.PokemonApi
-import com.seancoyle.launch_models.model.Pokemon
+import com.seancoyle.launch_models.model.PokemonInfo
 import com.seancoyle.launch_models.model.PokemonList
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,14 +15,14 @@ constructor(
     private val networkMapper: PokemonNetworkMapper
 ) : PokemonNetworkDataSource {
 
-    override suspend fun getPokemon(name: String): Pokemon {
+    override suspend fun getPokemon(name: String): PokemonInfo {
         return networkMapper.mapToDomain(
             api.getPokemon(name = name)
         )
     }
 
-    override suspend fun getPokemonList(limit: Int, offset: Int): List<PokemonList> {
-        return networkMapper.mapListDtoToDomain(
+    override suspend fun getPokemonList(limit: Int, offset: Int): PokemonList {
+        return networkMapper.mapListToDomain(
             api.getPokemonList(
                 limit = limit,
                 offset = offset
