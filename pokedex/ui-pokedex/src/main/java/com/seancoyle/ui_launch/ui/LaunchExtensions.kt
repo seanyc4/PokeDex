@@ -10,14 +10,14 @@ fun ImageView.glideLoadLaunchImage(url: String?, withCrossFade: Boolean? = true)
     if (withCrossFade == true) {
         Glide.with(this)
             .load(url)
-            .error(R.drawable.default_mission_image)
+            .error(R.drawable.pokemon_logo)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(this)
     } else {
         Glide.with(this)
             .load(url)
-            .error(R.drawable.default_mission_image)
+            .error(R.drawable.pokemon_logo)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(this)
     }

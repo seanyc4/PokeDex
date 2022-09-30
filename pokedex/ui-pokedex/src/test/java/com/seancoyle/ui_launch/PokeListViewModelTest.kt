@@ -5,8 +5,6 @@ import com.seancoyle.core.testing.InstantExecutorExtension
 import com.seancoyle.core.testing.MainCoroutineRule
 import com.seancoyle.core.testing.getOrAwaitValue
 import com.seancoyle.core_datastore_test.AppDataStoreManagerFake
-import com.seancoyle.launch_datasource_test.CompanyDependencies
-import com.seancoyle.launch_datasource_test.LaunchDependencies
 import com.seancoyle.launch_usecases.company.CompanyInfoUseCases
 import com.seancoyle.launch_usecases.pokelist.PokeListUseCases
 import com.seancoyle.poke_domain.model.launch.LaunchOptions

@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Keep
 @Entity(tableName = "poke_list")
 data class PokeListEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     val name: String,
 
     @ColumnInfo(name = "url")

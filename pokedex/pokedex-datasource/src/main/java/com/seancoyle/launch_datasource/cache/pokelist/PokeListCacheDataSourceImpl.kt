@@ -30,8 +30,8 @@ constructor(
         )
     }
 
-    override suspend fun getById(id: Int): Pokemon? {
-        return dao.getById(id = id)?.let {
+    override suspend fun getById(name: String): Pokemon? {
+        return dao.getById(name = name)?.let {
             entityMapper.mapToDomain(it)
         }
     }

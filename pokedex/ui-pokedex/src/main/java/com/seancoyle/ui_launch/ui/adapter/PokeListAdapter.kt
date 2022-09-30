@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.*
 import com.seancoyle.core.util.printLogDebug
 import com.seancoyle.launch_models.model.Pokemon
-import com.seancoyle.ui_launch.databinding.RvLaunchItemBinding
+import com.seancoyle.ui_launch.databinding.RvPokeListItemBinding
+import com.seancoyle.ui_launch.ui.glideLoadLaunchImage
 
 class PokeListAdapter
 constructor(
@@ -57,7 +58,7 @@ constructor(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return PokeListViewHolder(
-            RvLaunchItemBinding.inflate(
+            RvPokeListItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -90,21 +91,18 @@ constructor(
 
     inner class PokeListViewHolder
     constructor(
-        private val binding: RvLaunchItemBinding,
+        private val binding: RvPokeListItemBinding,
         private val interaction: Interaction?,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Pokemon) = with(itemView) {
             with(binding) {
-
-                /*    launchImage.glideLoadLaunchImage(item.links.missionImage, true)
-
+                pokeImage.glideLoadLaunchImage(item.image, true)
+                pokeName.text = item.name
             }
 
             setOnClickListener {
-                interaction?.onItemSelected(absoluteAdapterPosition, item.links)
-            }
-    */
+                interaction?.onItemSelected(item)
             }
         }
     }
@@ -117,7 +115,6 @@ constructor(
         fun restoreListPosition()
 
     }
-
 }
 
 

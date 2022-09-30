@@ -6,7 +6,7 @@ interface PokeListCacheDataSource {
 
     suspend fun insert(pokemon: Pokemon): Long
 
-    suspend fun getById(id: Int): Pokemon?
+    suspend fun getById(name: String): Pokemon?
 
     suspend fun getAll(): List<Pokemon>?
 

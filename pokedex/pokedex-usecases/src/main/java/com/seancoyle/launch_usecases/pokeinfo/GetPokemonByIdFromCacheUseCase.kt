@@ -17,13 +17,13 @@ class GetPokemonByIdFromCacheUseCase(
 ) {
 
     operator fun invoke(
-        id: Int,
+        name: String,
         stateEvent: StateEvent
     ): Flow<DataState<PokemonViewState>?> = flow {
 
         val cacheResult = safeCacheCall(ioDispatcher) {
             cacheDataSource.getById(
-                id = id
+             name = name
             )
         }
 

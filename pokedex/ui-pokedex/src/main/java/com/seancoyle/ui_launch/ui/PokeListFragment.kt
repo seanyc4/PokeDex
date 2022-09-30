@@ -32,27 +32,25 @@ import com.seancoyle.launch_usecases.pokelist.GetPokemonListFromNetworkAndInsert
 import com.seancoyle.launch_viewstate.PokemonStateEvent
 import com.seancoyle.launch_viewstate.PokemonViewState
 import com.seancoyle.ui_launch.R
-import com.seancoyle.ui_launch.databinding.FragmentLaunchBinding
+import com.seancoyle.ui_launch.databinding.FragmentPokeListBinding
 import com.seancoyle.ui_launch.ui.adapter.PokeListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
-const val LINKS_KEY = "links"
-const val LAUNCH_STATE_BUNDLE_KEY =
-    "com.seancoyle.launch.framework.presentation.launch.state"
+const val POKELIST_STATE_BUNDLE_KEY = "com.seancoyle.ui_pokelist.state"
 
 @FlowPreview
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class LaunchFragment : BaseFragment(R.layout.fragment_launch),
+class PokeListFragment : BaseFragment(R.layout.fragment_poke_list),
     PokeListAdapter.Interaction {
 
     @Inject
     lateinit var androidTestUtils: AndroidTestUtils
 
-    private var _binding: FragmentLaunchBinding? = null
+    private var _binding: FragmentPokeListBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PokeListViewModel by viewModels()
     private var listAdapter: PokeListAdapter? = null
@@ -62,7 +60,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLaunchBinding.inflate(layoutInflater)
+        _binding = FragmentPokeListBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -84,7 +82,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
 
     private fun restoreInstanceState(savedInstanceState: Bundle?) {
         savedInstanceState?.let { inState ->
-            (inState[LAUNCH_STATE_BUNDLE_KEY] as PokemonViewState?)?.let { viewState ->
+            (inState[POKELIST_STATE_BUNDLE_KEY] as PokemonViewState?)?.let { viewState ->
                 viewModel.setViewState(viewState)
             }
         }
@@ -92,7 +90,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
 
     override fun restoreListPosition() {
         viewModel.getLayoutManagerState()?.let { lmState ->
-            view?.findViewById<RecyclerView>(R.id.rv_launch)?.layoutManager?.onRestoreInstanceState(
+            view?.findViewById<RecyclerView>(R.id.rv_poke_list)?.layoutManager?.onRestoreInstanceState(
                 lmState
             )
         }
@@ -105,7 +103,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
         //    viewState?.pokemonList = ArrayList()
 
         outState.putParcelable(
-            LAUNCH_STATE_BUNDLE_KEY,
+            POKELIST_STATE_BUNDLE_KEY,
             viewState
         )
         super.onSaveInstanceState(outState)
@@ -123,17 +121,17 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
     }
 
     private fun saveLayoutManagerState() {
-        binding.rvLaunch.layoutManager?.onSaveInstanceState()?.let { lmState ->
+        binding.rvPokeList.layoutManager?.onSaveInstanceState()?.let { lmState ->
             viewModel.setLayoutManagerState(lmState)
         }
     }
 
     private fun setupRecyclerView() {
         with(binding) {
-            rvLaunch.apply {
+            rvPokeList.apply {
 
                 listAdapter = PokeListAdapter(
-                    interaction = this@LaunchFragment,
+                    interaction = this@PokeListFragment,
                 )
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -167,8 +165,12 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
 
                     GetPokemonListFromNetworkAndInsertToCacheUseCase.LAUNCH_INSERT_SUCCESS -> {
                         viewModel.clearStateMessage()
-                        filterLaunchItemsInCacheEvent()
-                        getTotalNumEntriesInLaunchCacheEvent()
+                        viewModel.setStateEvent(PokemonStateEvent.GetAllPokemonItemsFromCacheEvent)
+                       /* filterLaunchItemsInCacheEvent()
+                        getTotalNumEntriesInLaunchCacheEvent()*/
+                    }
+                    GetAllPokemonFromCacheUseCase.GET_ALL_LAUNCH_ITEMS_SUCCESS ->{
+                        submitList()
                     }
 
                     FilterPokemonItemsInCacheUseCase.SEARCH_LAUNCH_SUCCESS -> {
@@ -232,9 +234,8 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
         viewModel.retrieveNumLaunchItemsInCache()
     }
 
-    @Suppress("UNCHECKED_CAST")
     private fun submitList() {
-        listAdapter?.submitList(viewModel.getPokeList()?.results ?: emptyList())
+        listAdapter?.submitList(viewModel.getPokeCacheList() ?: emptyList())
     }
 
     private fun setListeners() {

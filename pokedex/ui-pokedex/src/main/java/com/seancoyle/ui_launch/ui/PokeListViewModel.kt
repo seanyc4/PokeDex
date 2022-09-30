@@ -37,7 +37,7 @@ constructor(
     init {
         setStateEvent(
             GetPokeListFromNetworkAndInsertToCacheEvent(
-                offset = 60,
+                offset = 0,
                 limit = 60
             )
         )
@@ -61,8 +61,8 @@ constructor(
                 setPokeList(list)
             }
 
-            viewState.pokeInfo?.let { list ->
-             //   setPokeList(list)
+            viewState.pokemonListCache?.let { list ->
+                setPokeCacheList(list)
             }
 
             viewState.selectedPokemon?.let { list ->
@@ -137,6 +137,14 @@ constructor(
     }
 
     fun getPokeList() = getCurrentViewStateOrNew().pokemonList
+
+    private fun setPokeCacheList(pokeList: List<Pokemon>) {
+        val update = getCurrentViewStateOrNew()
+        update.pokemonListCache = pokeList
+        setViewState(update)
+    }
+
+    fun getPokeCacheList() = getCurrentViewStateOrNew().pokemonListCache
 
     fun setSelectedPokemon(pokemon: Pokemon) {
         val update = getCurrentViewStateOrNew()

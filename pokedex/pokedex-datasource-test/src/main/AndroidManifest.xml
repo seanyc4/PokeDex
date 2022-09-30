@@ -1,4 +1,3 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.seancoyle.launch_datasource_test">
+<manifest package="com.seancoyle.pokemon_datasource_test">
 
 </manifest>

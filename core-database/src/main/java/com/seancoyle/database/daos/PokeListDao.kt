@@ -29,10 +29,10 @@ interface PokeListDao {
         """
         SELECT * 
         FROM poke_list
-        WHERE name = :id
+        WHERE name = :name
     """
     )
-    suspend fun getById(id: Int): PokeListEntity?
+    suspend fun getById(name: String): PokeListEntity?
 
     @Query(
         """

@@ -15,9 +15,12 @@
 /build/
 /buildSrc/build/kotlin/
 /core/build/
-/core/build/
 /core-datastore/build/
+/core-datastore-test/build/
+/core-database/build/
 /pokedex/pokedex-datasource/build/
 /pokedex/pokedex-domain/build/
 /pokedex/pokedex-usecases/build/
 /pokedex/pokedex-viewstate/build/
+/pokedex/pokedex-datasource-test/build/
+/pokedex/pokedex-ui-pokedex/build/

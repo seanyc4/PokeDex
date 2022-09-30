@@ -15,7 +15,7 @@ import com.seancoyle.database.typeconverters.*
         PokeInfoEntity::class,
         PokeListEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(

@@ -22,4 +22,5 @@ dependencies {
     "implementation"(Room.room_ktx)
     "implementation"(Room.room_runtime)
     "kapt"(Room.room_compiler)
+    "implementation"(Square.retrofit_gson)
 }

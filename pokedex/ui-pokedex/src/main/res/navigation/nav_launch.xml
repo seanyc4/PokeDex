@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/launchFragment"
-        android:name="com.seancoyle.ui_launch.ui.LaunchFragment"
+        android:name="com.seancoyle.ui_launch.ui.PokeListFragment"
         android:label="LaunchFragment">
 
         <action
