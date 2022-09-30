@@ -1,4 +1,4 @@
-package com.seancoyle.launch_datasource.cache.pokemon
+package com.seancoyle.launch_datasource.cache.pokelist
 
 import com.seancoyle.launch_models.model.Pokemon
 
@@ -15,9 +15,10 @@ interface PokeListCacheDataSource {
     suspend fun insertList(pokemons: List<Pokemon>): LongArray
 
     suspend fun filterLaunchList(
-        year: String?,
+        name: String?,
         order: String,
-        launchFilter: Int?,
+        numerical: Boolean?,
+        typeFilter: Int?,
         page: Int
     ): List<Pokemon>?
 }

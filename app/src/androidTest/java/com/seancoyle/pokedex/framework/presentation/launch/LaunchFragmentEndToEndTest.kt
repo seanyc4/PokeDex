@@ -15,11 +15,11 @@ import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_FAILED
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_SUCCESS
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_UNKNOWN
 import com.seancoyle.core_datastore.AppDataStore
-import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokeInfoCacheDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
 import com.seancoyle.launch_datasource.network.datetransformer.DateTransformer
-import com.seancoyle.launch_models.model.launch.LaunchModel
-import com.seancoyle.launch_models.model.launch.LaunchOptions
+import com.seancoyle.poke_domain.model.launch.LaunchModel
+import com.seancoyle.poke_domain.model.launch.LaunchOptions
 import com.seancoyle.pokedex.R
 import com.seancoyle.pokedex.framework.presentation.MainActivity
 import com.seancoyle.pokedex.util.*
@@ -70,7 +70,7 @@ class LaunchFragmentEndToEndTest {
     val espressoIdlingResourceRule = EspressoIdlingResourceRule()
 
     @Inject
-    lateinit var pokemonInfoCacheDataSource: PokemonInfoCacheDataSource
+    lateinit var pokeInfoCacheDataSource: PokeInfoCacheDataSource
 
     @Inject
     lateinit var dateTransformer: DateTransformer
@@ -104,10 +104,10 @@ class LaunchFragmentEndToEndTest {
         testList = pokemonNetworkDataSource.getPokemonList()
 
         // clear any existing data so recyclerview isn't overwhelmed
-        pokemonInfoCacheDataSource.deleteAll()
+        pokeInfoCacheDataSource.deleteAll()
 
         // Insert data to fake in memory room database
-        pokemonInfoCacheDataSource.insertList(testList)
+        pokeInfoCacheDataSource.insertList(testList)
     }
 
     @Test
@@ -679,7 +679,7 @@ class LaunchFragmentEndToEndTest {
         order: String? = LAUNCH_ORDER_DESC,
         launchFilter: Int? = null
     ): List<LaunchModel> {
-        return pokemonInfoCacheDataSource.filterLaunchList(
+        return pokeInfoCacheDataSource.filterLaunchList(
             year = year ?: "",
             order = order ?: LAUNCH_ORDER_DESC,
             launchFilter = launchFilter,

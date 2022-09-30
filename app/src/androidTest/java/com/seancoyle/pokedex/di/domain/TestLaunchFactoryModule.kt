@@ -1,8 +1,8 @@
 package com.seancoyle.pokedex.di.domain
 
 import com.seancoyle.core.testing.JsonFileReader
-import com.seancoyle.launch_models.model.di.LaunchFactoryModule
-import com.seancoyle.launch_models.model.launch.LaunchFactory
+import com.seancoyle.poke_domain.model.di.LaunchFactoryModule
+import com.seancoyle.poke_domain.model.launch.LaunchFactory
 import com.seancoyle.pokedex.LaunchDataFactory
 import dagger.Module
 import dagger.Provides

@@ -1,12 +1,14 @@
 package com.seancoyle.launch_datasource.network
 
-import com.seancoyle.launch_models.model.*
+import com.seancoyle.launch_models.model.Pokemon
+import com.seancoyle.launch_models.model.PokemonList
+import com.seancoyle.poke_domain.model.*
 
 class PokemonNetworkMapper {
 
-    fun mapToDomain(dto: PokemonInfoDto): PokemonInfo {
+    fun mapToDomain(dto: PokemonInfoDto): PokeInfo {
         dto.apply {
-            return PokemonInfo(
+            return PokeInfo(
                 abilities = abilities.map { ability ->
                     Ability(
                         ability = AbilityX(

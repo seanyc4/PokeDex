@@ -6,9 +6,9 @@ import com.seancoyle.launch_datasource.cache.abstraction.company.CompanyInfoCach
 import com.seancoyle.launch_datasource_test.CompanyDependencies
 import com.seancoyle.launch_datasource_test.cache.company.FORCE_GENERAL_FAILURE
 import com.seancoyle.launch_datasource_test.cache.company.FORCE_NEW_COMPANY_INFO_EXCEPTION
-import com.seancoyle.launch_models.model.company.CompanyInfoFactory
 import com.seancoyle.launch_usecases.company.InsertCompanyInfoToCacheUseCase.Companion.INSERT_COMPANY_INFO_SUCCESS
 import com.seancoyle.launch_viewstate.PokemonStateEvent
+import com.seancoyle.poke_domain.model.company.CompanyInfoFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule

@@ -1,10 +1,10 @@
-package com.seancoyle.launch_models.model
+package com.seancoyle.poke_domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class PokemonInfo(
+data class PokeInfo(
     val abilities: List<Ability>,
     val baseExperience: Int,
     val forms: List<Form>,

@@ -2,27 +2,28 @@ package com.seancoyle.launch_viewstate
 
 import com.seancoyle.core.state.StateEvent
 import com.seancoyle.core.state.StateMessage
-import com.seancoyle.launch_models.model.PokemonInfo
+import com.seancoyle.poke_domain.model.PokeInfo
 
 sealed class PokemonStateEvent : StateEvent {
 
-    class GetPokemonItemsFromNetworkAndInsertToCacheEvent
-        constructor(
-
-        ): PokemonStateEvent() {
+    class GetPokeListFromNetworkAndInsertToCacheEvent
+    constructor(
+        val limit: Int,
+        val offset: Int
+    ) : PokemonStateEvent() {
 
         override fun errorInfo(): String {
-            return "Error getting launch from network."
+            return "Error getting pokemon list from network."
         }
 
         override fun eventName(): String {
-            return "GetLaunchItemsFromNetworkAndInsertToCacheEvent"
+            return "GetPokemonItemsFromNetworkAndInsertToCacheEvent"
         }
 
         override fun shouldDisplayProgressBar() = true
     }
 
-    object GetAllPokemonItemsFromCacheEvent: PokemonStateEvent() {
+    object GetAllPokemonItemsFromCacheEvent : PokemonStateEvent() {
 
         override fun errorInfo(): String {
             return "Error getting launch list from cache."
@@ -36,9 +37,9 @@ sealed class PokemonStateEvent : StateEvent {
     }
 
     class GetPokemonItemFromCacheEvent
-        constructor(
-            private val id: Int
-        ): PokemonStateEvent() {
+    constructor(
+        private val id: Int
+    ) : PokemonStateEvent() {
 
         override fun errorInfo(): String {
             return "Error getting launch item from cache."
@@ -66,8 +67,8 @@ sealed class PokemonStateEvent : StateEvent {
 
     class InsertPokemonItemsToCacheEvent
     constructor(
-        private val pokemonInfoList: List<PokemonInfo>
-    ): PokemonStateEvent() {
+        private val pokeInfoList: List<PokeInfo>
+    ) : PokemonStateEvent() {
 
         override fun errorInfo(): String {
             return "Error inserting launch list."
@@ -82,7 +83,7 @@ sealed class PokemonStateEvent : StateEvent {
 
     class FilterPokemonItemsInCacheEvent(
         val clearLayoutManagerState: Boolean = true
-    ): PokemonStateEvent(){
+    ) : PokemonStateEvent() {
 
         override fun errorInfo(): String {
             return "Error getting list of launch items."

@@ -6,12 +6,11 @@ import com.seancoyle.constants.LaunchNetworkConstants.DEFAULT_LAUNCH_IMAGE
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_SUCCESS
 import com.seancoyle.core.testing.JsonFileReader
 import com.seancoyle.launch_datasource.R
-import com.seancoyle.launch_models.model.launch.*
+import com.seancoyle.poke_domain.model.launch.*
 import java.time.LocalDateTime
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.collections.ArrayList
 
 @Singleton
 class LaunchDataFactory

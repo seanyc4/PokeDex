@@ -4,7 +4,7 @@ import com.seancoyle.core.cache.CacheResponseHandler
 import com.seancoyle.core.di.IODispatcher
 import com.seancoyle.core.network.safeCacheCall
 import com.seancoyle.core.state.*
-import com.seancoyle.launch_datasource.cache.pokemon.PokeListCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokelist.PokeListCacheDataSource
 import com.seancoyle.launch_models.model.Pokemon
 import com.seancoyle.launch_viewstate.PokemonViewState
 import kotlinx.coroutines.CoroutineDispatcher

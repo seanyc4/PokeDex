@@ -2,7 +2,7 @@ package com.seancoyle.pokedex.framework.datasource.network.company
 
 import com.seancoyle.launch_datasource.network.abstraction.company.CompanyInfoNetworkDataSource
 import com.seancoyle.launch_datasource.network.mappers.company.CompanyInfoNetworkMapper
-import com.seancoyle.launch_models.model.company.CompanyInfoModel
+import com.seancoyle.poke_domain.model.company.CompanyInfoModel
 import javax.inject.Inject
 import javax.inject.Singleton
 

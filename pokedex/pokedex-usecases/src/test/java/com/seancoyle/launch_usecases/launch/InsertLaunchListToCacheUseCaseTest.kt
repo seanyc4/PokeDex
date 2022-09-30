@@ -2,11 +2,11 @@ package com.seancoyle.launch_usecases.launch
 
 import com.seancoyle.core.cache.CacheErrors
 import com.seancoyle.core.testing.MainCoroutineRule
-import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokeInfoCacheDataSource
 import com.seancoyle.launch_datasource_test.LaunchDependencies
-import com.seancoyle.launch_models.model.launch.LaunchFactory
 import com.seancoyle.launch_usecases.pokelist.InsertLaunchListToCacheUseCase.Companion.INSERT_LAUNCH_LIST_SUCCESS
 import com.seancoyle.launch_viewstate.PokemonStateEvent
+import com.seancoyle.poke_domain.model.launch.LaunchFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -48,13 +48,13 @@ class InsertLaunchListToCacheUseCaseTest {
 
     // dependencies
     private val launchDependencies: LaunchDependencies = LaunchDependencies()
-    private lateinit var cacheDataSource: PokemonInfoCacheDataSource
+    private lateinit var cacheDataSource: PokeInfoCacheDataSource
     private lateinit var factory: LaunchFactory
 
     @BeforeEach
     fun setup() {
         launchDependencies.build()
-        cacheDataSource = launchDependencies.pokemonInfoCacheDataSource
+        cacheDataSource = launchDependencies.pokeInfoCacheDataSource
         factory = launchDependencies.launchFactory
         insertLaunchListToCacheUseCase = InsertLaunchListToCacheUseCase(
             ioDispatcher = mainCoroutineRule.testDispatcher,

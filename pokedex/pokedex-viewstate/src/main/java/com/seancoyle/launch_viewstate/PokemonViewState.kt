@@ -3,17 +3,18 @@ package com.seancoyle.launch_viewstate
 import android.os.Parcelable
 import com.seancoyle.core.state.ViewState
 import com.seancoyle.launch_models.model.Pokemon
-import com.seancoyle.launch_models.model.PokemonInfo
 import com.seancoyle.launch_models.model.PokemonList
+import com.seancoyle.poke_domain.model.PokeInfo
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PokemonViewState(
 
     var pokemonList: PokemonList? = null,
-    var pokemonInfo: PokemonInfo? = null,
+    var pokeInfo: PokeInfo? = null,
+    var selectedPokemon: Pokemon? = null,
     var pokemonListCache: List<Pokemon>? = null,
-    var launch: PokemonInfo? = null,
+    var launch: PokeInfo? = null,
     var layoutManagerState: Parcelable? = null,
     var numPokemonInCache: Int? = null,
     var page: Int? = null,
@@ -23,7 +24,7 @@ data class PokemonViewState(
     var order: String? = null,
     var yearQuery: String? = null,
 
-    ): Parcelable, ViewState
+    ) : Parcelable, ViewState
 
 
 

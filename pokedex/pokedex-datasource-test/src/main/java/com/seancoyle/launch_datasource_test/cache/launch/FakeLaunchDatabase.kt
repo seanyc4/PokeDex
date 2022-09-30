@@ -1,6 +1,6 @@
 package com.seancoyle.launch_datasource_test.cache.launch
 
-import com.seancoyle.launch_models.model.launch.LaunchModel
+import com.seancoyle.poke_domain.model.launch.LaunchModel
 
 class FakeLaunchDatabase {
 

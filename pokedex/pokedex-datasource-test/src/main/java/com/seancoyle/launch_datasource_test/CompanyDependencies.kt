@@ -7,7 +7,7 @@ import com.seancoyle.launch_datasource.network.mappers.company.CompanyInfoNetwor
 import com.seancoyle.launch_datasource.network.numberformatter.NumberFormatterImpl
 import com.seancoyle.launch_datasource_test.cache.company.FakeCompanyInfoCacheDataSourceImpl
 import com.seancoyle.launch_datasource_test.network.company.FakeCompanyInfoNetworkDataSourceImpl
-import com.seancoyle.launch_models.model.company.CompanyInfoFactory
+import com.seancoyle.poke_domain.model.company.CompanyInfoFactory
 import okhttp3.HttpUrl
 import okhttp3.mockwebserver.MockWebServer
 

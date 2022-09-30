@@ -1,6 +1,7 @@
-package com.seancoyle.launch_datasource.cache.pokemon
+package com.seancoyle.launch_datasource.cache.pokelist
 
-import com.seancoyle.database.daos.PokemonDao
+import com.seancoyle.database.daos.PokeListDao
+import com.seancoyle.database.daos.returnOrderedQuery
 import com.seancoyle.launch_models.model.Pokemon
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -9,8 +10,8 @@ import javax.inject.Singleton
 class PokeListCacheDataSourceImpl
 @Inject
 constructor(
-    private val dao: PokemonDao,
-    private val entityMapper: PokemonEntityMapper
+    private val dao: PokeListDao,
+    private val entityMapper: PokeListEntityMapper
 ) : PokeListCacheDataSource {
 
     override suspend fun insert(pokemon: Pokemon): Long {
@@ -46,21 +47,21 @@ constructor(
     }
 
     override suspend fun filterLaunchList(
-        year: String?,
+        name: String?,
         order: String,
-        launchFilter: Int?,
+        numerical: Boolean?,
+        typeFilter: Int?,
         page: Int
     ): List<Pokemon>? {
-
-        TODO()
-        /*return dao.returnOrderedQuery(
-            year = year,
-            launchFilter = launchFilter,
-            page = page,
-            order = order
+        return dao.returnOrderedQuery(
+            name = name,
+            order = order,
+            numerical = numerical,
+            typeFilter = typeFilter,
+            page = page
         )?.let {
             entityMapper.entityListToDomainList(it)
-        }*/
+        }
     }
 
 }

@@ -6,10 +6,10 @@ import com.seancoyle.core.network.ApiResponseHandler
 import com.seancoyle.core.network.safeApiCall
 import com.seancoyle.core.network.safeCacheCall
 import com.seancoyle.core.state.*
-import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokeInfoCacheDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
-import com.seancoyle.launch_models.model.PokemonInfo
 import com.seancoyle.launch_viewstate.PokemonViewState
+import com.seancoyle.poke_domain.model.PokeInfo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.flow
 class GetPokemonFromNetworkAndInsertToCacheUseCase
 constructor(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val cacheDataSource: PokemonInfoCacheDataSource,
+    private val cacheDataSource: PokeInfoCacheDataSource,
     private val pokemonNetworkDataSource: PokemonNetworkDataSource
 ) {
 
@@ -32,15 +32,15 @@ constructor(
             )
         }
 
-        val networkResponse = object : ApiResponseHandler<PokemonViewState, PokemonInfo?>(
+        val networkResponse = object : ApiResponseHandler<PokemonViewState, PokeInfo?>(
             response = networkResult,
             stateEvent = stateEvent
         ) {
-            override suspend fun handleSuccess(resultObj: PokemonInfo?): DataState<PokemonViewState> {
+            override suspend fun handleSuccess(resultObj: PokeInfo?): DataState<PokemonViewState> {
                 return if (resultObj != null) {
                     val viewState =
                         PokemonViewState(
-                            pokemonInfo = resultObj
+                            pokeInfo = resultObj
                         )
                     DataState.data(
                         response = null,
@@ -77,9 +77,9 @@ constructor(
         }
 
         // Insert to Cache
-        if (networkResponse?.data?.pokemonInfo != null) {
+        if (networkResponse?.data?.pokeInfo != null) {
 
-            val pokemon = networkResponse.data?.pokemonInfo!!
+            val pokemon = networkResponse.data?.pokeInfo!!
 
             val cacheResult = safeCacheCall(ioDispatcher) {
                 cacheDataSource.insert(pokemon)

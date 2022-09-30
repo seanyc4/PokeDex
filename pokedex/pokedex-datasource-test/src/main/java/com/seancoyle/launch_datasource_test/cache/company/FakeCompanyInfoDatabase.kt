@@ -1,6 +1,6 @@
 package com.seancoyle.launch_datasource_test.cache.company
 
-import com.seancoyle.launch_models.model.company.CompanyInfoModel
+import com.seancoyle.poke_domain.model.company.CompanyInfoModel
 
 class FakeCompanyInfoDatabase {
 

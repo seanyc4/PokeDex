@@ -4,12 +4,12 @@ import com.seancoyle.core.testing.MainCoroutineRule
 import com.seancoyle.launch_datasource.cache.abstraction.company.CompanyInfoCacheDataSource
 import com.seancoyle.launch_datasource.network.abstraction.company.CompanyInfoNetworkDataSource
 import com.seancoyle.launch_datasource_test.CompanyDependencies
-import com.seancoyle.launch_models.model.company.CompanyInfoFactory
-import com.seancoyle.launch_models.model.company.CompanyInfoModel
 import com.seancoyle.launch_usecases.company.GetCompanyInfoFromNetworkAndInsertToCacheUseCase.Companion.COMPANY_INFO_ERROR
 import com.seancoyle.launch_usecases.company.GetCompanyInfoFromNetworkAndInsertToCacheUseCase.Companion.COMPANY_INFO_INSERT_SUCCESS
 import com.seancoyle.launch_usecases.company.MockWebServerResponseCompanyInfo.companyInfo
 import com.seancoyle.launch_viewstate.PokemonStateEvent
+import com.seancoyle.poke_domain.model.company.CompanyInfoFactory
+import com.seancoyle.poke_domain.model.company.CompanyInfoModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse

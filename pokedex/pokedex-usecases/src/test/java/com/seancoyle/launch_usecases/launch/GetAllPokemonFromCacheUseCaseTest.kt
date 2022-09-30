@@ -1,12 +1,12 @@
 package com.seancoyle.launch_usecases.launch
 
 import com.seancoyle.core.testing.MainCoroutineRule
-import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokeInfoCacheDataSource
 import com.seancoyle.launch_datasource_test.LaunchDependencies
-import com.seancoyle.launch_models.model.launch.LaunchModel
 import com.seancoyle.launch_usecases.pokelist.GetAllPokemonFromCacheUseCase
 import com.seancoyle.launch_usecases.pokelist.GetAllPokemonFromCacheUseCase.Companion.GET_ALL_LAUNCH_ITEMS_SUCCESS
 import com.seancoyle.launch_viewstate.PokemonStateEvent
+import com.seancoyle.poke_domain.model.launch.LaunchModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -33,12 +33,12 @@ class GetAllPokemonFromCacheUseCaseTest {
 
     // dependencies
     private val launchDependencies: LaunchDependencies = LaunchDependencies()
-    private lateinit var cacheDataSource: PokemonInfoCacheDataSource
+    private lateinit var cacheDataSource: PokeInfoCacheDataSource
 
     @BeforeEach
     fun init() {
         launchDependencies.build()
-        cacheDataSource = launchDependencies.pokemonInfoCacheDataSource
+        cacheDataSource = launchDependencies.pokeInfoCacheDataSource
         getAllLaunchItems = GetAllPokemonFromCacheUseCase(
             ioDispatcher = mainCoroutineRule.testDispatcher,
             cacheDataSource = cacheDataSource

@@ -1,16 +1,16 @@
 package com.seancoyle.launch_usecases.launch
 
 import com.seancoyle.core.testing.MainCoroutineRule
-import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokeInfoCacheDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
 import com.seancoyle.launch_datasource_test.LaunchDependencies
 import com.seancoyle.launch_datasource_test.network.MockWebServerResponseLaunchList.launchList
-import com.seancoyle.launch_models.model.launch.LaunchFactory
-import com.seancoyle.launch_models.model.launch.LaunchModel
 import com.seancoyle.launch_usecases.pokelist.GetPokemonListFromNetworkAndInsertToCacheUseCase
 import com.seancoyle.launch_usecases.pokelist.GetPokemonListFromNetworkAndInsertToCacheUseCase.Companion.LAUNCH_ERROR
 import com.seancoyle.launch_usecases.pokelist.GetPokemonListFromNetworkAndInsertToCacheUseCase.Companion.LAUNCH_INSERT_SUCCESS
 import com.seancoyle.launch_viewstate.PokemonStateEvent
+import com.seancoyle.poke_domain.model.launch.LaunchFactory
+import com.seancoyle.poke_domain.model.launch.LaunchModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
@@ -34,7 +34,7 @@ class GetLaunchItemsFromNetworkInsertToCacheTest {
 
     // dependencies
     private val dependencies: LaunchDependencies = LaunchDependencies()
-    private lateinit var cacheDataSource: PokemonInfoCacheDataSource
+    private lateinit var cacheDataSource: PokeInfoCacheDataSource
     private lateinit var networkDataSource: PokemonNetworkDataSource
     private lateinit var factory: LaunchFactory
     private lateinit var mockWebServer: MockWebServer
@@ -42,7 +42,7 @@ class GetLaunchItemsFromNetworkInsertToCacheTest {
     @BeforeEach
     fun setup() {
         dependencies.build()
-        cacheDataSource = dependencies.pokemonInfoCacheDataSource
+        cacheDataSource = dependencies.pokeInfoCacheDataSource
         networkDataSource = dependencies.networkDataSource
         factory = dependencies.launchFactory
         mockWebServer = dependencies.mockWebServer
@@ -77,7 +77,7 @@ class GetLaunchItemsFromNetworkInsertToCacheTest {
         // execute use case
         getPokemonListFromNetworkAndInsertToCacheUseCase(
             launchOptions = dependencies.launchOptions,
-            stateEvent = PokemonStateEvent.GetPokemonItemsFromNetworkAndInsertToCacheEvent(
+            stateEvent = PokemonStateEvent.GetPokeListFromNetworkAndInsertToCacheEvent(
                 launchOptions = dependencies.launchOptions
             )
         ).collect { value ->
@@ -114,7 +114,7 @@ class GetLaunchItemsFromNetworkInsertToCacheTest {
         // execute use case
         getPokemonListFromNetworkAndInsertToCacheUseCase(
             launchOptions = dependencies.launchOptions,
-            stateEvent = PokemonStateEvent.GetPokemonItemsFromNetworkAndInsertToCacheEvent(
+            stateEvent = PokemonStateEvent.GetPokeListFromNetworkAndInsertToCacheEvent(
                 launchOptions = dependencies.launchOptions
             )
         ).collect { value ->

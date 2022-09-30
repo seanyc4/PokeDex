@@ -1,17 +1,13 @@
 package com.seancoyle.ui_launch.ui
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.TextView
-import androidx.core.os.bundleOf
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
@@ -29,11 +25,7 @@ import com.seancoyle.core.presentation.BaseFragment
 import com.seancoyle.core.state.*
 import com.seancoyle.core.testing.AndroidTestUtils
 import com.seancoyle.core.util.printLogDebug
-import com.seancoyle.launch_models.model.company.CompanyInfoModel
-import com.seancoyle.launch_models.model.launch.LaunchType
-import com.seancoyle.launch_models.model.launch.Links
-import com.seancoyle.launch_usecases.company.GetCompanyInfoFromCacheUseCase
-import com.seancoyle.launch_usecases.company.GetCompanyInfoFromNetworkAndInsertToCacheUseCase
+import com.seancoyle.launch_models.model.Pokemon
 import com.seancoyle.launch_usecases.pokelist.FilterPokemonItemsInCacheUseCase
 import com.seancoyle.launch_usecases.pokelist.GetAllPokemonFromCacheUseCase
 import com.seancoyle.launch_usecases.pokelist.GetPokemonListFromNetworkAndInsertToCacheUseCase
@@ -41,9 +33,10 @@ import com.seancoyle.launch_viewstate.PokemonStateEvent
 import com.seancoyle.launch_viewstate.PokemonViewState
 import com.seancoyle.ui_launch.R
 import com.seancoyle.ui_launch.databinding.FragmentLaunchBinding
-import com.seancoyle.ui_launch.ui.adapter.LaunchAdapter
+import com.seancoyle.ui_launch.ui.adapter.PokeListAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
 const val LINKS_KEY = "links"
@@ -54,16 +47,15 @@ const val LAUNCH_STATE_BUNDLE_KEY =
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class LaunchFragment : BaseFragment(R.layout.fragment_launch),
-    LaunchAdapter.Interaction {
+    PokeListAdapter.Interaction {
 
     @Inject
     lateinit var androidTestUtils: AndroidTestUtils
 
-    private var _binding :FragmentLaunchBinding? = null
+    private var _binding: FragmentLaunchBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: LaunchViewModel by viewModels()
-    private var listAdapter: LaunchAdapter? = null
-    private var links: Links? = null
+    private val viewModel: PokeListViewModel by viewModels()
+    private var listAdapter: PokeListAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -110,7 +102,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
         val viewState = viewModel.viewState.value
 
         //clear the list. Don't save a large list to bundle.
-        viewState?.pokemonList = ArrayList()
+        //    viewState?.pokemonList = ArrayList()
 
         outState.putParcelable(
             LAUNCH_STATE_BUNDLE_KEY,
@@ -121,7 +113,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.getLaunchList() != null) {
+        if (viewModel.getPokeList() != null) {
             getTotalNumEntriesInLaunchCacheEvent()
             viewModel.refreshSearchQuery()
         }
@@ -140,7 +132,7 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
         with(binding) {
             rvLaunch.apply {
 
-                listAdapter = LaunchAdapter(
+                listAdapter = PokeListAdapter(
                     interaction = this@LaunchFragment,
                 )
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -172,16 +164,6 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
         viewModel.stateMessage.observe(viewLifecycleOwner) { stateMessage ->
             stateMessage?.response?.let { response ->
                 when (response.message) {
-
-                    GetCompanyInfoFromNetworkAndInsertToCacheUseCase.COMPANY_INFO_INSERT_SUCCESS -> {
-                        viewModel.clearStateMessage()
-                        viewModel.setStateEvent(PokemonStateEvent.GetCompanyInfoFromCacheEvent)
-                    }
-
-                    GetCompanyInfoFromCacheUseCase.GET_COMPANY_INFO_SUCCESS -> {
-                        viewModel.clearStateMessage()
-                        getLaunchListFromNetworkAndInsertToCacheEvent()
-                    }
 
                     GetPokemonListFromNetworkAndInsertToCacheUseCase.LAUNCH_INSERT_SUCCESS -> {
                         viewModel.clearStateMessage()
@@ -220,14 +202,6 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
                                 getTotalNumEntriesInLaunchCacheEvent()
                                 filterLaunchItemsInCacheEvent()
                             }
-
-                            GetCompanyInfoFromNetworkAndInsertToCacheUseCase.COMPANY_INFO_INSERT_FAILED -> {
-                                getCompanyInfoFromCacheEvent()
-                            }
-
-                            GetCompanyInfoFromNetworkAndInsertToCacheUseCase.COMPANY_INFO_ERROR -> {
-                                getCompanyInfoFromCacheEvent()
-                            }
                         }
                     }
                 }
@@ -246,38 +220,11 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
                 }
             }
         }
-
-        // Get result from bottom action sheet fragment which will be a link type string
-        setFragmentResultListener(LINKS_KEY) { key, bundle ->
-            if (key == LINKS_KEY) {
-                launchIntent(bundle.getString(LINKS_KEY))
-            }
-        }
-    }
-
-    // Load url link in external browser
-    private fun launchIntent(url: String?) {
-        try {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(url.toString())
-                )
-            )
-        } catch (e: ActivityNotFoundException) {
-            displayErrorDialogUnableToLoadLink()
-        }
     }
 
     private fun filterLaunchItemsInCacheEvent() {
         viewModel.setStateEvent(
             PokemonStateEvent.FilterPokemonItemsInCacheEvent()
-        )
-    }
-
-    private fun getCompanyInfoFromCacheEvent() {
-        viewModel.setStateEvent(
-            PokemonStateEvent.GetCompanyInfoFromCacheEvent
         )
     }
 
@@ -287,24 +234,8 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
 
     @Suppress("UNCHECKED_CAST")
     private fun submitList() {
-        if (viewModel.getLaunchList()?.isNotEmpty() == true) {
-            listAdapter?.submitList(
-                viewModel.createLaunchData(
-                    viewModel.getCompanyInfo()?.let { buildCompanyInfoString(it) }
-                ) as List<LaunchType>
-            )
-        }
+        listAdapter?.submitList(viewModel.getPokeList()?.results ?: emptyList())
     }
-
-    private fun buildCompanyInfoString(companyInfo: CompanyInfoModel) = String.format(
-        getString(R.string.company_info),
-        companyInfo.name,
-        companyInfo.founder,
-        companyInfo.founded,
-        companyInfo.employees,
-        companyInfo.launchSites,
-        companyInfo.valuation
-    )
 
     private fun setListeners() {
         with(binding) {
@@ -321,52 +252,21 @@ class LaunchFragment : BaseFragment(R.layout.fragment_launch),
         _binding = null
     }
 
-    private fun getLaunchListFromNetworkAndInsertToCacheEvent() {
-        viewModel.setStateEvent(
-            PokemonStateEvent.GetPokemonItemsFromNetworkAndInsertToCacheEvent(
-                launchOptions = viewModel.launchOptions
-            )
-        )
-    }
-
-    private fun getCompanyInfoFromNetworkAndInsertToCacheEvent() {
-        viewModel.setStateEvent(
-            PokemonStateEvent.GetCompanyInfoFromNetworkAndInsertToCacheEvent
-        )
-    }
-
     private fun setupSwipeRefresh() {
         with(binding) {
             swipeRefresh.setOnRefreshListener {
                 swipeRefresh.isRefreshing = false
                 viewModel.clearQueryParameters()
-                getCompanyInfoFromNetworkAndInsertToCacheEvent()
             }
         }
     }
 
-    override fun onItemSelected(position: Int, launchLinks: Links) {
-        links = launchLinks
-        if (isLinksNullOrEmpty()) {
-            displayErrorDialogNoLinks()
-        } else {
-            displayBottomActionSheet(launchLinks)
-        }
-    }
+    override fun onItemSelected(pokemon: Pokemon) {
+        viewModel.setSelectedPokemon(pokemon = pokemon)
 
-    private fun isLinksNullOrEmpty() =
-        links?.articleLink.isNullOrEmpty() &&
-                links?.videoLink.isNullOrEmpty() &&
-                links?.wikipedia.isNullOrEmpty()
-
-
-    private fun displayBottomActionSheet(launchLinks: Links) {
-        if (findNavController().currentDestination?.id == R.id.launchFragment) {
-            findNavController().navigate(
-                R.id.action_launchFragment_to_launchBottomActionSheet,
-                bundleOf(LINKS_KEY to launchLinks)
-            )
-        }
+        /**
+         * Navigate to Pokeinfo page
+         */
     }
 
     private fun displayFilterDialog() {

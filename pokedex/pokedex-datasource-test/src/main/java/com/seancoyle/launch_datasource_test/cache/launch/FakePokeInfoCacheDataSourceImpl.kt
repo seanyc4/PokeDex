@@ -3,8 +3,8 @@ package com.seancoyle.launch_datasource_test.cache.launch
 import com.seancoyle.constants.LaunchDaoConstants.LAUNCH_ORDER_DESC
 import com.seancoyle.constants.LaunchDaoConstants.LAUNCH_PAGINATION_PAGE_SIZE
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_ALL
-import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
-import com.seancoyle.launch_models.model.launch.LaunchModel
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokeInfoCacheDataSource
+import com.seancoyle.poke_domain.model.launch.LaunchModel
 
 const val FORCE_DELETE_LAUNCH_EXCEPTION = -2
 const val FORCE_DELETES_LAUNCH_EXCEPTION = -3
@@ -14,10 +14,10 @@ const val FORCE_SEARCH_LAUNCH_EXCEPTION = "FORCE_SEARCH_LAUNCH_EXCEPTION"
 const val INSERT_LAUNCH_LIST_FAILED = "Failed to insert new launch list."
 
 
-class FakePokemonInfoCacheDataSourceImpl
+class FakePokeInfoCacheDataSourceImpl
 constructor(
     private val fakeLaunchDatabase: FakeLaunchDatabase
-) : PokemonInfoCacheDataSource {
+) : PokeInfoCacheDataSource {
 
     override suspend fun insert(launch: LaunchModel): Long {
         if (launch.id == FORCE_NEW_LAUNCH_EXCEPTION) {

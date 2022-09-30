@@ -4,45 +4,45 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.seancoyle.database.entities.PokemonInfoEntity
+import com.seancoyle.database.entities.PokeInfoEntity
 
 
 @Dao
 interface PokeInfoDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(pokemon: PokemonInfoEntity): Long
+    suspend fun insert(pokemon: PokeInfoEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertList(pokemons: List<PokemonInfoEntity>): LongArray
+    suspend fun insertList(pokemons: List<PokeInfoEntity>): LongArray
 
-    @Query("DELETE FROM pokemon WHERE id = :id")
+    @Query("DELETE FROM poke_info WHERE id = :id")
     suspend fun deleteById(id: Int): Int
 
-    @Query("DELETE FROM pokemon WHERE id IN (:ids)")
+    @Query("DELETE FROM poke_info WHERE id IN (:ids)")
     suspend fun deleteList(ids: List<Int>): Int
 
-    @Query("DELETE FROM pokemon")
+    @Query("DELETE FROM poke_info")
     suspend fun deleteAll()
 
     @Query(
         """
         SELECT * 
-        FROM pokemon
+        FROM poke_info
         WHERE id = :id
     """
     )
-    suspend fun getById(id: Int): PokemonInfoEntity?
+    suspend fun getById(id: Int): PokeInfoEntity?
 
     @Query(
         """
         SELECT * 
-        FROM pokemon
+        FROM poke_info
     """
     )
-    suspend fun getAll(): List<PokemonInfoEntity>?
+    suspend fun getAll(): List<PokeInfoEntity>?
 
-    @Query("SELECT COUNT(*) FROM pokemon")
+    @Query("SELECT COUNT(*) FROM poke_info")
     suspend fun getTotalEntries(): Int
 
    /* @Query(

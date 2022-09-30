@@ -1,41 +1,41 @@
 package com.seancoyle.launch_datasource.cache.pokeinfo
 
 import com.seancoyle.database.daos.PokeInfoDao
-import com.seancoyle.launch_models.model.PokemonInfo
+import com.seancoyle.poke_domain.model.PokeInfo
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PokemonInfoCacheDataSourceImpl
+class PokeInfoCacheDataSourceImpl
 @Inject
 constructor(
     private val dao: PokeInfoDao,
-    private val entityMapper: PokemonInfoEntityMapper
-) : PokemonInfoCacheDataSource {
+    private val entityMapper: PokeInfoEntityMapper
+) : PokeInfoCacheDataSource {
 
-    override suspend fun insert(pokemonInfo: PokemonInfo): Long {
+    override suspend fun insert(pokeInfo: PokeInfo): Long {
         return dao.insert(
             entityMapper.mapFromDomain(
-                entity = pokemonInfo
+                entity = pokeInfo
             )
         )
     }
 
-    override suspend fun insertList(pokemonInfos: List<PokemonInfo>): LongArray {
+    override suspend fun insertList(pokeInfos: List<PokeInfo>): LongArray {
         return dao.insertList(
             entityMapper.domainListToEntityList(
-                domainList = pokemonInfos
+                domainList = pokeInfos
             )
         )
     }
 
-    override suspend fun getById(id: Int): PokemonInfo? {
+    override suspend fun getById(id: Int): PokeInfo? {
         return dao.getById(id = id)?.let {
             entityMapper.mapToDomain(it)
         }
     }
 
-    override suspend fun getAll(): List<PokemonInfo>? {
+    override suspend fun getAll(): List<PokeInfo>? {
         return dao.getAll()?.let {
             entityMapper.entityListToDomainList(it)
         }
@@ -50,7 +50,7 @@ constructor(
         order: String,
         launchFilter: Int?,
         page: Int
-    ): List<PokemonInfo>? {
+    ): List<PokeInfo>? {
 
         TODO()
         /*return dao.returnOrderedQuery(

@@ -4,165 +4,150 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.seancoyle.database.entities.PokemonEntity
+import com.seancoyle.database.entities.PokeListEntity
 
 
 @Dao
-interface PokemonDao {
+interface PokeListDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(pokemon: PokemonEntity): Long
+    suspend fun insert(pokemon: PokeListEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertList(pokemons: List<PokemonEntity>): LongArray
+    suspend fun insertList(pokemons: List<PokeListEntity>): LongArray
 
-    @Query("DELETE FROM pokemon WHERE id = :id")
+    @Query("DELETE FROM poke_list WHERE name = :id")
     suspend fun deleteById(id: Int): Int
 
-    @Query("DELETE FROM pokemon WHERE id IN (:ids)")
+    @Query("DELETE FROM poke_list WHERE name IN (:ids)")
     suspend fun deleteList(ids: List<Int>): Int
 
-    @Query("DELETE FROM pokemon")
+    @Query("DELETE FROM poke_list")
     suspend fun deleteAll()
 
     @Query(
         """
         SELECT * 
-        FROM pokemon
-        WHERE id = :id
+        FROM poke_list
+        WHERE name = :id
     """
     )
-    suspend fun getById(id: Int): PokemonEntity?
+    suspend fun getById(id: Int): PokeListEntity?
 
     @Query(
         """
         SELECT * 
-        FROM pokemon
+        FROM poke_list
     """
     )
-    suspend fun getAll(): List<PokemonEntity>?
+    suspend fun getAll(): List<PokeListEntity>?
 
-    @Query("SELECT COUNT(*) FROM pokemon")
+    @Query("SELECT COUNT(*) FROM poke_list")
     suspend fun getTotalEntries(): Int
 
-   /* @Query(
+    @Query(
         """
-        SELECT * FROM pokemon
-        WHERE isLaunchSuccess = :launchFilter
-        ORDER BY launchDateLocalDateTime DESC LIMIT (:page * :pageSize)
+        SELECT * FROM poke_list
         """
     )
     suspend fun launchItemsWithSuccessOrderByYearDESC(
-        launchFilter: Int?,
+       /* launchFilter: Int?,
         page: Int,
-        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE
-    ): List<PokemonEntity>
+        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE*/
+    ): List<PokeListEntity>
 
     @Query(
         """
-        SELECT * FROM pokemon
-        WHERE isLaunchSuccess = :launchFilter
-        ORDER BY launchDateLocalDateTime ASC LIMIT (:page * :pageSize)
+        SELECT * FROM poke_list
         """
     )
     suspend fun launchItemsWithSuccessOrderByYearASC(
-        launchFilter: Int?,
+     /*   launchFilter: Int?,
         page: Int,
-        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE
-    ): List<PokemonEntity>
+        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE*/
+    ): List<PokeListEntity>
 
 
     @Query(
         """
-        SELECT * FROM pokemon
-        WHERE launchYear = :year
-        AND isLaunchSuccess = :launchFilter
-        ORDER BY launchDateLocalDateTime DESC LIMIT (:page * :pageSize)
+        SELECT * FROM poke_list
         """
     )
     suspend fun searchLaunchItemsWithSuccessOrderByYearDESC(
-        year: String?,
+    /*    year: String?,
         launchFilter: Int?,
         page: Int,
-        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE
-    ): List<PokemonEntity>
+        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE*/
+    ): List<PokeListEntity>
 
     @Query(
         """
-        SELECT * FROM pokemon
-        WHERE launchYear = :year
-        AND isLaunchSuccess = :launchFilter
-        ORDER BY launchDateLocalDateTime ASC LIMIT (:page * :pageSize)
+        SELECT * FROM poke_list
         """
     )
     suspend fun searchLaunchItemsWithSuccessOrderByYearASC(
-        year: String?,
+       /* year: String?,
         launchFilter: Int?,
         page: Int,
-        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE
-    ): List<PokemonEntity>
+        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE*/
+    ): List<PokeListEntity>
 
     @Query(
         """
-        SELECT * FROM pokemon
-        WHERE launchYear = :year
-        ORDER BY launchDateLocalDateTime DESC LIMIT (:page * :pageSize)
+        SELECT * FROM poke_list
         """
     )
     suspend fun searchLaunchItemsOrderByYearDESC(
-        year: String?,
+      /*  year: String?,
         page: Int,
-        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE
-    ): List<PokemonEntity>
+        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE*/
+    ): List<PokeListEntity>
 
     @Query(
         """
-        SELECT * FROM pokemon
-        WHERE launchYear = :year
-        ORDER BY launchDateLocalDateTime ASC LIMIT (:page * :pageSize)
+        SELECT * FROM poke_list
         """
     )
     suspend fun searchLaunchItemsOrderByYearASC(
-        year: String?,
+       /* year: String?,
         page: Int,
-        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE
-    ): List<PokemonEntity>
+        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE*/
+    ): List<PokeListEntity>
 
     @Query(
         """
-        SELECT * FROM pokemon
-        ORDER BY launchDateLocalDateTime DESC LIMIT (:page * :pageSize)
+        SELECT * FROM poke_list
         """
     )
     suspend fun launchItemsOrderByYearDESC(
-        page: Int,
-        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE
-    ): List<PokemonEntity>
+       /* page: Int,
+        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE*/
+    ): List<PokeListEntity>
 
     @Query(
         """
-        SELECT * FROM pokemon
-        ORDER BY launchDateLocalDateTime ASC LIMIT (:page * :pageSize)
+        SELECT * FROM poke_list
         """
     )
     suspend fun launchItemsOrderByYearASC(
-        page: Int,
-        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE
-    ): List<PokemonEntity>*/
+      /*  page: Int,
+        pageSize: Int = LAUNCH_PAGINATION_PAGE_SIZE*/
+    ): List<PokeListEntity>
 
 }
 
-/*
-suspend fun PokemonDao.returnOrderedQuery(
-    year: String?,
+
+suspend fun PokeListDao.returnOrderedQuery(
+   name: String?,
     order: String,
-    launchFilter: Int?,
+    numerical: Boolean?,
+    typeFilter: Int?,
     page: Int
-): List<PokemonEntity>? {
+): List<PokeListEntity>? {
 
     when {
 
-        launchFilter != null && order.contains(LAUNCH_ORDER_DESC) && year.isNullOrEmpty() -> {
+      /*  launchFilter != null && order.contains(LAUNCH_ORDER_DESC) && year.isNullOrEmpty() -> {
             return launchItemsWithSuccessOrderByYearDESC(
                 launchFilter = launchFilter,
                 page = page
@@ -214,14 +199,14 @@ suspend fun PokemonDao.returnOrderedQuery(
             return launchItemsOrderByYearASC(
                 page = page
             )
-        }
+        }*/
 
         else ->
             return getAll()
     }
 }
 
-*/
+
 
 
 

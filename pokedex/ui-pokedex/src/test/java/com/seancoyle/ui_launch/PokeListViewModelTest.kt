@@ -7,10 +7,10 @@ import com.seancoyle.core.testing.getOrAwaitValue
 import com.seancoyle.core_datastore_test.AppDataStoreManagerFake
 import com.seancoyle.launch_datasource_test.CompanyDependencies
 import com.seancoyle.launch_datasource_test.LaunchDependencies
-import com.seancoyle.launch_models.model.launch.LaunchOptions
 import com.seancoyle.launch_usecases.company.CompanyInfoUseCases
 import com.seancoyle.launch_usecases.pokelist.PokeListUseCases
-import com.seancoyle.ui_launch.ui.LaunchViewModel
+import com.seancoyle.poke_domain.model.launch.LaunchOptions
+import com.seancoyle.ui_launch.ui.PokeListViewModel
 import io.mockk.mockk
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.runTest
@@ -24,7 +24,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExperimentalCoroutinesApi
 @FlowPreview
 @ExtendWith(InstantExecutorExtension::class)
-class LaunchViewModelTest {
+class PokeListViewModelTest {
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -38,7 +38,7 @@ class LaunchViewModelTest {
     private var dependencyContainer: LaunchDependencies = LaunchDependencies()
     private var companyDependencyContainer: CompanyDependencies = CompanyDependencies()
     private lateinit var dataStore: AppDataStoreManagerFake
-    private lateinit var viewModel: LaunchViewModel
+    private lateinit var viewModel: PokeListViewModel
 
     @BeforeEach
     fun setup() {
@@ -48,8 +48,8 @@ class LaunchViewModelTest {
         dataStore = AppDataStoreManagerFake()
     }
 
-    private fun getViewModel(): LaunchViewModel {
-        return LaunchViewModel(
+    private fun getViewModel(): PokeListViewModel {
+        return PokeListViewModel(
             ioDispatcher = mainCoroutineRule.testDispatcher,
             launchUseCases = pokeListUseCases,
             companyInfoUseCases = companyInfoUseCases,

@@ -8,13 +8,13 @@ import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_SUCCESS
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_UNKNOWN
 import com.seancoyle.core.cache.CacheErrors
 import com.seancoyle.core.testing.MainCoroutineRule
-import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokeInfoCacheDataSource
 import com.seancoyle.launch_datasource_test.LaunchDependencies
-import com.seancoyle.launch_models.model.launch.LaunchModel
 import com.seancoyle.launch_usecases.pokelist.FilterPokemonItemsInCacheUseCase
 import com.seancoyle.launch_usecases.pokelist.FilterPokemonItemsInCacheUseCase.Companion.SEARCH_LAUNCH_NO_MATCHING_RESULTS
 import com.seancoyle.launch_usecases.pokelist.FilterPokemonItemsInCacheUseCase.Companion.SEARCH_LAUNCH_SUCCESS
 import com.seancoyle.launch_viewstate.PokemonStateEvent
+import com.seancoyle.poke_domain.model.launch.LaunchModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -32,14 +32,14 @@ class FilterPokemonItemsInCacheUseCaseTest {
 
     private lateinit var filterLaunchItems: FilterPokemonItemsInCacheUseCase
     private val launchDependencies: LaunchDependencies = LaunchDependencies()
-    private lateinit var cacheDataSource: PokemonInfoCacheDataSource
+    private lateinit var cacheDataSource: PokeInfoCacheDataSource
     lateinit var validLaunchYears: List<String>
 
     @BeforeEach
     fun init() {
         launchDependencies.build()
         validLaunchYears = launchDependencies.launchDataFactory.provideValidFilterYearDates()
-        cacheDataSource = launchDependencies.pokemonInfoCacheDataSource
+        cacheDataSource = launchDependencies.pokeInfoCacheDataSource
         filterLaunchItems = FilterPokemonItemsInCacheUseCase(
             ioDispatcher = mainCoroutineRule.testDispatcher,
             cacheDataSource = cacheDataSource

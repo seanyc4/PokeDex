@@ -10,11 +10,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object PokemonCacheDaoModule {
+object PokeInfoCacheDaoModule {
 
     @Singleton
     @Provides
-    fun providePokemonDao(database: Database): PokeInfoDao {
-        return database.pokemonDao()
+    fun providePokeInfoDao(database: Database): PokeInfoDao {
+        return database.pokeInfoDao()
     }
 }

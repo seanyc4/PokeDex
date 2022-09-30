@@ -3,10 +3,10 @@ package com.seancoyle.launch_usecases.company
 import com.seancoyle.core.testing.MainCoroutineRule
 import com.seancoyle.launch_datasource.cache.abstraction.company.CompanyInfoCacheDataSource
 import com.seancoyle.launch_datasource_test.CompanyDependencies
-import com.seancoyle.launch_models.model.company.CompanyInfoFactory
-import com.seancoyle.launch_models.model.company.CompanyInfoModel
 import com.seancoyle.launch_usecases.company.GetCompanyInfoFromCacheUseCase.Companion.GET_COMPANY_INFO_SUCCESS
 import com.seancoyle.launch_viewstate.PokemonStateEvent
+import com.seancoyle.poke_domain.model.company.CompanyInfoFactory
+import com.seancoyle.poke_domain.model.company.CompanyInfoModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule

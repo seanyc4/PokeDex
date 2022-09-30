@@ -9,13 +9,13 @@ import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_SUCCESS
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_UNKNOWN
 import com.seancoyle.database.daos.PokeInfoDao
 import com.seancoyle.launch_datasource.R
-import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
-import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSourceImpl
-import com.seancoyle.launch_datasource.cache.pokemon.PokemonEntityMapper
-import com.seancoyle.launch_models.model.launch.LaunchModel
-import com.seancoyle.launch_models.model.launch.LaunchType.Companion.TYPE_LAUNCH
-import com.seancoyle.launch_models.model.launch.Links
-import com.seancoyle.launch_models.model.launch.Rocket
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokeInfoCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokeInfoCacheDataSourceImpl
+import com.seancoyle.launch_datasource.cache.pokelist.PokeListEntityMapper
+import com.seancoyle.poke_domain.model.launch.LaunchModel
+import com.seancoyle.poke_domain.model.launch.LaunchType.Companion.TYPE_LAUNCH
+import com.seancoyle.poke_domain.model.launch.Links
+import com.seancoyle.poke_domain.model.launch.Rocket
 import com.seancoyle.pokedex.LaunchDataFactory
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -49,7 +49,7 @@ class PokeInfoDaoServiceTests {
     var hiltRule = HiltAndroidRule(this)
 
     // system in test
-    private lateinit var launchDaoService: PokemonInfoCacheDataSource
+    private lateinit var launchDaoService: PokeInfoCacheDataSource
 
     @Inject
     lateinit var dao: PokeInfoDao
@@ -58,7 +58,7 @@ class PokeInfoDaoServiceTests {
     lateinit var launchDataFactory: LaunchDataFactory
 
     @Inject
-    lateinit var pokemonEntityMapper: PokemonEntityMapper
+    lateinit var pokeListEntityMapper: PokeListEntityMapper
 
     lateinit var validLaunchYears: List<String>
 
@@ -66,16 +66,16 @@ class PokeInfoDaoServiceTests {
     fun setup() {
         hiltRule.inject()
         insertTestData()
-        launchDaoService = PokemonInfoCacheDataSourceImpl(
+        launchDaoService = PokeInfoCacheDataSourceImpl(
             dao = dao,
-            entityMapper = pokemonEntityMapper
+            entityMapper = pokeListEntityMapper
         )
         validLaunchYears = launchDataFactory.provideValidFilterYearDates()
     }
 
 
     private fun insertTestData() = runBlocking {
-        val entityList = pokemonEntityMapper.domainListToEntityList(
+        val entityList = pokeListEntityMapper.domainListToEntityList(
             launchDataFactory.produceListOfLaunches()
         )
         dao.insertList(entityList)

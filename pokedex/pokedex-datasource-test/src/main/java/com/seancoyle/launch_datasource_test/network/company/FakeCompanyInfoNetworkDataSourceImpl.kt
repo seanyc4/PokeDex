@@ -2,9 +2,9 @@ package com.seancoyle.launch_datasource_test.network.company
 
 import com.google.gson.GsonBuilder
 import com.seancoyle.launch_datasource.network.abstraction.company.CompanyInfoNetworkDataSource
-import com.seancoyle.launch_models.model.company.CompanyInfoModel
 import com.seancoyle.launch_datasource.network.api.company.CompanyInfoApi
 import com.seancoyle.launch_datasource.network.mappers.company.CompanyInfoNetworkMapper
+import com.seancoyle.poke_domain.model.company.CompanyInfoModel
 import okhttp3.HttpUrl
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -3,7 +3,7 @@ package com.seancoyle.pokedex.framework.datasource.network.launch
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkMapper
-import com.seancoyle.launch_models.model.launch.LaunchOptions
+import com.seancoyle.poke_domain.model.launch.LaunchOptions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi

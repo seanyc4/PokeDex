@@ -17,13 +17,13 @@ import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_SUCCESS
 import com.seancoyle.constants.LaunchNetworkConstants.LAUNCH_UNKNOWN
 import com.seancoyle.core_datastore.AppDataStore
 import com.seancoyle.launch_datasource.cache.abstraction.company.CompanyInfoCacheDataSource
-import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokeInfoCacheDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
 import com.seancoyle.launch_datasource.network.abstraction.company.CompanyInfoNetworkDataSource
 import com.seancoyle.launch_datasource.network.datetransformer.DateTransformer
-import com.seancoyle.launch_models.model.company.CompanyInfoModel
-import com.seancoyle.launch_models.model.launch.LaunchModel
-import com.seancoyle.launch_models.model.launch.LaunchOptions
+import com.seancoyle.poke_domain.model.company.CompanyInfoModel
+import com.seancoyle.poke_domain.model.launch.LaunchModel
+import com.seancoyle.poke_domain.model.launch.LaunchOptions
 import com.seancoyle.pokedex.R
 import com.seancoyle.pokedex.framework.presentation.MainActivity
 import com.seancoyle.pokedex.util.EspressoIdlingResourceRule
@@ -82,7 +82,7 @@ class LaunchFragmentTests {
     val espressoIdlingResourceRule = EspressoIdlingResourceRule()
 
     @Inject
-    lateinit var pokemonInfoCacheDataSource: PokemonInfoCacheDataSource
+    lateinit var pokeInfoCacheDataSource: PokeInfoCacheDataSource
 
     @Inject
     lateinit var companyInfoCacheDataSource: CompanyInfoCacheDataSource
@@ -123,11 +123,11 @@ class LaunchFragmentTests {
         testCompanyInfoList = companyInfoNetworkDataSource.getCompanyInfo()
 
         // clear any existing data so recyclerview isn't overwhelmed
-        pokemonInfoCacheDataSource.deleteAll()
+        pokeInfoCacheDataSource.deleteAll()
         companyInfoCacheDataSource.deleteAll()
 
         // Insert data to fake in memory room database
-        pokemonInfoCacheDataSource.insertList(testLaunchList)
+        pokeInfoCacheDataSource.insertList(testLaunchList)
         companyInfoCacheDataSource.insert(testCompanyInfoList)
     }
 
@@ -691,7 +691,7 @@ class LaunchFragmentTests {
         order: String? = LAUNCH_ORDER_DESC,
         isLaunchSuccess: Int? = null
     ): List<LaunchModel> {
-        return pokemonInfoCacheDataSource.filterLaunchList(
+        return pokeInfoCacheDataSource.filterLaunchList(
             year = year ?: "",
             order = order ?: LAUNCH_ORDER_DESC,
             launchFilter = isLaunchSuccess,

@@ -4,16 +4,16 @@ import com.seancoyle.core.cache.CacheResponseHandler
 import com.seancoyle.core.di.IODispatcher
 import com.seancoyle.core.network.safeCacheCall
 import com.seancoyle.core.state.*
-import com.seancoyle.launch_datasource.cache.pokeinfo.PokemonInfoCacheDataSource
-import com.seancoyle.launch_models.model.PokemonInfo
+import com.seancoyle.launch_datasource.cache.pokeinfo.PokeInfoCacheDataSource
 import com.seancoyle.launch_viewstate.PokemonViewState
+import com.seancoyle.poke_domain.model.PokeInfo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class GetPokemonByIdFromCacheUseCase(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val cacheDataSource: PokemonInfoCacheDataSource
+    private val cacheDataSource: PokeInfoCacheDataSource
 ) {
 
     operator fun invoke(
@@ -27,11 +27,11 @@ class GetPokemonByIdFromCacheUseCase(
             )
         }
 
-        val response = object : CacheResponseHandler<PokemonViewState, PokemonInfo?>(
+        val response = object : CacheResponseHandler<PokemonViewState, PokeInfo?>(
             response = cacheResult,
             stateEvent = stateEvent
         ) {
-            override suspend fun handleSuccess(resultObj: PokemonInfo?): DataState<PokemonViewState> {
+            override suspend fun handleSuccess(resultObj: PokeInfo?): DataState<PokemonViewState> {
                 var message: String? =
                     GET_LAUNCH_ITEM_BY_ID_SUCCESS
                 var uiComponentType: UIComponentType? = UIComponentType.None

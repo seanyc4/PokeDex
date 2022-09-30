@@ -6,7 +6,7 @@ import com.seancoyle.core.network.ApiResponseHandler
 import com.seancoyle.core.network.safeApiCall
 import com.seancoyle.core.network.safeCacheCall
 import com.seancoyle.core.state.*
-import com.seancoyle.launch_datasource.cache.pokemon.PokeListCacheDataSource
+import com.seancoyle.launch_datasource.cache.pokelist.PokeListCacheDataSource
 import com.seancoyle.launch_datasource.network.PokemonNetworkDataSource
 import com.seancoyle.launch_models.model.PokemonList
 import com.seancoyle.launch_viewstate.PokemonViewState

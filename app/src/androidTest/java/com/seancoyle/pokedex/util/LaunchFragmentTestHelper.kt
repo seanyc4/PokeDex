@@ -11,10 +11,10 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.seancoyle.launch_datasource.network.datetransformer.DateTransformer
-import com.seancoyle.launch_models.model.launch.LaunchModel
+import com.seancoyle.poke_domain.model.launch.LaunchModel
 import com.seancoyle.pokedex.R
 import com.seancoyle.pokedex.framework.presentation.launch.HEADER_COUNT
-import com.seancoyle.ui_launch.ui.adapter.LaunchAdapter
+import com.seancoyle.ui_launch.ui.adapter.PokeListAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.hamcrest.CoreMatchers
@@ -230,7 +230,7 @@ class LaunchFragmentTestHelper {
         position: Int
     ) = apply {
         Espresso.onView(view).perform(
-            RecyclerViewActions.actionOnItemAtPosition<LaunchAdapter.LaunchViewHolder>(
+            RecyclerViewActions.actionOnItemAtPosition<PokeListAdapter.PokeListViewHolder>(
                 position,
                 ViewActions.click()
             )
@@ -291,7 +291,7 @@ class LaunchFragmentTestHelper {
 
     fun scrollToRecyclerViewItemWithText(view: Matcher<View>, text: String) = apply {
         Espresso.onView(view).perform(
-            scrollTo<LaunchAdapter.LaunchViewHolder>(
+            scrollTo<PokeListAdapter.PokeListViewHolder>(
                 hasDescendant(withText(text))
             )
         )
@@ -299,7 +299,7 @@ class LaunchFragmentTestHelper {
 
     fun scrollToRecyclerViewItemWithId(view: Matcher<View>, id: Int) = apply {
         Espresso.onView(view).perform(
-            scrollTo<LaunchAdapter.LaunchViewHolder>(
+            scrollTo<PokeListAdapter.PokeListViewHolder>(
                 hasDescendant(withId(id))
             )
         )

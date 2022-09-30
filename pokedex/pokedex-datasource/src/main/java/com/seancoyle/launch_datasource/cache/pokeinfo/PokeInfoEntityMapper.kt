@@ -1,29 +1,29 @@
 package com.seancoyle.launch_datasource.cache.pokeinfo
 
 import com.seancoyle.database.entities.*
-import com.seancoyle.launch_models.model.*
+import com.seancoyle.poke_domain.model.*
 
-class PokemonInfoEntityMapper {
+class PokeInfoEntityMapper {
 
-    fun entityListToDomainList(entities: List<PokemonInfoEntity>): List<PokemonInfo> {
-        val list: ArrayList<PokemonInfo> = ArrayList()
+    fun entityListToDomainList(entities: List<PokeInfoEntity>): List<PokeInfo> {
+        val list: ArrayList<PokeInfo> = ArrayList()
         for (entity in entities) {
             list.add(mapToDomain(entity))
         }
         return list
     }
 
-    fun domainListToEntityList(domainList: List<PokemonInfo>): List<PokemonInfoEntity> {
-        val entities: ArrayList<PokemonInfoEntity> = ArrayList()
+    fun domainListToEntityList(domainList: List<PokeInfo>): List<PokeInfoEntity> {
+        val entities: ArrayList<PokeInfoEntity> = ArrayList()
         for (item in domainList) {
             entities.add(mapFromDomain(item))
         }
         return entities
     }
 
-    fun mapToDomain(entity: PokemonInfoEntity): PokemonInfo {
+    fun mapToDomain(entity: PokeInfoEntity): PokeInfo {
         entity.apply {
-            return PokemonInfo(
+            return PokeInfo(
                 abilities = abilities.map { ability ->
                     Ability(
                         ability = AbilityX(
@@ -222,9 +222,9 @@ class PokemonInfoEntityMapper {
         }
     }
 
-    fun mapFromDomain(entity: PokemonInfo): PokemonInfoEntity {
+    fun mapFromDomain(entity: PokeInfo): PokeInfoEntity {
         entity.apply {
-            return PokemonInfoEntity(
+            return PokeInfoEntity(
                 abilities = abilities.map { ability ->
                     AbilityEntity(
                         ability = AbilityXEntity(
